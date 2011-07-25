@@ -1,2 +1,4 @@
+[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
+
 #export PS1="\n\u:\w \[$EBLACK\]$(vcprompt)\[$NO_COLOR\] \n"
 export PS1="\h:  \w\n ➡ "

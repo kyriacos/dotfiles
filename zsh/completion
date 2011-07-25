@@ -1,6 +1,13 @@
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
+# COMPLETION
+
+zmodload -i zsh/complist        # for menu-list completion
+
+# Colors in completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" "ma=${${use_256color+1;7;38;5;143}:-1;7;33}"
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+zstyle ':completion:*' menu select=10
+zstyle ':completion:*' verbose yes
 
 # matches case insensitive for lowercase
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -8,36 +15,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # pasting with tabs doesn't perform completion
 zstyle ':completion:*' insert-tab pending
 
-# unsetopt menu_complete   # do not autoselect the first completion entry
-# unsetopt flowcontrol
-# setopt auto_menu         # show completion menu on succesive tab press
-# setopt complete_in_word
-# setopt always_to_end
-# 
-# WORDCHARS=''
-# 
-# zmodload -i zsh/complist
-# 
-# ## case-insensitive (all),partial-word and then substring completion
-# if [ "x$CASE_SENSITIVE" = "xtrue" ]; then
-#   zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-#   unset CASE_SENSITIVE
-# else
-#   zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# fi
-# 
-# zstyle ':completion:*' list-colors ''
-# 
-# # should this be in keybindings?
-# bindkey -M menuselect '^o' accept-and-infer-next-history
-# 
-# # use /etc/hosts and known_hosts for hostname completion
-# [ -r ~/.ssh/known_hosts ] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
-# [ -r /etc/hosts ] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
-# hosts=(
-#   "$_ssh_hosts[@]"
-#   "$_etc_hosts[@]"
-#   `hostname`
-#   localhost
-# )
-# zstyle ':completion:*:hosts' hosts $hosts
+# Make the nice with git completion and others
+zstyle ':completion::*:(git|less|rm|emacs)' ignore-line true
+
+# some stuff about processes
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:*:*:processes' force-list always
+zstyle ':completion:*:processes' command 'ps -au$USER' 
+zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=1;31"
+
+# Cache
+zstyle ':completion:*' use-cache on
