@@ -1,0 +1,30 @@
+# cd
+alias ..='cd ..'
+alias cdd="cd -"
+
+# ls
+alias ls="ls -F"
+alias l="ls -lAh"
+alias ll="ls -l"
+alias la="ls -A"
+
+#git
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gco="git checkout"
+alias gs="git status"
+alias go="git checkout"
+
+#rails
+ 
+# top
+alias tu='top -o cpu' # cpu
+alias tm='top -o vsize' # memory
+
+# vim
+alias vim="mvim -v"
+
+#work with aliases
+alias reload!="source ~/.zshrc"
+alias ea="vim ~/dotfiles/zsh/aliases && reload"

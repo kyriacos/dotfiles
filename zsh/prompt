@@ -1,0 +1,7 @@
+# makes color constants available
+autoload colors && colors
+
+# prompt
+# export PS1="%m:%3~$(git_prompt_info)%# ᐅ "
+export PROMPT="%m:%3~$(git_prompt_info)%# ᐅ "
+export RPROMPT=$'\n$(rvm_prompt)\n› '
