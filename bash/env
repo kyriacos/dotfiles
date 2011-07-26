@@ -1,2 +1,2 @@
-export PATH=~/dotfiles/bin:$PATH
-export EDITOR='mate'
+export PATH=$DOTFILES/bin:$PATH
+export EDITOR='mate -w'
