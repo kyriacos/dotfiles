@@ -1,5 +1,5 @@
 # shortcut to this $ZSH path is $ZSH
-export ZSH=$HOME/dotfiles
+export ZSH=~/dotfiles
 
 . $ZSH/zsh/config
 . $ZSH/zsh/window

@@ -19,8 +19,7 @@ git_dirty() {
 
 git_prompt_info () {
  ref=$(/usr/bin/git symbolic-ref HEAD 2>/dev/null) || return
-# echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
- echo "${ref#refs/heads/}"
+ echo "(${ref#refs/heads/})"
 }
 
 unpushed () {
@@ -39,7 +38,7 @@ need_push () {
 rvm_prompt(){
   if $(which rvm &> /dev/null)
   then
-	  echo "%{$fg_bold[yellow]%}$(rvm tools identifier)%{$reset_color%}"
+	  echo "%{$fg_bold[magenta]%}$(rvm tools identifier)%{$reset_color%}"
 	else
 	  echo ""
   fi
@@ -49,12 +48,12 @@ directory_name(){
   echo "%{$fg_bold[cyan]%}%3/%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(directory_name) using $(rvm_prompt) $(git_dirty)$(need_push)\n› '
+export PROMPT=$'\n$(directory_name) using $(rvm_prompt)\n%{$fg_bold[white]%}|➡ '
 set_prompt () {
-  export RPROMPT="%{$fg_bold[grey]%}%{$reset_color%}"
+  export RPROMPT="%{$fg_bold[grey]%}%{$reset_color%} $(git_dirty)$(need_push)"
 }
 
 precmd() {
-  title "zsh" "%m" "%55<...<%~"
+  # title "zsh" "%m" "%55<...<%~"
   set_prompt
 }
