@@ -32,7 +32,7 @@ REPORTTIME=10 # print elapsed time when more than 10 seconds
 
 # options to set
 setopt MULTIOS # pipe to multiple outputs
-setopt COMPLETE_ALIASES         #do not expand aliases _before_ completion has finished
+#setopt COMPLETE_ALIASES         #do not expand aliases _before_ completion has finished
 setopt AUTO_CD                  # if not a command, try to cd to it.
 setopt LIST_TYPES   # show ls -F style marks in file completion
 setopt NO_BG_NICE # don't nice background tasks
