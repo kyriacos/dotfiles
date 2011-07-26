@@ -1,5 +1,4 @@
 # COMPLETION
-
 zmodload -i zsh/complist        # for menu-list completion
 
 # Colors in completion

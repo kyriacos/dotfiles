@@ -1,8 +1,7 @@
 # PATH and EXPORT VARIABLES
-# cdpath searches the subdirectories listed in the dirs you add
-# export CDPATH=:~/ # the empty string between = and : searches current directory
 export EDITOR="mate -w"
-export PATH=~/bin:~/$ZSH/bin:$PATH
+export PATH=~/bin:$ZSH/bin:$PATH
+export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto' 
 export GREP_COLOR='3;33'
 
@@ -10,21 +9,19 @@ export GREP_COLOR='3;33'
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
-# Ruby
+# Ruby and RVM
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && hash -d gem="$(rvm gemdir)/gems"
 export RUBYOPT='rubygems'
-# export RUBYLIB="./lib"
-# alias irb=pry
 
 # load functions
 fpath=($ZSH/zsh/functions $fpath)
 autoload -U $ZSH/zsh/functions/*(:t)
 
-# initialize autocomplete here, 
-# otherwise functions won't be loaded!
+# initialize autocomplete here, otherwise functions won't be loaded!
 autoload -U compinit && compinit
 autoload -U zmv
 
+# colors
 autoload colors && colors
 
 # history file
