@@ -4,7 +4,7 @@ export PATH=~/bin:$ZSH/bin:$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto' 
 export GREP_COLOR='3;33'
-
+export VIEW="open" # used by google function to open links in browser
 # enable colored output from ls, etc
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
@@ -31,11 +31,13 @@ SAVEHIST=1000
 REPORTTIME=10 # print elapsed time when more than 10 seconds
 
 # options to set
+# setopt MULTIOP # pipe to multiple outputs
 setopt COMPLETE_ALIASES         #do not expand aliases _before_ completion has finished
 setopt AUTO_CD                  # if not a command, try to cd to it.
 setopt LIST_TYPES   # show ls -F style marks in file completion
 setopt NO_BG_NICE # don't nice background tasks
 setopt NO_HUP
+setopt NO_BEEP # beeps are annoying
 setopt NO_LIST_BEEP # don not beep on history expansion errors
 setopt LOCAL_OPTIONS # allow functions to have local options
 setopt LOCAL_TRAPS # allow functions to have local traps
