@@ -31,7 +31,7 @@ SAVEHIST=1000
 REPORTTIME=10 # print elapsed time when more than 10 seconds
 
 # options to set
-# setopt MULTIOP # pipe to multiple outputs
+setopt MULTIOS # pipe to multiple outputs
 setopt COMPLETE_ALIASES         #do not expand aliases _before_ completion has finished
 setopt AUTO_CD                  # if not a command, try to cd to it.
 setopt LIST_TYPES   # show ls -F style marks in file completion
