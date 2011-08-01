@@ -10,7 +10,8 @@ export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
 # Ruby and RVM
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" && hash -d gem="$(rvm gemdir)/gems"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+# && hash -d gem="$(rvm gemdir)/gems"
 export RUBYOPT='rubygems'
 
 # load functions
