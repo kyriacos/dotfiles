@@ -1,3 +1,4 @@
+# Most of the functions i've taken from
 # https://github.com/ehrenmurdick/config
 
 
@@ -41,7 +42,7 @@ need_push () {
 rvm_prompt(){
   if $(which rvm &> /dev/null)
   then
-	  echo "%{$fg_bold[magenta]%}$(rvm tools identifier)%{$reset_color%}"
+	  echo "%{$fg_bold[magenta]%}$(rvm-prompt)%{$reset_color%}"
 	else
 	  echo ""
   fi
