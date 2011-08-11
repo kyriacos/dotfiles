@@ -8,3 +8,5 @@ export DOTFILES=~/.dotfiles
 if [ -f ~/.localrc ]; then
   source ~/.localrc
 fi
+
+#source "`brew --prefix grc`/etc/grc.bashrc"

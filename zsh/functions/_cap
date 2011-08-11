@@ -1,6 +1,5 @@
-# Ryan Bates https://github.com/ryanb
-
 #compdef cap
+# Ryan Bates https://github.com/ryanb
 if [ -f Capfile ]; then
   recent=`last_modified .cap_tasks~ Capfile **/deploy.rb`
   if [[ $recent != '.cap_tasks~' ]]; then
