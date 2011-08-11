@@ -66,10 +66,14 @@ set title                         " Set the terminal's title
 set visualbell                    " No beeping.
 set noerrorbells                  " No beeping.
 
-set nobackup                      " Don't make a backup before overwriting a file.
-set nowritebackup                 " And again.
-set noswapfile
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+" Until i figure things out then ill switch the backup off
+" set nobackup                      " Don't make a backup before overwriting a file.
+" set nowritebackup                 " And again.
+" set noswapfile
+" set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+" Directories for swp files
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
 
 set laststatus=2                  " Show the status line all the time
 
