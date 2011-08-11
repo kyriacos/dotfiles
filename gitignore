@@ -4,3 +4,4 @@ gitconfig
 *~
 .*.swp
 .localrc
+.netrwhist
