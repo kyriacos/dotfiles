@@ -27,7 +27,7 @@ alias vim="mvim -v"
 
 #work with aliases
 alias reload!="source ~/.zshrc"
-alias ea="vim $ZSH/zsh/aliases && reload!"
+alias ea="vim $ZSH/aliases && reload!"
 
 # redis
 alias redisserver="redis-server /usr/local/etc/redis.conf"
