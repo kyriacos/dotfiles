@@ -1,12 +1,13 @@
-export DOTFILES=~/.dotfiles
-. $DOTFILES/bash/env
-. $DOTFILES/bash/config
-. $DOTFILES/bash/aliases
-. $DOTFILES/bash/completions
+export BASH=~/.bash
+. $BASH/env
+. $BASH/config
+. $BASH/aliases
+. $BASH/completions
 
 # use .localrc for settings specific to one system
 if [ -f ~/.localrc ]; then
   source ~/.localrc
 fi
 
-#source "`brew --prefix grc`/etc/grc.bashrc"
+# or use hash instead of command -v
+[ hash brew 2>/dev/null ] && source "`brew --prefix grc`/etc/grc.bashrc"

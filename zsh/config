@@ -15,8 +15,8 @@ export CLICOLOR=true
 export RUBYOPT='rubygems'
 
 # load functions
-fpath=($ZSH/zsh/functions $fpath)
-autoload -U $ZSH/zsh/functions/*(:t)
+fpath=($ZSH/functions $fpath)
+autoload -U $ZSH/functions/*(:t)
 
 # initialize autocomplete here, otherwise functions won't be loaded!
 autoload -U compinit && compinit
