@@ -7,18 +7,28 @@ set ruler                         " Show cursor position.
 set encoding=utf-8
 
 " call pathogen#infect()
-silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
+silent! call pathogen#runtime_append_all_bundles()
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
+
+" Controversial...swap colon and semicolon for easier commands
+" Also remember that commands you put in the vimrc they need to
+" be prefixed by the key you choose if you change it.
+" nnoremap ; :
+" nnoremap : ;
+" vnoremap ; :
+" vnoremap : ;
+map ; :
+noremap ;; ;
 
 " Let leader key
 let mapleader=","
 
 " Quickly edit/reload the vimrc file
 "nmap <silent> <leader>ev :e $MYVIMRC<CR>
-"nmap <silent> <leader>sv :so $MYVIMRC<CR>
+nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 set showcmd                       " Display partial/incomplete commands in the status line.
 set showmode                      " Display the mode you're in.
@@ -65,12 +75,6 @@ set laststatus=2                  " Show the status line all the time
 
 set pastetoggle=<F2>              " Stupid paste. No auto-indent
 
-" Controversial...swap colon and semicolon for easier commands
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
-
 " Automatic fold settings for specific files. Uncomment to use.
 "autocmd FileType ruby setlocal foldmethod=syntax
 "autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 tabstop=2
@@ -102,10 +106,8 @@ colorscheme solarized
 " vmap Q gq
 " nmap Q gqap
 
-
 " Command-T configuration
 let g:CommandTMaxHeight=20
-
 
 " Got this from carlhuda janus bundle
 " function s:setupWrapping()
@@ -184,3 +186,6 @@ set modelines=10
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
 
+
+nmap <silent> <Leader>b :CommandTBuffer<CR>
+nmap <silent> <Leader>t :CommandT<CR>
