@@ -25,3 +25,63 @@
 [submodule "vim/bundle/vim-markdown"]
 	path = vim/bundle/vim-markdown
 	url = git://github.com/plasticboy/vim-markdown.git
+[submodule "vim/bundle/vim-coffee-script"]
+	path = vim/bundle/vim-coffee-script
+	url = git://github.com/kchmck/vim-coffee-script.git
+[submodule "vim/bundle/vim-rspec"]
+	path = vim/bundle/vim-rspec
+	url = git://github.com/taq/vim-rspec.git
+[submodule "vim/bundle/vim-javascript"]
+	path = vim/bundle/vim-javascript
+	url = git://github.com/pangloss/vim-javascript.git
+[submodule "vim/bundle/supertab"]
+	path = vim/bundle/supertab
+	url = git://github.com/ervandew/supertab.git
+[submodule "vim/bundle/vim-cucumber"]
+	path = vim/bundle/vim-cucumber
+	url = git://github.com/tpope/vim-cucumber.git
+[submodule "vim/bundle/ZoomWin"]
+	path = vim/bundle/ZoomWin
+	url = git://github.com/vim-scripts/ZoomWin.git
+[submodule "vim/bundle/msanders-snipmate.vim"]
+	path = vim/bundle/msanders-snipmate.vim
+	url = git://github.com/msanders/snipmate.vim.git
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
+	url = git://github.com/scrooloose/syntastic.git
+[submodule "vim/bundle/gist-vim"]
+	path = vim/bundle/gist-vim
+	url = git://github.com/mattn/gist-vim.git
+[submodule "vim/bundle/vim-colors-solarized"]
+	path = vim/bundle/vim-colors-solarized
+	url = git://github.com/altercation/vim-colors-solarized.git
+[submodule "vim/bundle/vim-irblack"]
+	path = vim/bundle/vim-irblack
+	url = git://github.com/wgibbs/vim-irblack.git
+[submodule "vim/bundle/vim-vividchalk"]
+	path = vim/bundle/vim-vividchalk
+	url = git://github.com/tpope/vim-vividchalk.git
+[submodule "vim/bundle/vim-git"]
+	path = vim/bundle/vim-git
+	url = git://github.com/tpope/vim-git.git
+[submodule "vim/bundle/vim-unimpaired"]
+	path = vim/bundle/vim-unimpaired
+	url = git://github.com/tpope/vim-unimpaired.git
+[submodule "vim/bundle/tsaleh-vim-tcomment"]
+	path = vim/bundle/tsaleh-vim-tcomment
+	url = git://github.com/tsaleh/vim-tcomment.git
+[submodule "vim/bundle/vim-ruby-sinatra"]
+	path = vim/bundle/vim-ruby-sinatra
+	url = git://github.com/hallison/vim-ruby-sinatra.git
+[submodule "vim/bundle/scss-syntax"]
+	path = vim/bundle/scss-syntax
+	url = git://github.com/cakebaker/scss-syntax.vim.git
+[submodule "vim/bundle/vim-jquery"]
+	path = vim/bundle/vim-jquery
+	url = git://github.com/itspriddle/vim-jquery.git
+[submodule "vim/bundle/Command-T"]
+	path = vim/bundle/Command-T
+	url = git://github.com/wincent/Command-T.git
+[submodule "vim/bundle/hammer.vim"]
+	path = vim/bundle/hammer.vim
+	url = git://github.com/robgleeson/hammer.vim.git
