@@ -1,6 +1,7 @@
 # PATH and EXPORT VARIABLES
-export EDITOR="mate -w"
-export PATH=~/bin:$ZSH/bin:$PATH
+# export EDITOR="mate -w"
+export EDITOR="mvim -v"
+export PATH=~/bin:$ZSH/bin:/usr/local/bin:$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto' 
 export GREP_COLOR='3;33'
@@ -13,6 +14,7 @@ export CLICOLOR=true
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 # && hash -d gem="$(rvm gemdir)/gems"
 export RUBYOPT='rubygems'
+export GEM_EDITOR="mvim -v"
 
 # load functions
 fpath=($ZSH/functions $fpath)

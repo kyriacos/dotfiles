@@ -1,6 +1,0 @@
-install github-markup for hammer for vim
-gem install github-markup
-gem install redcarpet
-
-remember to compile command-t
-rake make
