@@ -7,8 +7,8 @@ set ruler                         " Show cursor position.
 set encoding=utf-8
 
 " call pathogen#infect()
-silent! call pathogen#helptags()
 silent! call pathogen#runtime_append_all_bundles()
+silent! call pathogen#helptags()
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
@@ -28,7 +28,12 @@ let mapleader=","
 
 " Quickly edit/reload the vimrc file
 "nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" nmap <silent> <leader>sv :so $MYVIMRC<CR>
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
 
 set showcmd                       " Display partial/incomplete commands in the status line.
 set showmode                      " Display the mode you're in.
@@ -102,28 +107,26 @@ nmap <silent> ,/ :silent :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 
 " Solarized theme
-set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
+set background=dark
 
 " Use Q for formatting the current paragraph (or selection)
 " vmap Q gq
 " nmap Q gqap
 
-" Command-T configuration
-let g:CommandTMaxHeight=20
-
 " Got this from carlhuda janus bundle
-" function s:setupWrapping()
-"   set wrap
-"   set wrapmargin=2
-"   set textwidth=72
-" endfunction
-" 
-" function s:setupMarkup()
-"   call s:setupWrapping()
-"   map <buffer> <Leader>p :Hammer<CR>
-" endfunction
+function s:setupWrapping()
+  set wrap
+  set wrapmargin=2
+  set textwidth=72
+endfunction
+
+function s:setupMarkup()
+  call s:setupWrapping()
+  let g:HammerTemplate="cloudapp"
+  map <buffer> <Leader>p :Hammer<CR>
+endfunction
 
 " make uses real tabs
 au FileType make set noexpandtab
@@ -136,7 +139,7 @@ au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
 
 " md, markdown, and mk are markdown and define buffer-local preview
-" au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
@@ -190,6 +193,34 @@ set modelines=10
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
 
-
+" Command-T configuration
+let g:CommandTMaxHeight=20
 nmap <silent> <Leader>b :CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandT<CR>
+
+" Tabular Config
+let mapleader=','
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+" Automagically align stuff using tabular
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction
+
+" To auto generate Ctags for gems in current gemset
+ autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+       \ pathogen#split(&tags) +
+       \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
