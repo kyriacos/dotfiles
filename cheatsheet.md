@@ -1,4 +1,4 @@
-# Toggle folding
+z Toggle folding
     * zR -> open all folds
 # NERD Commenter
     a: let NERDDefaultNesting = 1 " use nesting as default
@@ -9,7 +9,7 @@
     * c<Space> -> toggle on off
 # TComment
     * gcc -> toggle line comment
-    * gCc -> ?
+    * gc3j -> toggle comments on the next 3 lines
 # Surround.vim
 # Tabular.vim
     // https://gist.github.com/287147 -> auto align | tables.

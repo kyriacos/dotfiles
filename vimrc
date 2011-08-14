@@ -6,10 +6,14 @@ set ruler                         " Show cursor position.
 " Set encoding
 set encoding=utf-8
 
-" call pathogen#infect()
+" Pathogen configuration. 
+" filetype off and ddback on again forces plugins to load correctly.
+" http://blog.darevay.com/2010/10/a-brief-note-on-pathogen-for-vim/
 silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
-
+filetype off " On some Linux systems, this is necessary to make sure pathogen
+             " picks up ftdetect directories in plugins!
+syntax on													" Without this it does not generate the helptags
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
@@ -34,6 +38,8 @@ if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
+
+set showmatch                     " Show matching brackets
 
 set showcmd                       " Display partial/incomplete commands in the status line.
 set showmode                      " Display the mode you're in.
@@ -62,7 +68,7 @@ set nowrap                        " Turn off line wrapping.
 set tabstop=2                    " Global tab width.
 set shiftwidth=2                 " And again, related.
 set softtabstop=2
-set expandtab                    " Use spaces instead of tabs
+" set expandtab                    " Use spaces instead of tabs
 
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
@@ -99,6 +105,29 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+
+" In insert mode, hold down control to do movement, cursor keys suck.
+imap <C-h> <Left>
+imap <C-j> <Down>
+imap <C-k> <Up>
+imap <C-l> <Right>
+
+" In insert mode, C-o and C-b open lines below and above
+imap <C-o> <end><cr>
+imap <C-b> <home><cr><Up>
+
+" In visual line mode, I always accidently keep the shift key down
+" which causes me to join lines (or lookup a keyword) instead of highlight 
+" them.
+vnoremap K k
+vnoremap J j
+
+" keep selection when changing indention level
+vnoremap < <gv
+vnoremap > >gv
+" or use tab...
+vmap <tab> >gv
+vmap <s-tab> <gv
 
 " Clear highlighted search history using ,/
 nmap <silent> ,/ :silent :nohlsearch<CR>
@@ -221,6 +250,6 @@ function! s:align()
 endfunction
 
 " To auto generate Ctags for gems in current gemset
- autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-       \ pathogen#split(&tags) +
-       \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+ "autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+       "\ pathogen#split(&tags) +
+       "\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
