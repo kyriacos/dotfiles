@@ -26,3 +26,10 @@ accordingly. Check the site for more info
 
 # [Search Complete](git://github.com/vim-scripts/SearchComplete.git)
 Vim plugin to tab-complete words in search.
+# [bufexplorer](git://github.com/vim-scripts/bufexplorer.zip.git)
+With bufexplorer, you can quickly and easily switch between buffers by
+using the one of the default public interfaces:
+
+		* '\be' (normal open)  or
+		* '\bs' (force horizontal split open)  or
+		* '\bv' (force vertical split open)

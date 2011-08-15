@@ -1,3 +1,4 @@
+15-08-11 - update the markdown bundle. change it basically
 install github-markup for hammer for vim
 
 gem install github-markup
