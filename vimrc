@@ -17,6 +17,7 @@ filetype off " On some Linux systems, this is necessary to make sure pathogen
              " picks up ftdetect directories in plugins!
 syntax on													" Without this it does not generate the helptags
 syntax enable                     " Turn on syntax highlighting.
+set autoindent
 filetype plugin indent on         " Turn on file type detection.
 
 " Controversial...swap colon and semicolon for easier commands
@@ -252,6 +253,15 @@ function! s:align()
 endfunction
 
 " To auto generate Ctags for gems in current gemset
- "autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-       "\ pathogen#split(&tags) +
-       "\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+		 \ pathogen#split(&tags) +
+		 \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+
+" Ruby indent hash
+function IndentV()
+	Tabularize /^[^:]*\zs:/r1c0l0
+	Tabularize /^[^=>]*\zs=>/l1
+endfunction
+vmap <Leader>iv :call IndentV()
+
+" autocmd rooter BufEnter *.coffee, *.scss :Rooter
