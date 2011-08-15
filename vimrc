@@ -1,4 +1,5 @@
 set nocompatible                  " Must come first because it changes other options.
+autocmd
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
@@ -9,6 +10,7 @@ set encoding=utf-8
 " Pathogen configuration. 
 " filetype off and ddback on again forces plugins to load correctly.
 " http://blog.darevay.com/2010/10/a-brief-note-on-pathogen-for-vim/
+silent! source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
 filetype off " On some Linux systems, this is necessary to make sure pathogen
