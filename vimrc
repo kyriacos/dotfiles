@@ -139,9 +139,10 @@ nmap <silent> ,/ :silent :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 
 " Solarized theme
-let g:solarized_termcolors=256
 colorscheme solarized
+let g:solarized_termcolors=256
 set background=dark
+"colorscheme ir_black
 
 " Use Q for formatting the current paragraph (or selection)
 " vmap Q gq
