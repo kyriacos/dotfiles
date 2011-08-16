@@ -158,3 +158,6 @@
 	path = vim/bundle/vim-yankring
 	url = git://github.com/chrismetcalf/vim-yankring.git
 	ignore = dirty
+[submodule "vim/bundle/gundo.vim"]
+	path = vim/bundle/gundo.vim
+	url = git://github.com/sjl/gundo.vim.git
