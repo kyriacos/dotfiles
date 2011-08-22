@@ -56,9 +56,9 @@ set undolevels=100                " Undo level history
 
 set hidden                        " Hide buffers instead of closing them
 
-set wildmenu                      " Enhanced command line completion.
-set wildmode=list:longest         " Complete files like a shell.
-set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildmenu                                " Enhanced command line completion.
+set wildmode=list:longest,list:full         " Complete files like a shell.
+set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems
 
 " Searching
 set incsearch                     " Highlight matches as you type.
@@ -71,7 +71,7 @@ set nowrap                        " Turn off line wrapping.
 set tabstop=2                    " Global tab width.
 set shiftwidth=2                 " And again, related.
 set softtabstop=2
-" set expandtab                    " Use spaces instead of tabs
+set expandtab                    " Use spaces instead of tabs
 
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
@@ -148,6 +148,12 @@ set background=dark
 " vmap Q gq
 " nmap Q gqap
 
+" Remember last location in file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal g'\"" | endif
+endif
+
 " Got this from carlhuda janus bundle
 function s:setupWrapping()
   set wrap
@@ -198,12 +204,12 @@ map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
 " Unimpaired configuration
-" " Bubble single lines
-" nmap <C-Up> [e
-" nmap <C-Down> ]e
-" " Bubble multiple lines
-" vmap <C-Up> [egv
-" vmap <C-Down> ]egv
+" Bubble single lines
+nmap <C-Up> [e
+nmap <C-Down> ]e
+" Bubble multiple lines
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
 
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
@@ -217,7 +223,6 @@ elseif has("unix")
 endif
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
-
 
 " Use modeline overrides
 set modeline
@@ -255,8 +260,8 @@ endfunction
 
 " To auto generate Ctags for gems in current gemset
 autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-		 \ pathogen#split(&tags) +
-		 \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+     \ pathogen#split(&tags) +
+     \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
 
 " Ruby indent hash
 function IndentV()
