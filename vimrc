@@ -259,9 +259,9 @@ function! s:align()
 endfunction
 
 " To auto generate Ctags for gems in current gemset
-autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-     \ pathogen#split(&tags) +
-     \ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+"autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
+     "\ pathogen#split(&tags) +
+     "\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
 
 " Ruby indent hash
 function IndentV()
