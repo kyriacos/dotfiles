@@ -20,6 +20,12 @@ syntax enable                     " Turn on syntax highlighting.
 set autoindent
 filetype plugin indent on         " Turn on file type detection.
 
+" Solarized theme
+let g:solarized_termcolors=256
+colorscheme solarized
+set background=dark
+"colorscheme ir_black
+
 " Controversial...swap colon and semicolon for easier commands
 " Also remember that commands you put in the vimrc they need to
 " be prefixed by the key you choose if you change it.
@@ -40,7 +46,6 @@ let mapleader=","
 if has("autocmd")
   autocmd bufwritepost .vimrc source $MYVIMRC
 endif
-
 
 set showmatch                     " Show matching brackets
 
@@ -137,12 +142,6 @@ nmap <silent> ,/ :silent :nohlsearch<CR>
 
 " Forgot to use sudo? just use w!! instead
 cmap w!! w !sudo tee % >/dev/null
-
-" Solarized theme
-colorscheme solarized
-let g:solarized_termcolors=256
-set background=dark
-"colorscheme ir_black
 
 " Use Q for formatting the current paragraph (or selection)
 " vmap Q gq
@@ -271,3 +270,9 @@ endfunction
 vmap <Leader>iv :call IndentV()
 
 " autocmd rooter BufEnter *.coffee, *.scss :Rooter
+
+" NERDTree configuration
+let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
+map <Leader>n :NERDTreeToggle<CR>
+
+
