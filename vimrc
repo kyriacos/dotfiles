@@ -21,10 +21,11 @@ set autoindent
 filetype plugin indent on         " Turn on file type detection.
 
 " Solarized theme
-"let g:solarized_termcolors=256
-"colorscheme solarized
-"set background=dark
-"colorscheme ir_black
+let g:solarized_termcolors=256
+"let g:solarized_contrast="high"
+color solarized
+set background=dark
+" colorscheme ir_black
 
 " Controversial...swap colon and semicolon for easier commands
 " Also remember that commands you put in the vimrc they need to
@@ -162,7 +163,7 @@ endfunction
 
 function s:setupMarkup()
   call s:setupWrapping()
-  let g:HammerTemplate="cloudapp"
+  let g:HammerTemplate="default_inline"
   map <buffer> <Leader>p :Hammer<CR>
 endfunction
 
@@ -347,3 +348,11 @@ nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
 
 " Create a mapping (e.g. in your .vimrc) like this:
 "nmap <C-W>! <Plug>Kwbd
+
+" Easymotion. Disable the mappings. There's just too many of them
+" let g:EasyMotion_do_mapping=0
+let g:EasyMotion_leader_key="<Leader>ss"
+
+" Indent Guides. Set the color change percent higher
+" since you can just switch them on and off might as well see clearly ;)
+let g:indent_guides_color_change_percent=20
