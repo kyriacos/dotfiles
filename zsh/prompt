@@ -14,9 +14,9 @@ git_dirty() {
   else
     if [[ $st == "nothing to commit (working directory clean)" ]]
     then
-      echo "on %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
+      echo "%{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
     else
-      echo "on %{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
+      echo "%{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
     fi
   fi
 }
@@ -56,7 +56,7 @@ local blue_op="%{$fg[blue]%}[%{$reset_color%}"
 local blue_cp="%{$fg[blue]%}]%{$reset_color%}"
 local user_host=""
 [[ -n $SSH_CONNECTION ]] && user_host="${blue_op}%{$fg[white]%}%n@%m${blue_cp}-"
-export PROMPT=$'\n%{$fg[white]%}╭─${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}using $(rvm_prompt) \n%{$fg[white]%}╰─> '
+export PROMPT=$'\n%{$fg[white]%}╭─${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}- $(rvm_prompt) \n%{$fg[white]%}╰─> '
 set_prompt () {
   export RPROMPT=$'$(git_dirty)$(need_push)'
 }
