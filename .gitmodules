@@ -180,3 +180,6 @@
 [submodule "vim/bundle/vim-vitamins"]
 	path = vim/bundle/vim-vitamins
 	url = git://github.com/fmoralesc/vim-vitamins.git
+[submodule "vim/bundle/github-colorscheme"]
+	path = vim/bundle/github-colorscheme
+	url = git://github.com/grillpanda/github-colorscheme.git
