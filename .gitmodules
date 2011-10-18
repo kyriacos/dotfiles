@@ -174,3 +174,9 @@
 	path = vim/bundle/buftabs
 	url = git://github.com/vim-scripts/buftabs.git
   ignore = dirty
+[submodule "vim/bundle/Mustang2"]
+	path = vim/bundle/Mustang2
+	url = git://github.com/daoo/Mustang2.git
+[submodule "vim/bundle/vim-vitamins"]
+	path = vim/bundle/vim-vitamins
+	url = git://github.com/fmoralesc/vim-vitamins.git

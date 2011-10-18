@@ -21,10 +21,11 @@ set autoindent
 filetype plugin indent on         " Turn on file type detection.
 
 " Solarized theme
-let g:solarized_termcolors=256
+"let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
-color solarized
+"color solarized
 set background=dark
+colorscheme mustang
 " colorscheme ir_black
 
 " Controversial...swap colon and semicolon for easier commands
