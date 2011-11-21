@@ -183,3 +183,6 @@
 [submodule "vim/bundle/github-colorscheme"]
 	path = vim/bundle/github-colorscheme
 	url = git://github.com/grillpanda/github-colorscheme.git
+[submodule "vim/bundle/tagbar"]
+	path = vim/bundle/tagbar
+	url = git://github.com/majutsushi/tagbar.git
