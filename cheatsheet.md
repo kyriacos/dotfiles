@@ -68,6 +68,15 @@ all possible choices and allowing you to press one key to jump directly
 to the target.
 
 * Use `<Leader>w`
+* (let g:EasyMotion\_leader\_key=`<Leader>ss`) - my vim conf
 
 # [NERDTree](none)
 
+# [TagBar](none)
+The script makes browsing tags super easy. Right now it looks better
+than taglist on my screen at least.
+
+# ColorSchemes
+* mustang2
+* ir\_black
+* solarized

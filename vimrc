@@ -50,7 +50,6 @@ if has("autocmd")
 endif
 
 set showmatch                     " Show matching brackets
-
 set showcmd                       " Display partial/incomplete commands in the status line.
 set showmode                      " Display the mode you're in.
 
