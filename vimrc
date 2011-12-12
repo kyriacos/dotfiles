@@ -24,6 +24,7 @@ filetype plugin indent on         " Turn on file type detection.
 "let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "color solarized
+set t_Co=256
 set background=dark
 colorscheme mustang
 " colorscheme ir_black
