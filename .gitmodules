@@ -134,10 +134,10 @@
 	path = vim/bundle/vim-pathogen
 	url = git://github.com/tpope/vim-pathogen.git
 	ignore = dirty
-[submodule "vim/bundle/minibufexpl"]
-	path = vim/bundle/minibufexpl
-	url = git://github.com/fholgado/minibufexpl.vim.git
-	ignore = dirty
+;[submodule "vim/bundle/minibufexpl"]
+	;path = vim/bundle/minibufexpl
+	;url = git://github.com/fholgado/minibufexpl.vim.git
+	;ignore = dirty
 [submodule "vim/bundle/bufexplorer"]
 	path = vim/bundle/bufexplorer
 	url = git://github.com/vim-scripts/bufexplorer.zip.git

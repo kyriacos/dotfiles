@@ -39,6 +39,9 @@ colorscheme mustang
 map ; :
 noremap ;; ;
 
+"map :W :w
+"imap <Space>i<Space> <Space>I<Space>
+
 " Let leader key
 let mapleader=","
 
@@ -247,6 +250,7 @@ if exists(":Tabularize")
 endif
 
 " Automagically align stuff using tabular
+" for cucumber
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
@@ -357,3 +361,6 @@ let g:EasyMotion_leader_key="<Leader>ss"
 " Indent Guides. Set the color change percent higher
 " since you can just switch them on and off might as well see clearly ;)
 let g:indent_guides_color_change_percent=20
+
+" try this out with minibuf and remove if no luckI:e ~/.
+let miniBufExplMaxSize=4
