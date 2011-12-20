@@ -39,6 +39,12 @@ colorscheme mustang
 map ; :
 noremap ;; ;
 
+" switch buffers with leader leader
+nnoremap <leader><leader> <c-^>
+
+" clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+
 "map :W :w
 "imap <Space>i<Space> <Space>I<Space>
 
@@ -239,6 +245,9 @@ runtime! macros/matchit.vim
 let g:CommandTMaxHeight=20
 nmap <silent> <Leader>b :CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandT<CR>
+" http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 " Tabular Config
 let mapleader=','
