@@ -39,25 +39,22 @@ colorscheme mustang
 map ; :
 noremap ;; ;
 
+" Let leader key
+let mapleader=","
+
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
 
 " clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
 
-"map :W :w
-"imap <Space>i<Space> <Space>I<Space>
-
-" Let leader key
-let mapleader=","
-
 " Quickly edit/reload the vimrc file
 "nmap <silent> <leader>ev :e $MYVIMRC<CR>
 " nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " Source the vimrc file after saving it
-if has("autocmd")
-  autocmd bufwritepost .vimrc source $MYVIMRC
-endif
+"if has("autocmd")
+  "autocmd bufwritepost .vimrc source $MYVIMRC
+"endif
 
 set showmatch                     " Show matching brackets
 set showcmd                       " Display partial/incomplete commands in the status line.
@@ -105,9 +102,19 @@ set noerrorbells                  " No beeping.
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
-set laststatus=2                  " Show the status line all the time
-
 set pastetoggle=<F2>              " Stupid paste. No auto-indent
+
+" Status Line
+" https://github.com/mislav/vimfiles
+if has("statusline") && !&cp
+  set laststatus=2  " always show the status bar
+
+  " Start the status line
+  set statusline=%f\ %m\ %r
+
+  " Add fugitive
+  set statusline+=%{fugitive#statusline()}
+endif
 
 " Automatic fold settings for specific files. Uncomment to use.
 "autocmd FileType ruby setlocal foldmethod=syntax
