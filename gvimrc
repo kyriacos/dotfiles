@@ -24,7 +24,7 @@ if has("gui_macvim")
   vmap <D-]> >gv
   vmap <D-[> <gv
 
-  set guifont=Inconsolata:h14
+  set guifont=Inconsolata:h16
   "set guifont=Monaco:h14
   " Start without the toolbar
   set guioptions-=T
