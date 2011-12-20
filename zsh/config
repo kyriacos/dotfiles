@@ -3,7 +3,7 @@
 export EDITOR="mvim -v"
 export PATH=~/bin:$ZSH/bin:/usr/local/bin:$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
-export GREP_OPTIONS='--color=auto' 
+export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='3;33'
 export VIEW="open" # used by google function to open links in browser
 # enable colored output from ls, etc
@@ -27,12 +27,6 @@ autoload -U zmv
 # colors
 autoload colors && colors
 
-# history file
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
-REPORTTIME=10 # print elapsed time when more than 10 seconds
-
 # options to set
 setopt MULTIOS # pipe to multiple outputs
 #setopt COMPLETE_ALIASES         #do not expand aliases _before_ completion has finished
@@ -44,15 +38,26 @@ setopt NO_BEEP # beeps are annoying
 setopt NO_LIST_BEEP # don not beep on history expansion errors
 setopt LOCAL_OPTIONS # allow functions to have local options
 setopt LOCAL_TRAPS # allow functions to have local traps
-setopt HIST_VERIFY # reload full command when runing from history
-setopt SHARE_HISTORY # share history between sessions ???
-setopt EXTENDED_HISTORY # add timestamps to history
 setopt PROMPT_SUBST # prompt more dynamic, allow function in prompt
 setopt CORRECT # spell check for commands only
 setopt COMPLETE_IN_WORD # stays where it is and completion is done from both ends
 setopt IGNORE_EOF
 
+# history file
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+REPORTTIME=10 # print elapsed time when more than 10 seconds
+
+# History
 setopt APPEND_HISTORY # adds history
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
-setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS  # don't record dupes in history
+setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS # reduce whitespace in history
+setopt HIST_VERIFY # reload full command when runing from history
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY # share history between sessions
+setopt EXTENDED_HISTORY # add timestamps to history

@@ -186,3 +186,6 @@
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
+[submodule "vim/bundle/vim-ragtag"]
+	path = vim/bundle/vim-ragtag
+	url = git://github.com/tpope/vim-ragtag.git
