@@ -10,3 +10,6 @@ export ZSH=~/.zsh
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
+
+# set the keyboard mode in terminal
+set -o emacs # or vi if you prefer
