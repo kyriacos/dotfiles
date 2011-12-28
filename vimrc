@@ -48,6 +48,10 @@ nnoremap <leader><leader> <c-^>
 " clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
 
+" disable match parentheses hopefully speed up
+" file loading
+let g:loaded_matchparen = 1
+
 " Quickly edit/reload the vimrc file
 "nmap <silent> <leader>ev :e $MYVIMRC<CR>
 " nmap <silent> <leader>sv :so $MYVIMRC<CR>

@@ -18,7 +18,8 @@ alias gs="git status"
 alias go="git checkout"
 
 #rails
- 
+alias migrate='rake db:migrate && rake db:test:prepare'
+
 # top
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory

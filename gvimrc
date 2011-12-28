@@ -36,8 +36,10 @@ if has("gui_macvim")
   " Default gui color scheme
   "color ir_black
   "color solarized
-  set background=dark
-  color mustang
+  "set background=dark
+  "color mustang
+  set background=light
+  color github
 
   " Dont beep
   set visualbell
