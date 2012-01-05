@@ -177,6 +177,7 @@
 [submodule "vim/bundle/Mustang2"]
 	path = vim/bundle/Mustang2
 	url = git://github.com/daoo/Mustang2.git
+  ignore = dirty
 [submodule "vim/bundle/vim-vitamins"]
 	path = vim/bundle/vim-vitamins
 	url = git://github.com/fmoralesc/vim-vitamins.git
@@ -189,7 +190,7 @@
 [submodule "vim/bundle/vim-ragtag"]
 	path = vim/bundle/vim-ragtag
 	url = git://github.com/tpope/vim-ragtag.git
+  ignore = dirty
 [submodule "vim/bundle/ctrlp"]
 	path = vim/bundle/ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-  ignore = dirty
