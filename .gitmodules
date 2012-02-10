@@ -188,3 +188,9 @@
 [submodule "vim/bundle/tagbar"]
 	path = vim/bundle/tagbar
 	url = git://github.com/majutsushi/tagbar.git
+[submodule "vim/bundle/ctrlp"]
+	path = vim/bundle/ctrlp
+	url = git://github.com/kien/ctrlp.vim
+[submodule "vim/bundle/vim-mac-classic-theme"]
+	path = vim/bundle/vim-mac-classic-theme
+	url = git://github.com/nelstrom/vim-mac-classic-theme.git
