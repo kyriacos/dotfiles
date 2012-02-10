@@ -14,7 +14,7 @@ silent! source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
 filetype off " On some Linux systems, this is necessary to make sure pathogen
-             " picks up ftdetect directories in plugins!
+" picks up ftdetect directories in plugins!
 syntax on													" Without this it does not generate the helptags
 syntax enable                     " Turn on syntax highlighting.
 set autoindent
@@ -24,7 +24,7 @@ filetype plugin indent on         " Turn on file type detection.
 "let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "color solarized
-"set t_Co=256
+set t_Co=256
 set background=dark
 colorscheme mustang
 " colorscheme ir_black
@@ -57,7 +57,7 @@ let g:loaded_matchparen = 1
 " nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " Source the vimrc file after saving it
 "if has("autocmd")
-  "autocmd bufwritepost .vimrc source $MYVIMRC
+"autocmd bufwritepost .vimrc source $MYVIMRC
 "endif
 
 set showmatch                     " Show matching brackets
@@ -172,7 +172,7 @@ cmap w!! w !sudo tee % >/dev/null
 " Remember last location in file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-    \| exe "normal g'\"" | endif
+        \| exe "normal g'\"" | endif
 endif
 
 " Got this from carlhuda janus bundle
@@ -218,7 +218,7 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " Opens a tab edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>t
-map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+"map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
@@ -285,13 +285,13 @@ endfunction
 
 " To auto generate Ctags for gems in current gemset
 "autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-     "\ pathogen#split(&tags) +
-     "\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
+"\ pathogen#split(&tags) +
+"\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
 
 " Ruby indent hash
 function IndentV()
-	Tabularize /^[^:]*\zs:/r1c0l0
-	Tabularize /^[^=>]*\zs=>/l1
+  Tabularize /^[^:]*\zs:/r1c0l0
+  Tabularize /^[^=>]*\zs=>/l1
 endfunction
 vmap <Leader>iv :call IndentV()
 
@@ -340,22 +340,22 @@ function s:Kwbd(kwbdStage)
     if(!s:buflistedLeft)
       if(s:bufFinalJump)
         windo if(buflisted(winbufnr(0))) | execute "b! " . s:bufFinalJump | endif
-      else
-        enew
-        let l:newBuf = bufnr("%")
-        windo if(buflisted(winbufnr(0))) | execute "b! " . l:newBuf | endif
-      endif
-      execute s:kwbdWinNum . 'wincmd w'
-    endif
-    if(buflisted(s:kwbdBufNum) || s:kwbdBufNum == bufnr("%"))
-      execute "bd! " . s:kwbdBufNum
-    endif
-    if(!s:buflistedLeft)
-      set buflisted
-      set bufhidden=delete
-      set buftype=nofile
-      setlocal noswapfile
-    endif
+    else
+      enew
+      let l:newBuf = bufnr("%")
+      windo if(buflisted(winbufnr(0))) | execute "b! " . l:newBuf | endif
+  endif
+  execute s:kwbdWinNum . 'wincmd w'
+endif
+if(buflisted(s:kwbdBufNum) || s:kwbdBufNum == bufnr("%"))
+  execute "bd! " . s:kwbdBufNum
+endif
+if(!s:buflistedLeft)
+  set buflisted
+  set bufhidden=delete
+  set buftype=nofile
+  setlocal noswapfile
+endif
   else
     if(bufnr("%") == s:kwbdBufNum)
       let prevbufvar = bufnr("#")
@@ -382,5 +382,3 @@ let g:EasyMotion_leader_key="<Leader>ss"
 " since you can just switch them on and off might as well see clearly ;)
 let g:indent_guides_color_change_percent=20
 
-" try this out with minibuf and remove if no luckI:e ~/.
-let miniBufExplMaxSize=4
