@@ -11,7 +11,7 @@ export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
 
 # Ruby and RVM
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
 # && hash -d gem="$(rvm gemdir)/gems"
 export RUBYOPT='rubygems'
 export GEM_EDITOR="mvim -v"
