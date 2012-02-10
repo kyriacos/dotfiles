@@ -39,14 +39,14 @@ need_push () {
   fi
 }
 
-rvm_prompt(){
-  if $(which rvm &> /dev/null)
-  then
-	  echo "%{$fg_bold[magenta]%}$(rvm-prompt)%{$reset_color%}"
-	else
-	  echo ""
-  fi
-}
+#rvm_prompt(){
+  #if $(which rvm &> /dev/null)
+  #then
+		#echo "%{$fg_bold[magenta]%}$(rvm-prompt)%{$reset_color%}"
+	#else
+		#echo ""
+  #fi
+#}
 
 directory_name(){
   echo "%{$fg_bold[cyan]%}%3/%\/%{$reset_color%}"
@@ -56,8 +56,8 @@ local blue_op="%{$fg[blue]%}[%{$reset_color%}"
 local blue_cp="%{$fg[blue]%}]%{$reset_color%}"
 local user_host=""
 [[ -n $SSH_CONNECTION ]] && user_host="${blue_op}%{$fg[white]%}%n@%m${blue_cp}-"
-#export PROMPT=$'\n%{$fg[white]%}╭─${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}- $(rvm_prompt) \n%{$fg[white]%}╰─> '
-export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}- $(rvm_prompt) \n%{$fg[white]%}╰  '
+#export PROMPT=$'\n%{$fg[white]%}╭─${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}- $() andrbenv \n%{$fg[white]%}╰─> '
+export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}- $() addrbenv \n%{$fg[white]%}╰  '
 set_prompt () {
   export RPROMPT=$'$(git_dirty)$(need_push)'
 }
