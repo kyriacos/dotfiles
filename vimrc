@@ -383,3 +383,5 @@ let g:EasyMotion_leader_key="<Leader>ss"
 " since you can just switch them on and off might as well see clearly ;)
 let g:indent_guides_color_change_percent=20
 
+
+let g:HammerQuiet=1

@@ -194,3 +194,9 @@
 [submodule "vim/bundle/vim-mac-classic-theme"]
 	path = vim/bundle/vim-mac-classic-theme
 	url = git://github.com/nelstrom/vim-mac-classic-theme.git
+[submodule "vim/bundle/mayansmoke"]
+	path = vim/bundle/mayansmoke
+	url = git://github.com/vim-scripts/mayansmoke.git
+[submodule "vim/bundle/louver"]
+	path = vim/bundle/louver
+	url = git://github.com/vim-scripts/louver.vim.git
