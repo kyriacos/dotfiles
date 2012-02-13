@@ -19,6 +19,8 @@ alias go="git checkout"
 
 #rails
 alias migrate='rake db:migrate && rake db:test:prepare'
+alias brs='bundle exec rails s'
+alias brc='bundle exec rails c'
 
 # top
 alias tu='top -o cpu' # cpu
