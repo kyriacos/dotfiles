@@ -1,2 +1,2 @@
-export PATH=$DOTFILES/bin:$PATH
+export PATH=~/.zsh/bin:$PATH
 export EDITOR='mate -w'
