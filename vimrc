@@ -3,63 +3,35 @@ autocmd
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
-
-" Set encoding
 set encoding=utf-8
 
-" Pathogen configuration. 
+" Pathogen configuration.
 " filetype off and ddback on again forces plugins to load correctly.
 " http://blog.darevay.com/2010/10/a-brief-note-on-pathogen-for-vim/
 silent! source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
 silent! call pathogen#runtime_append_all_bundles()
 silent! call pathogen#helptags()
 filetype off " On some Linux systems, this is necessary to make sure pathogen
-" picks up ftdetect directories in plugins!
-syntax on													" Without this it does not generate the helptags
-syntax enable                     " Turn on syntax highlighting.
+             " picks up ftdetect directories in plugins!
+syntax on                 " Without this it does not generate the helptags
+syntax enable             " Turn on syntax highlighting.
 set autoindent
-filetype plugin indent on         " Turn on file type detection.
+filetype plugin indent on " Turn on file type detection.
 
 " Solarized theme
+set t_Co=256
 "let g:solarized_termcolors=256
 "let g:solarized_contrast="high"
 "color solarized
-set t_Co=256
 "set background=dark
 "colorscheme mustang
-colorscheme mac_classic
-" colorscheme ir_black
-
-" Controversial...swap colon and semicolon for easier commands
-" Also remember that commands you put in the vimrc they need to
-" be prefixed by the key you choose if you change it.
-" nnoremap ; :
-" nnoremap : ;
-" vnoremap ; :
-" vnoremap : ;
-map ; :
-noremap ;; ;
-
-" Let leader key
-let mapleader=","
-
-" switch buffers with leader leader
-nnoremap <leader><leader> <c-^>
-
-" clear the search buffer when hitting return
-:nnoremap <CR> :nohlsearch<cr>
+colorscheme github
+"colorscheme mac_classic
+"colorscheme ir_black
 
 " disable match parentheses hopefully speed up
 " file loading
 let g:loaded_matchparen = 1
-
-" Quickly edit/reload the vimrc file
-"nmap <silent> <leader>ev :e $MYVIMRC<CR>
-" nmap <silent> <leader>sv :so $MYVIMRC<CR>
-" Source the vimrc file after saving it
-"if has("autocmd")
-"autocmd bufwritepost .vimrc source $MYVIMRC
-"endif
 
 set showmatch                     " Show matching brackets
 set showcmd                       " Display partial/incomplete commands in the status line.
@@ -69,6 +41,7 @@ set showmode                      " Display the mode you're in.
 set list
 set listchars=tab:\ \ ,trail:·
 
+" History
 set history=100                   " Commands to remember in history
 set undolevels=100                " Undo level history
 
@@ -79,17 +52,18 @@ set wildmode=list:longest,list:full         " Complete files like a shell.
 set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems
 
 " Searching
-set incsearch                     " Highlight matches as you type.
-set hlsearch                      " Highlight matches.
-set ignorecase                    " Case-insensitive searching.
-set smartcase                     " But case-sensitive if expression contains a capital letter.
+set incsearch                  " Highlight matches as you type.
+set hlsearch                   " Highlight matches.
+set ignorecase                 " Case-insensitive searching.
+set smartcase                  " But case-sensitive if expression contains a capital letter.
 
 " Whitespace
-set nowrap                        " Turn off line wrapping.
-set tabstop=2                    " Global tab width.
-set shiftwidth=2                 " And again, related.
+set nowrap                     " Turn off line wrapping.
+set tabstop=2                  " Global tab width.
+set shiftwidth=2               " And again, related.
+set expandtab                  " Use spaces instead of tabs
 set softtabstop=2
-set expandtab                    " Use spaces instead of tabs
+set backspace=indent,eol,Start " allow backspacing over everything in insert mode
 
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
@@ -113,17 +87,11 @@ set pastetoggle=<F2>              " Stupid paste. No auto-indent
 " https://github.com/mislav/vimfiles
 if has("statusline") && !&cp
   set laststatus=2  " always show the status bar
-
   " Start the status line
   set statusline=%f\ %m\ %r
-
   " Add fugitive
   set statusline+=%{fugitive#statusline()}
 endif
-
-" Automatic fold settings for specific files. Uncomment to use.
-"autocmd FileType ruby setlocal foldmethod=syntax
-"autocmd FileType css  setlocal foldmethod=indent shiftwidth=2 tabstop=2
 
 " KILL THE ARROW KEYS FOR NOW
 map <up> <nop>
@@ -160,15 +128,21 @@ vnoremap > >gv
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-" Clear highlighted search history using ,/
-nmap <silent> ,/ :silent :nohlsearch<CR>
+" Let leader key
+let mapleader=","
+
+" Controversial...swap colon and semicolon for easier commands
+map ; :
+noremap ;; ;
+
+" switch buffers with leader leader
+nnoremap <leader><leader> <c-^>
+
+nnoremap <CR> :nohlsearch<cr>            " clear the search buffer when hitting return
+nmap <silent> ,/ :silent :nohlsearch<CR> " Clear highlighted search history using ,/
 
 " Forgot to use sudo? just use w!! instead
 cmap w!! w !sudo tee % >/dev/null
-
-" Use Q for formatting the current paragraph (or selection)
-" vmap Q gq
-" nmap Q gqap
 
 " Remember last location in file
 if has("autocmd")
@@ -209,9 +183,6 @@ au BufRead,BufNewFile *.txt call s:setupWrapping()
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
@@ -259,6 +230,7 @@ nmap <silent> <Leader>b :CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandT<CR>
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 " Tabular Config
@@ -383,5 +355,5 @@ let g:EasyMotion_leader_key="<Leader>ss"
 " since you can just switch them on and off might as well see clearly ;)
 let g:indent_guides_color_change_percent=20
 
-
+" Hammer plugin crashes if github-markup isn't installed
 let g:HammerQuiet=1
