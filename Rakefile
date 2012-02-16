@@ -65,3 +65,10 @@ desc "remove the global zshenv so you can get the right path in macvim"
 task :remove_global_zshenv do
   remove_global_zshenv
 end
+
+def disable_resume_preview_lion
+  print "Disable resume feature in Preview for OSX Lion? Seems to kill my laptop [yn]"
+  if $stdin.gets.chomp == "y"
+    system %Q{sudo defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -bool false}
+  end
+end
