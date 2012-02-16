@@ -25,7 +25,7 @@ set t_Co=256
 "color solarized
 "set background=dark
 "colorscheme mustang
-colorscheme badwolf
+colorscheme molokai
 "colorscheme mac_classic
 "colorscheme ir_black
 
