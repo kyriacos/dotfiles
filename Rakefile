@@ -7,7 +7,7 @@ task :install do
   replace_all = false
   Dir['*'].each do |file|
     next if %w[Rakefile README README.md NOTES.md cheatsheet.md LICENSE Solarized-Dark-xterm-256color-mod-kaks.terminal gitconfig].include? file
-    
+
     if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
       if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
         puts "identical ~/.#{file.sub('.erb', '')}"
@@ -31,6 +31,10 @@ task :install do
       link_file(file)
     end
   end
+  print "would you like to remove the global zshenv file? [yn] "
+  if $stdin.gets.chomp == "y"
+    remove_global_zshenv
+  end
 end
 
 def replace_file(file)
@@ -50,3 +54,14 @@ def link_file(file)
   end
 end
 
+def remove_global_zshenv
+  if File.exists? "/etc/zshenv"
+    print "renaming /etc/zshenv to /etc/zshenv_backup\n"
+    system %Q{sudo mv /etc/zshenv /etc/zshenv_backup}
+  end
+end
+
+desc "remove the global zshenv so you can get the right path in macvim"
+task :remove_global_zshenv do
+  remove_global_zshenv
+end

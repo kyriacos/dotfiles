@@ -63,7 +63,7 @@ set tabstop=2                  " Global tab width.
 set shiftwidth=2               " And again, related.
 set expandtab                  " Use spaces instead of tabs
 set softtabstop=2
-set backspace=indent,eol,Start " allow backspacing over everything in insert mode
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
@@ -93,7 +93,6 @@ if has("statusline") && !&cp
   set statusline+=%{fugitive#statusline()}
 endif
 
-" KILL THE ARROW KEYS FOR NOW
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
@@ -116,8 +115,7 @@ imap <C-o> <end><cr>
 imap <C-b> <home><cr><Up>
 
 " In visual line mode, I always accidently keep the shift key down
-" which causes me to join lines (or lookup a keyword) instead of highlight 
-" them.
+" which causes me to join lines (or lookup a keyword) instead of highlight them.
 vnoremap K k
 vnoremap J j
 
@@ -131,6 +129,9 @@ vmap <s-tab> <gv
 " Let leader key
 let mapleader=","
 
+" Map escape to Ctrl-C
+map <C-c> <ESC>
+
 " Controversial...swap colon and semicolon for easier commands
 map ; :
 noremap ;; ;
@@ -138,8 +139,10 @@ noremap ;; ;
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
 
-nnoremap <CR> :nohlsearch<cr>            " clear the search buffer when hitting return
-nmap <silent> ,/ :silent :nohlsearch<CR> " Clear highlighted search history using ,/
+" clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+" Clear highlighted search history using ,/
+nmap <silent> ,/ :silent :nohlsearch<CR>
 
 " Forgot to use sudo? just use w!! instead
 cmap w!! w !sudo tee % >/dev/null
@@ -162,6 +165,7 @@ function s:setupMarkup()
   let g:HammerTemplate="default_inline"
   map <buffer> <Leader>p :Hammer<CR>
 endfunction
+au BufRead,BufNewFile *.txt call s:setupWrapping()
 
 " make uses real tabs
 au FileType make set noexpandtab
@@ -179,18 +183,12 @@ au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 " add json syntax highlighting
 au BufNewFile,BufRead *.json set ft=javascript
 
-au BufRead,BufNewFile *.txt call s:setupWrapping()
-
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 textwidth=79
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
-
-" Opens a tab edit command with the path of the currently edited file filled in
-" Normal mode: <Leader>t
-"map <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
@@ -234,7 +232,6 @@ map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 " Tabular Config
-let mapleader=','
 if exists(":Tabularize")
   nmap <Leader>a= :Tabularize /=<CR>
   vmap <Leader>a= :Tabularize /=<CR>
@@ -242,8 +239,7 @@ if exists(":Tabularize")
   vmap <Leader>a: :Tabularize /:\zs<CR>
 endif
 
-" Automagically align stuff using tabular
-" for cucumber
+" Automagically align stuff using tabular for cucumber
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
@@ -256,11 +252,6 @@ function! s:align()
   endif
 endfunction
 
-" To auto generate Ctags for gems in current gemset
-"autocmd FileType ruby let &l:tags = pathogen#legacyjoin(pathogen#uniq(
-"\ pathogen#split(&tags) +
-"\ map(split($GEM_PATH,':'),'v:val."/gems/*/tags"')))
-
 " Ruby indent hash
 function IndentV()
   Tabularize /^[^:]*\zs:/r1c0l0
@@ -268,16 +259,10 @@ function IndentV()
 endfunction
 vmap <Leader>iv :call IndentV()
 
-" autocmd rooter BufEnter *.coffee, *.scss :Rooter
-
-" NERDTree configuration
-let NERDTreeIgnore=['\.pyc$', '\.rbc$', '\~$']
-map <Leader>n :NERDTreeToggle<CR>
-
 " GRB: use fancy buffer closing that doesn't close the split
 " This used to use Bclose command which works great but since then i found
 " this other script on wikia which seems to have improved it
-cnoremap <expr> bd (getcmdtype() == ':' ? 'Kwbd' : 'bd')
+"cnoremap <expr> bd (getcmdtype() == ':' ? 'Kwbd' : 'bd')
 
 """"""Big Script
 " here is a more exotic version of my original Kwbd script
@@ -343,9 +328,6 @@ endfunction
 
 command! Kwbd call <SID>Kwbd(1)
 nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
-
-" Create a mapping (e.g. in your .vimrc) like this:
-"nmap <C-W>! <Plug>Kwbd
 
 " Easymotion. Disable the mappings. There's just too many of them
 " let g:EasyMotion_do_mapping=0

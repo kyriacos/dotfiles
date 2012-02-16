@@ -1,2 +1,2 @@
-export PATH=~/.zsh/bin:$PATH
-export EDITOR='mate -w'
+# export PATH=~/.zsh/bin:$PATH
+# export EDITOR='mate -w'
