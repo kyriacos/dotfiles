@@ -204,3 +204,7 @@
   path = vim/bundle/badwolf
   url = git://github.com/sjl/badwolf.git
   ignore = dirty
+[submodule "vim/bundle/molokai"]
+	path = vim/bundle/molokai
+	url = git://github.com/tomasr/molokai.git
+  ignore = dirty
