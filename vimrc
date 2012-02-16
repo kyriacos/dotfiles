@@ -25,7 +25,7 @@ set t_Co=256
 "color solarized
 "set background=dark
 "colorscheme mustang
-colorscheme github
+colorscheme badwolf
 "colorscheme mac_classic
 "colorscheme ir_black
 
@@ -140,7 +140,7 @@ noremap ;; ;
 nnoremap <leader><leader> <c-^>
 
 " clear the search buffer when hitting return
-:nnoremap <CR> :nohlsearch<cr>
+nnoremap <CR> :nohlsearch<cr>
 " Clear highlighted search history using ,/
 nmap <silent> ,/ :silent :nohlsearch<CR>
 
