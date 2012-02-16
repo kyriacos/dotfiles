@@ -6,7 +6,7 @@ desc "install the dot files into user's home directory"
 task :install do
   replace_all = false
   Dir['*'].each do |file|
-    next if %w[Rakefile README README.md NOTES.md cheatsheet.md LICENSE Solarized-Dark-xterm-256color-mod-kaks.terminal gitconfig].include? file
+    next if %w[ruby-patch Rakefile README README.md NOTES.md cheatsheet.md LICENSE Solarized-Dark-xterm-256color-mod-kaks.terminal gitconfig].include? file
 
     if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
       if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
