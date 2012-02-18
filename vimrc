@@ -105,10 +105,11 @@ map <C-k> <C-w>k
 map <C-l> <C-w>l
 
 " In insert mode, hold down control to do movement, cursor keys suck.
-imap <C-h> <Left>
-imap <C-j> <Down>
-imap <C-k> <Up>
-imap <C-l> <Right>
+" NOTE : You removed it so you would avoid moving in insert mode
+"imap <C-h> <Left>
+"imap <C-j> <Down>
+"imap <C-k> <Up>
+"imap <C-l> <Right>
 
 " In insert mode, C-o and C-b open lines below and above
 imap <C-o> <end><cr>
@@ -224,8 +225,8 @@ runtime! macros/matchit.vim
 
 " Command-T configuration
 let g:CommandTMaxHeight=20
-nmap <silent> <Leader>b :CommandTBuffer<CR>
-nmap <silent> <Leader>t :CommandT<CR>
+nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
+nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
