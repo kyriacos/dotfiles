@@ -224,7 +224,7 @@ set modelines=10
 runtime! macros/matchit.vim
 
 " Command-T configuration
-let g:CommandTMaxHeight=20
+let g:CommandTMaxHeight=30
 nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
 " http://vimcasts.org/e/14
