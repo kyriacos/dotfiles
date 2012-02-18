@@ -3,7 +3,7 @@ export ZSH=~/.zsh
 
 . $ZSH/config
 # wtf?
-#. $ZSH/window
+. $ZSH/window
 . $ZSH/prompt
 . $ZSH/aliases
 . $ZSH/completion
@@ -18,5 +18,7 @@ set -o emacs # or vi if you prefer
 # find out current directory and switch to it
 # in new shell window uses escape sequences
 # to find out the current directory
-precmd () {print -Pn "\e]2; %~/ \a"}
-preexec () {print -Pn "\e]2; %~/ \a"}
+#precmd () {print -Pn "\e]2; %~/ \a"}
+#preexec () {print -Pn "\e]2; %~/ \a"}
+
+current_directory
