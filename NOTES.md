@@ -12,3 +12,9 @@ remember to compile command-t : rake make
 1. brew install ctags
 2. add /usr/local/bin before $PATH
 3. [ Rubygems Automatic Ctags Invoker ](https://github.com/tpope/gem-ctags)
+
+# Todo
+1. Fix window title for zsh.
+2. Current directory switching only works on lion for now, in zsh.
+    a. remove current_directory and title function if they dont work
+    b. check and fix prompt
