@@ -1,7 +1,6 @@
 # Most of the functions i've taken from
 # https://github.com/ehrenmurdick/config
 
-
 git_branch() {
   echo $(/usr/bin/git symbolic-ref HEAD 2>/dev/null | awk -F/ {'print $NF'})
 }
@@ -66,11 +65,8 @@ local blue_cp="%{$fg[blue]%}]%{$reset_color%}"
 local user_host=""
 [[ -n $SSH_CONNECTION ]] && user_host="${blue_op}%{$fg[white]%}%n@%m${blue_cp}-"
 export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(rbenv_prompt) \n%{$fg[white]%}╰  '
+
 set_prompt () {
   export RPROMPT=$'$(git_dirty)$(need_push)'
 }
 
-precmd() {
-# title "zsh" "%m" "%55<...<%~"
-  set_prompt
-}
