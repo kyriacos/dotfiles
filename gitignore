@@ -1,3 +1,8 @@
+/.bundle
+.Gemfile
+/.rbenv-version
+/Gemfile.lock
+vendor/bundle
 tags
 gitconfig
 .DS_Store
