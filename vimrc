@@ -134,8 +134,9 @@ let mapleader=","
 map <C-c> <ESC>
 
 " Controversial...swap colon and semicolon for easier commands
-map ; :
-noremap ;; ;
+" i think it pisses me so ill leave in off for now
+"map ; :
+"noremap ;; ;
 
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
