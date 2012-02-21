@@ -146,8 +146,8 @@ nnoremap <CR> :nohlsearch<cr>
 " Clear highlighted search history using ,/
 nmap <silent> ,/ :silent :nohlsearch<CR>
 
-" Forgot to use sudo? just use w!! instead
-cmap w!! w !sudo tee % >/dev/null
+" Forgot to use sudo? just use !!w instead
+"cmap !!w w !sudo tee % >/dev/null
 
 " Remember last location in file
 if has("autocmd")
