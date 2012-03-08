@@ -34,6 +34,11 @@ color solarized
 " file loading
 let g:loaded_matchparen = 1
 
+set cursorline
+set cmdheight=2
+set switchbuf=useopen
+set showtabline=2
+
 set showmatch                     " Show matching brackets
 set showcmd                       " Display partial/incomplete commands in the status line.
 set showmode                      " Display the mode you're in.
@@ -64,6 +69,8 @@ set tabstop=2                  " Global tab width.
 set shiftwidth=2               " And again, related.
 set expandtab                  " Use spaces instead of tabs
 set softtabstop=2
+
+
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
 set scrolloff=3                   " Show 3 lines of context around the cursor.
@@ -79,6 +86,7 @@ set noerrorbells                  " No beeping.
 " set noswapfile
 " set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 " Directories for swp files
+set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
@@ -132,12 +140,7 @@ vmap <s-tab> <gv
 let mapleader=","
 
 " Map escape to Ctrl-C
-map <C-c> <ESC>
-
-" Controversial...swap colon and semicolon for easier commands
-" i think it pisses me so ill leave in off for now
-"map ; :
-"noremap ;; ;
+map <c-c> <esc>
 
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
