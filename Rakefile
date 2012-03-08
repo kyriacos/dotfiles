@@ -66,9 +66,22 @@ task :remove_global_zshenv do
   remove_global_zshenv
 end
 
+desc "OSX Lion hacks and annoyances"
+task :lion_osx_hacks do
+  disable_resume_preview_lion
+  lion_hacks
+end
+
 def disable_resume_preview_lion
   print "Disable resume feature in Preview for OSX Lion? Seems to kill my laptop [yn]"
   if $stdin.gets.chomp == "y"
     system %Q{sudo defaults write com.apple.Preview NSQuitAlwaysKeepsWindows -bool false}
+  end
+end
+
+def lion_hacks
+  print "Things like stupid repeat rate on lion [yn]"
+  if $stdin.gets.chomp == "y"
+    system %Q{defaults write -g ApplePressAndHoldEnabled -bool false}
   end
 end
