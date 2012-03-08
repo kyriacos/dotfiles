@@ -7,6 +7,9 @@ gem install redcarpet
 
 remember to compile command-t : rake make
 
+- todo:
+add default gems to install. guard-ctags-bundler. 
+
 
 # CTags
 1. brew install ctags

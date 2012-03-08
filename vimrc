@@ -20,12 +20,13 @@ filetype plugin indent on " Turn on file type detection.
 
 " Solarized theme
 set t_Co=256
-"let g:solarized_termcolors=256
-"let g:solarized_contrast="high"
-"color solarized
+let g:solarized_termcolors=256
+let g:solarized_contrast="high"
+set background=light
+color solarized
 "set background=dark
 "colorscheme mustang
-colorscheme molokai
+"colorscheme molokai
 "colorscheme mac_classic
 "colorscheme ir_black
 
@@ -49,7 +50,7 @@ set hidden                        " Hide buffers instead of closing them
 
 set wildmenu                                " Enhanced command line completion.
 set wildmode=list:longest,list:full         " Complete files like a shell.
-set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems
+set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**
 
 " Searching
 set incsearch                  " Highlight matches as you type.
@@ -341,3 +342,8 @@ let g:indent_guides_color_change_percent=20
 
 " Hammer plugin crashes if github-markup isn't installed
 let g:HammerQuiet=1
+
+" Add some teaching/learning maps for now
+" Regenerate tags
+map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log -R * ./vendor/bundle/ruby/*/gems/*/lib/*<CR><C-M>
+"`rvm gemdir`/gems/* `rvm gemdir`/bundler/gems/*<CR><C-M>

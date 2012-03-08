@@ -29,4 +29,4 @@ set_title_and_prompt() {
   set_prompt
 }
 precmd () { set_title_and_prompt }
-preexec () { set_title_and_prompt } 
+preexec () { set_title_and_prompt }

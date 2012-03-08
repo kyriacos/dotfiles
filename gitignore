@@ -4,6 +4,7 @@
 /Gemfile.lock
 vendor/bundle
 tags
+gems.tags
 gitconfig
 .DS_Store
 .svn

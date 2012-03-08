@@ -86,10 +86,6 @@
   path = vim/bundle/vim-unimpaired
   url = git://github.com/tpope/vim-unimpaired.git
   ignore = dirty
-[submodule "vim/bundle/tsaleh-vim-tcomment"]
-  path = vim/bundle/tsaleh-vim-tcomment
-  url = git://github.com/tsaleh/vim-tcomment.git
-  ignore = dirty
 [submodule "vim/bundle/vim-ruby-sinatra"]
   path = vim/bundle/vim-ruby-sinatra
   url = git://github.com/hallison/vim-ruby-sinatra.git
@@ -205,9 +201,9 @@
   url = git://github.com/sjl/badwolf.git
   ignore = dirty
 [submodule "vim/bundle/molokai"]
-	path = vim/bundle/molokai
-	url = git://github.com/tomasr/molokai.git
+  path = vim/bundle/molokai
+  url = git://github.com/tomasr/molokai.git
   ignore = dirty
 [submodule "vim/bundle/Zenburn"]
-	path = vim/bundle/Zenburn
-	url = git://github.com/jnurmine/Zenburn.git
+  path = vim/bundle/Zenburn
+  url = git://github.com/jnurmine/Zenburn.git
