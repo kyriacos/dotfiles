@@ -1,11 +1,9 @@
 #compdef rake
-
 # Ryan Bates https://github.com/ryanb
-
-if [ -f Rakefile ]; then
-  recent=`last_modified .rake_tasks~ Rakefile **/*.rake`
-  if [[ $recent != '.rake_tasks~' ]]; then
-    rake --silent --tasks | cut -d " " -f 2 > .rake_tasks~
+if [[ -f Rakefile ]]; then
+  local recent=$(ls -t .rake_tasks~ Rakefile **/*.rake | head -n 1)
+  if [[ $recent != .rake_tasks~ ]]; then
+    rake --tasks | cut -d ' ' -f 2 > .rake_tasks~
   fi
-  compadd `cat .rake_tasks~`
+  compadd $(cat .rake_tasks~)
 fi
