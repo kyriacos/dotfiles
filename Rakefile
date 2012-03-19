@@ -84,6 +84,11 @@ end
 def lion_hacks
   print "Things like stupid repeat rate on lion [yn]"
   if $stdin.gets.chomp == "y"
+    # Disable press-and-hold for keys in favor of key repeat
     system %Q{defaults write -g ApplePressAndHoldEnabled -bool false}
+    # Use AirDrop over every interface. srsly this should be a default.
+    system %Q{defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1}
+    # Show the ~/Library folder
+    system %Q{chflags nohidden ~/Library}
   end
 end
