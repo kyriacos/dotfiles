@@ -86,10 +86,6 @@
   path = vim/bundle/vim-unimpaired
   url = git://github.com/tpope/vim-unimpaired.git
   ignore = dirty
-[submodule "vim/bundle/vim-ruby-sinatra"]
-  path = vim/bundle/vim-ruby-sinatra
-  url = git://github.com/hallison/vim-ruby-sinatra.git
-  ignore = dirty
 [submodule "vim/bundle/scss-syntax"]
   path = vim/bundle/scss-syntax
   url = git://github.com/cakebaker/scss-syntax.vim.git
