@@ -55,7 +55,7 @@ set hidden                        " Hide buffers instead of closing them
 
 set wildmenu                                " Enhanced command line completion.
 set wildmode=list:longest,list:full         " Complete files like a shell.
-set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**
+set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**,vendor/cache/**
 
 " Searching
 set incsearch                  " Highlight matches as you type.
