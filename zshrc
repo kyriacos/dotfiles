@@ -8,6 +8,7 @@ export ZSH=~/.zsh
 . $ZSH/aliases
 . $ZSH/completion
 . $ZSH/correction
+. $HOME/Documents/code/rightbonus/script/shortcuts
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
@@ -25,7 +26,7 @@ set -o emacs # or vi if you prefer
 set_title_and_prompt() {
   #title "zsh" "%m" "%55<...<%~"
   #current_directory
-  print -Pn "\e]2; %~/ \a"
+  print -Pn "\e]2; ${PWD/#$HOME/~}\a"
   set_prompt
 }
 precmd () { set_title_and_prompt }
