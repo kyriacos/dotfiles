@@ -73,7 +73,7 @@ set softtabstop=2
 
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
-set scrolloff=3                   " Show 3 lines of context around the cursor.
+set scrolloff=3                   " Show 3 lines when scrolling off the buffer
 
 set title                         " Set the terminal's title
 
@@ -112,13 +112,6 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
-
-" In insert mode, hold down control to do movement, cursor keys suck.
-" NOTE : You removed it so you would avoid moving in insert mode
-"imap <C-h> <Left>
-"imap <C-j> <Down>
-"imap <C-k> <Up>
-"imap <C-l> <Right>
 
 " In insert mode, C-o and C-b open lines below and above
 imap <C-o> <end><cr>
@@ -265,78 +258,9 @@ function IndentV()
 endfunction
 vmap <Leader>iv :call IndentV()
 
-" GRB: use fancy buffer closing that doesn't close the split
-" This used to use Bclose command which works great but since then i found
-" this other script on wikia which seems to have improved it
-"cnoremap <expr> bd (getcmdtype() == ':' ? 'Kwbd' : 'bd')
-
-""""""Big Script
-" here is a more exotic version of my original Kwbd script
-" delete the buffer; keep windows; create a scratch buffer if no buffers left
-" http://vim.wikia.com/wiki/VimTip165
-" same as BufKill
-function s:Kwbd(kwbdStage)
-  if(a:kwbdStage == 1)
-    if(!buflisted(winbufnr(0)))
-      bd!
-      return
-    endif
-    let s:kwbdBufNum = bufnr("%")
-    let s:kwbdWinNum = winnr()
-    windo call s:Kwbd(2)
-    execute s:kwbdWinNum . 'wincmd w'
-    let s:buflistedLeft = 0
-    let s:bufFinalJump = 0
-    let l:nBufs = bufnr("$")
-    let l:i = 1
-    while(l:i <= l:nBufs)
-      if(l:i != s:kwbdBufNum)
-        if(buflisted(l:i))
-          let s:buflistedLeft = s:buflistedLeft + 1
-        else
-          if(bufexists(l:i) && !strlen(bufname(l:i)) && !s:bufFinalJump)
-            let s:bufFinalJump = l:i
-          endif
-        endif
-      endif
-      let l:i = l:i + 1
-    endwhile
-    if(!s:buflistedLeft)
-      if(s:bufFinalJump)
-        windo if(buflisted(winbufnr(0))) | execute "b! " . s:bufFinalJump | endif
-    else
-      enew
-      let l:newBuf = bufnr("%")
-      windo if(buflisted(winbufnr(0))) | execute "b! " . l:newBuf | endif
-  endif
-  execute s:kwbdWinNum . 'wincmd w'
-endif
-if(buflisted(s:kwbdBufNum) || s:kwbdBufNum == bufnr("%"))
-  execute "bd! " . s:kwbdBufNum
-endif
-if(!s:buflistedLeft)
-  set buflisted
-  set bufhidden=delete
-  set buftype=nofile
-  setlocal noswapfile
-endif
-  else
-    if(bufnr("%") == s:kwbdBufNum)
-      let prevbufvar = bufnr("#")
-      if(prevbufvar > 0 && buflisted(prevbufvar) && prevbufvar != s:kwbdBufNum)
-        b #
-      else
-        bn
-      endif
-    endif
-  endif
-endfunction
-
-command! Kwbd call <SID>Kwbd(1)
-nnoremap <silent> <Plug>Kwbd :<C-u>Kwbd<CR>
-
 " Easymotion. Disable the mappings. There's just too many of them
 " let g:EasyMotion_do_mapping=0
+" use as leader->ss->w
 let g:EasyMotion_leader_key="<Leader>ss"
 
 " Indent Guides. Set the color change percent higher
@@ -348,5 +272,5 @@ let g:HammerQuiet=1
 
 " Add some teaching/learning maps for now
 " Regenerate tags
+" for rvm: `rvm gemdir`/gems/* `rvm gemdir`/bundler/gems/*<CR><C-M>
 map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log -R * ./vendor/bundle/ruby/*/gems/*/lib/*<CR><C-M>
-"`rvm gemdir`/gems/* `rvm gemdir`/bundler/gems/*<CR><C-M>
