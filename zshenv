@@ -2,7 +2,8 @@
 # export EDITOR="mate -w"
 export SHELL=/bin/zsh
 export EDITOR="mvim -v"
-export PATH=~/QtSDK/Simulator/Qt/gcc/bin/:/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
+#export PATH=~/QtSDK/Simulator/Qt/gcc/bin/:/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='3;33'
