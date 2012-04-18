@@ -27,7 +27,6 @@ color solarized
 "set background=dark
 "colorscheme mustang
 "colorscheme molokai
-"colorscheme mac_classic
 "colorscheme ir_black
 
 " disable match parentheses hopefully speed up
