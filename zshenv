@@ -1,5 +1,5 @@
 # PATH and EXPORT VARIABLES
-# export EDITOR="mate -w"
+export LESS=-RFX
 export SHELL=/bin/zsh
 export EDITOR="mvim -v"
 #export PATH=~/QtSDK/Simulator/Qt/gcc/bin/:/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
