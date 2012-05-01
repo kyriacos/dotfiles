@@ -21,7 +21,7 @@ filetype plugin indent on " Turn on file type detection.
 " Solarized theme
 set t_Co=256
 let g:solarized_termcolors=256
-let g:solarized_contrast="high"
+"let g:solarized_contrast="high"
 set background=light
 color solarized
 "set background=dark
@@ -54,7 +54,7 @@ set hidden                        " Hide buffers instead of closing them
 
 set wildmenu                                " Enhanced command line completion.
 set wildmode=list:longest,list:full         " Complete files like a shell.
-set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**,vendor/cache/**
+set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**,vendor/cache/**,log/**,public/assets/**
 
 " Searching
 set incsearch                  " Highlight matches as you type.
@@ -132,7 +132,8 @@ vmap <s-tab> <gv
 let mapleader=","
 
 " Map escape to Ctrl-C
-map <c-c> <esc>
+"map <c-c> <esc>
+map <C-[> <esc>
 
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
@@ -219,10 +220,11 @@ runtime! macros/matchit.vim
 let g:CommandTMaxHeight=20
 nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
-" http://vimcasts.org/e/14
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+" http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
 " Tabular Config
 if exists(":Tabularize")
