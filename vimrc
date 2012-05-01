@@ -158,19 +158,14 @@ function s:setupWrapping()
   set textwidth=72
 endfunction
 
-function s:setupMarkup()
-  call s:setupWrapping()
-  let g:HammerTemplate="default_inline"
-  map <buffer> <Leader>p :Hammer<CR>
-endfunction
-au BufRead,BufNewFile *.txt call s:setupWrapping()
-
 " make uses real tabs
 au FileType make set noexpandtab
 
 " Filetypes
+au BufRead,BufNewFile *.txt call s:setupWrapping()
 au BufRead,BufNewFile *.scss set filetype=scss        " SCSS Files
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 ft=coffeescript expandtab foldmethod=indent nofoldenable
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
@@ -221,7 +216,7 @@ set modelines=10
 runtime! macros/matchit.vim
 
 " Command-T configuration
-let g:CommandTMaxHeight=30
+let g:CommandTMaxHeight=20
 nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
 nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
 " http://vimcasts.org/e/14
