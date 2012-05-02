@@ -132,8 +132,9 @@ vmap <s-tab> <gv
 let mapleader=","
 
 " Map escape to Ctrl-C
+" works anyway?
 "map <c-c> <esc>
-map <c-[> <esc>
+"map <C-[> <esc>
 
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
