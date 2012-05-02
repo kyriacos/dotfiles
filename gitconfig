@@ -1,0 +1,41 @@
+# Copy this file or single lines to ~/.gitconfig
+
+[core]
+excludesfile = /Users/Kyriacos/.gitignore
+[alias]
+co = checkout
+# Other useful aliases:
+unstage = reset HEAD
+staged = diff --cached
+unstaged = diff
+current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+# Usage: git track origin/feature-123-login-form
+track = checkout -t
+
+# logs
+# Log display from screencast, with train tracks.
+lo = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+# Alternate log display from Scott Chacon
+lol = log --pretty=oneline --abbrev-commit --graph --decorate
+# gb
+head = !git l -1
+h = !git head
+hp = "!source ~/.githelpers && show_git_head"
+r = !git l -30
+ra = !git r --all
+l = "!source ~/.githelpers && pretty_git_log"
+la = !git l --all
+[apply]
+whitespace = warn
+[color]
+diff = auto
+status = auto
+branch = auto
+ui = true
+[help]
+autocorrect = 1
+[status]
+submodule = 1
+[push]
+# Only push branches that have been set up to track a remote branch.
+default = current
