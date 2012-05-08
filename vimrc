@@ -264,10 +264,10 @@ let g:EasyMotion_leader_key="<Leader>ss"
 " since you can just switch them on and off might as well see clearly ;)
 let g:indent_guides_color_change_percent=20
 
-" Hammer plugin crashes if github-markup isn't installed
-let g:HammerQuiet=1
-
 " Add some teaching/learning maps for now
 " Regenerate tags
 " for rvm: `rvm gemdir`/gems/* `rvm gemdir`/bundler/gems/*<CR><C-M>
 map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log -R * ./vendor/bundle/ruby/*/gems/*/lib/*<CR><C-M>
+
+" vim-rooter
+let g:rooter_use_lcd = 1
