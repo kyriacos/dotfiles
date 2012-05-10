@@ -2,8 +2,6 @@
 export ZSH=~/.zsh
 
 . $ZSH/config
-# wtf?
-#. $ZSH/window
 . $ZSH/prompt
 . $ZSH/aliases
 . $ZSH/completion
@@ -15,6 +13,9 @@ export ZSH=~/.zsh
 
 # set the keyboard mode in terminal
 set -o emacs # or vi if you prefer
+
+# keep this here as a fix for rake
+alias rake='noglob rake'
 
 # print current directory to title bar
 # osx lion now uses that when opening new
