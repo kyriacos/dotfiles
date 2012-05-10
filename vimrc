@@ -167,7 +167,7 @@ au FileType make set noexpandtab
 au BufRead,BufNewFile *.txt call s:setupWrapping()
 au BufRead,BufNewFile *.scss set filetype=scss        " SCSS Files
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
-au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 ft=coffeescript expandtab foldmethod=indent nofoldenable
+au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 ft=coffee expandtab foldmethod=indent nofoldenable
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
