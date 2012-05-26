@@ -129,11 +129,6 @@ vmap <s-tab> <gv
 " Let leader key
 let mapleader=","
 
-" Map escape to Ctrl-C
-" works anyway?
-"map <c-c> <esc>
-"map <C-[> <esc>
-
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
 
@@ -197,7 +192,7 @@ vmap <C-Down> ]egv
 
 " Enable syntastic syntax checking
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+"let g:syntastic_quiet_warnings=1
 
 " gist-vim defaults
 if has("mac")
@@ -260,7 +255,7 @@ let g:EasyMotion_leader_key="<Leader>ss"
 
 " Indent Guides. Set the color change percent higher
 " since you can just switch them on and off might as well see clearly ;)
-let g:indent_guides_color_change_percent=20
+let g:indent_guides_color_change_percent=30
 
 " Add some teaching/learning maps for now
 " Regenerate tags
