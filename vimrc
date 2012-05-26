@@ -19,7 +19,7 @@ set autoindent
 filetype plugin indent on " Turn on file type detection.
 
 " Shell - interactive mode so it supports all my aliases
-set shell=/bin/zsh\ -i
+"set shell=/bin/bash\ -i
 
 " Solarized theme
 set t_Co=256
