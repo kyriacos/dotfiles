@@ -19,6 +19,7 @@ alias go="git checkout"
 
 #rails
 alias migrate='rake db:migrate && rake db:test:prepare'
+alias be='bundle exec'
 alias brs='bundle exec rails s'
 alias brc='bundle exec rails c'
 
