@@ -1,3 +1,5 @@
+# shortcut to this $ZSH path is $ZSH
+export ZSH=~/.zsh
 # PATH and EXPORT VARIABLES
 export LESS=-RFX
 export SHELL=/bin/zsh
