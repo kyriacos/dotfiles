@@ -18,16 +18,14 @@ syntax enable             " Turn on syntax highlighting.
 set autoindent
 filetype plugin indent on " Turn on file type detection.
 
+" Shell - interactive mode so it supports all my aliases
+set shell=/bin/zsh\ -i
+
 " Solarized theme
 set t_Co=256
 let g:solarized_termcolors=256
-"let g:solarized_contrast="high"
 set background=light
 color solarized
-"set background=dark
-"colorscheme mustang
-"colorscheme molokai
-"colorscheme ir_black
 
 " disable match parentheses hopefully speed up
 " file loading
