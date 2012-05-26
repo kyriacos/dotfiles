@@ -1,6 +1,3 @@
-# shortcut to this $ZSH path is $ZSH
-export ZSH=~/.zsh
-
 . $ZSH/config
 . $ZSH/prompt
 . $ZSH/aliases
@@ -16,6 +13,12 @@ set -o emacs # or vi if you prefer
 
 # keep this here as a fix for rake
 alias rake='noglob rake'
+
+# http://talkings.org/post/5236392664/zsh-and-slow-git-completion
+# superfly tnt git autocomplete
+__git_files () {
+  _wanted files expl 'local files' _files
+}
 
 # print current directory to title bar
 # osx lion now uses that when opening new
