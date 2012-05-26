@@ -18,9 +18,6 @@ syntax enable             " Turn on syntax highlighting.
 set autoindent
 filetype plugin indent on " Turn on file type detection.
 
-" Shell - interactive mode so it supports all my aliases
-"set shell=/bin/bash\ -i
-
 " Solarized theme
 set t_Co=256
 let g:solarized_termcolors=256
