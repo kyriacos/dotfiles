@@ -78,9 +78,9 @@ set visualbell                    " No beeping.
 set noerrorbells                  " No beeping.
 
 " Until i figure things out then ill switch the backup off
-" set nobackup                      " Don't make a backup before overwriting a file.
-" set nowritebackup                 " And again.
-" set noswapfile
+set nobackup                      " Don't make a backup before overwriting a file.
+set nowritebackup                 " And again.
+set noswapfile
 " set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
 " Directories for swp files
 set backup
