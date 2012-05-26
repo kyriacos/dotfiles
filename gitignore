@@ -1,7 +1,5 @@
 /.bundle
-.Gemfile
 /.rbenv-version
-/Gemfile.lock
 vendor/bundle
 tags
 gems.tags
