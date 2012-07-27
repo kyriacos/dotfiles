@@ -9,6 +9,9 @@ remember to compile command-t : rake make
 
 - todo:
 add default gems to install. guard-ctags-bundler. 
+auto install gitconfig and configure
+ask to generate and upload ssh keys to github
+
 
 
 # CTags
