@@ -4,8 +4,6 @@
 . $ZSH/completion
 . $ZSH/correction
 
-[[ -f ~/Documents/code/rightbonus/script/shortcuts ]] && . ~/Documents/code/rightbonus/script/shortcuts
-
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
 
