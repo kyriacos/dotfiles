@@ -3,7 +3,7 @@
 [github]
   username = kyriacos
 [core]
-  excludesfile = /Users/Kyriacos/.gitignore
+  excludesfile = /Users/kaks/.gitignore
 [heroku]
   account = personal
 [alias]
@@ -46,11 +46,11 @@
   default = current
 [merge]
   tool = vimdiff
-	stat = true # show a diffstat at the end of a merge
+  stat = true # show a diffstat at the end of a merge
 [diff]
   tool = vimdiff
 [difftool]
   prompt = false
 [user]
-	name = Kyriacos Souroullas
-	email = kyriacos.souroullas@gmail.com
+  name = Kyriacos Souroullas
+  email = kyriacos.souroullas@gmail.com
