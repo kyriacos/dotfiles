@@ -9,3 +9,4 @@ gems.tags
 .*.swp
 .localrc
 .netrwhist
+.idea

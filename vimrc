@@ -64,6 +64,25 @@ set shiftwidth=2               " And again, related.
 set expandtab                  " Use spaces instead of tabs
 set softtabstop=2
 
+" Code Folding
+" -------------------
+" help fold-methods
+" help folding
+" help folds
+" http://stackoverflow.com/questions/4789605/how-do-i-enable-automatic-folds-in-vim
+
+"set foldmethod=syntax
+set foldlevelstart=1
+
+let javaScript_fold=1         " JavaScript
+let perl_fold=1               " Perl
+let php_folding=1             " PHP
+let r_syntax_folding=1        " R
+let ruby_fold=1               " Ruby
+let sh_fold_enabled=1         " sh
+let vimsyn_folding='af'       " Vim script
+let xml_syntax_folding=1      " XML
+
 
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
@@ -84,6 +103,7 @@ set backup
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
+" Pasting
 set pastetoggle=<F2>              " Stupid paste. No auto-indent
 
 " Status Line
