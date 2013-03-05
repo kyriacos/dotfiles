@@ -72,13 +72,13 @@ set softtabstop=2
 " http://stackoverflow.com/questions/4789605/how-do-i-enable-automatic-folds-in-vim
 
 "set foldmethod=syntax
-set foldlevelstart=1
+"set foldlevelstart=1
 
 let javaScript_fold=1         " JavaScript
 let perl_fold=1               " Perl
 let php_folding=1             " PHP
 let r_syntax_folding=1        " R
-let ruby_fold=1               " Ruby
+"let ruby_fold=1               " Ruby
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
@@ -177,6 +177,7 @@ au FileType make set noexpandtab
 au BufRead,BufNewFile *.txt call s:setupWrapping()
 au BufRead,BufNewFile *.scss set filetype=scss        " SCSS Files
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+au BufRead,BufNewFile *.ejs set filetype=js.html
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 ft=coffee expandtab foldmethod=indent nofoldenable
 
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
