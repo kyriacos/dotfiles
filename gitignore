@@ -1,6 +1,7 @@
 /.bundle
 /.rbenv-version
 vendor/bundle
+vendor/cache
 tags
 gems.tags
 .DS_Store
