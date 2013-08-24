@@ -1,18 +1,70 @@
 set nocompatible                  " Must come first because it changes other options.
 autocmd
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+
+" vundle
+Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-haml'
+Bundle 'mileszs/ack.vim'
+Bundle 'tpope/vim-rake'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-surround'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'taq/vim-rspec'
+Bundle 'pangloss/vim-javascript'
+Bundle 'ervandew/supertab'
+Bundle 'tpope/vim-cucumber'
+Bundle 'vim-scripts/ZoomWin'
+Bundle 'msanders/snipmate.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'mattn/gist-vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'wgibbs/vim-irblack'
+Bundle 'tpope/vim-vividchalk'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'itspriddle/vim-jquery'
+Bundle 'wincent/Command-T'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'godlygeek/tabular'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'tpope/vim-pathogen'
+Bundle 'vim-scripts/bufexplorer.zip'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'vim-scripts/bufkill.vim'
+Bundle 'chrismetcalf/vim-yankring'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'vim-scripts/buftabs'
+Bundle 'daoo/Mustang2'
+Bundle 'fmoralesc/vim-vitamins'
+Bundle 'grillpanda/github-colorscheme'
+Bundle 'majutsushi/tagbar'
+Bundle 'kien/ctrlp.vim'
+Bundle 'nelstrom/vim-mac-classic-theme'
+Bundle 'vim-scripts/mayansmoke'
+Bundle 'vim-scripts/louver.vim'
+Bundle 'sjl/badwolf'
+Bundle 'tomasr/molokai'
+Bundle 'jnurmine/Zenburn'
+Bundle 'slim-template/vim-slim'
+Bundle 'airblade/vim-gitgutter'
+
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
 set encoding=utf-8
 
-" Pathogen configuration.
-" filetype off and ddback on again forces plugins to load correctly.
-" http://blog.darevay.com/2010/10/a-brief-note-on-pathogen-for-vim/
-silent! source ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim
-silent! call pathogen#runtime_append_all_bundles()
-silent! call pathogen#helptags()
-filetype off " On some Linux systems, this is necessary to make sure pathogen
-             " picks up ftdetect directories in plugins!
 syntax on                 " Without this it does not generate the helptags
 syntax enable             " Turn on syntax highlighting.
 set autoindent
@@ -71,8 +123,10 @@ set softtabstop=2
 " help folds
 " http://stackoverflow.com/questions/4789605/how-do-i-enable-automatic-folds-in-vim
 
-"set foldmethod=syntax
-"set foldlevelstart=1
+set foldmethod=syntax
+set foldlevelstart=1
+set nofoldenable    " disable auto-folding
+
 
 let javaScript_fold=1         " JavaScript
 let perl_fold=1               " Perl
