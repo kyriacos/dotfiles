@@ -1,6 +1,9 @@
 set nocompatible                  " Must come first because it changes other options.
-autocmd
 filetype off
+autocmd
+
+" Let leader key
+let mapleader=","
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -36,6 +39,7 @@ Bundle 'vim-scripts/louver.vim'
 Bundle 'sjl/badwolf'
 Bundle 'slim-template/vim-slim'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'kana/vim-textobj-user'
 
 " Javascript {{{
 Bundle 'kchmck/vim-coffee-script'
@@ -251,9 +255,6 @@ vnoremap > >gv
 " or use tab...
 vmap <tab> >gv
 vmap <s-tab> <gv
-
-" Let leader key
-let mapleader=","
 
 " switch buffers with leader leader
 nnoremap <leader><leader> <c-^>
