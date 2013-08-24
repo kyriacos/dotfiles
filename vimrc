@@ -1,145 +1,337 @@
-set nocompatible                  " Must come first because it changes other options.
+" vimrc
+" Author: Kyriacos Souroullas
+" Source: https://github.com/kyriacos/vim
+"
+" Based on numerous other vim configs.
+"
+" All credit for the package loading goes to vimified
+" by Zaiste!
+" https://github.com/zaiste/vimified
+
+set nocompatible
 filetype off
-autocmd
 
-" Let leader key
-let mapleader=","
+" Load external configuration before anything else {{{
+if filereadable(expand("~/.vim/before.vimrc"))
+  source ~/.vim/before.vimrc
+endif
+" }}}
 
-set rtp+=~/.vim/bundle/vundle/
+let mapleader = ","
+let maplocalleader = "\\"
+
+" Local vimrc configuration {{{
+let s:localrc = expand($HOME . '/.vim/local.vimrc')
+if filereadable(s:localrc)
+  exec ':so ' . s:localrc
+endif
+" }}}
+
+runtime! macros/matchit.vim " % to bounce from do to end etc.
+
+" PACKAGE LIST {{{
+" Use this variable inside your local configuration to declare
+" which package you would like to include
+if ! exists('g:vimified_packages')
+  let g:vimified_packages = ['general', 'fancy', 'os', 'coding', 'python', 'ruby', 'html', 'css', 'js', 'clojure', 'haskell', 'color']
+endif
+" }}}
+
+" VUNDLE {{{
+let s:bundle_path=$HOME."/.vim/bundle/"
+execute "set rtp+=".s:bundle_path."vundle/"
 call vundle#rc()
 
-" let Vundle manage Vundle
 Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-haml'
-Bundle 'mileszs/ack.vim'
-Bundle 'tpope/vim-rake'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-surround'
-Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-cucumber'
-Bundle 'vim-scripts/ZoomWin'
-Bundle 'msanders/snipmate.vim'
-Bundle 'mattn/gist-vim'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'itspriddle/vim-jquery'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'vim-scripts/bufkill.vim'
-Bundle 'chrismetcalf/vim-yankring'
-Bundle 'sjl/gundo.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'vim-scripts/buftabs'
-Bundle 'majutsushi/tagbar'
-Bundle 'vim-scripts/louver.vim'
-Bundle 'sjl/badwolf'
-Bundle 'slim-template/vim-slim'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'kana/vim-textobj-user'
+" }}}
+
+" PACKAGES {{{
+
+" Install user-supplied Bundles {{{
+let s:extrarc = expand($HOME . '/.vim/extra.vimrc')
+if filereadable(s:extrarc)
+  exec ':so ' . s:extrarc
+endif
+" }}}
+
+" _. General {{{
+if count(g:vimified_packages, 'general')
+  " Searching {{{
+    Bundle 'wincent/Command-T'
+    let g:CommandTMaxHeight=15
+    nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
+    map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
+    map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+    Bundle 'kien/ctrlp.vim'
+  " }}}
+
+  " Tabularize {{{
+  Bundle 'godlygeek/tabular'
+
+  if exists(":Tabularize")
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a: :Tabularize /:\zs<CR>
+    vmap <Leader>a: :Tabularize /:\zs<CR>
+  endif
+
+  " }}}
+
+  Bundle 'tpope/vim-unimpaired'
+  " Bubble single lines
+  nmap <C-Up> [e
+  nmap <C-Down> ]e
+  " Bubble multiple lines
+  vmap <C-Up> [egv
+  vmap <C-Down> ]egv
+
+  Bundle 'mileszs/ack.vim'
+  Bundle 'tpope/vim-endwise'
+  Bundle 'tpope/vim-repeat'
+  Bundle 'tpope/vim-speeddating'
+  Bundle 'tpope/vim-surround'
+  Bundle 'maxbrunsfeld/vim-yankstack'
+  Bundle 'tpope/vim-eunuch'
+
+  Bundle 'scrooloose/nerdtree'
+  nmap <C-i> :NERDTreeToggle<CR>
+  " Disable the scrollbars (NERDTree)
+  set guioptions-=r
+  set guioptions-=L
+
+  Bundle 'kana/vim-textobj-user'
+  " LOOK
+  "Bundle 'vim-scripts/YankRing.vim'
+  "let g:yankring_replace_n_pkey = '<leader>['
+  "let g:yankring_replace_n_nkey = '<leader>]'
+  "let g:yankring_history_dir = '~/.vim/tmp/'
+  "nmap <leader>y :YRShow<cr>
+
+  Bundle 'michaeljsmith/vim-indent-object'
+  let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
+
+  Bundle 'Spaceghost/vim-matchit'
+
+  Bundle 'vim-scripts/scratch.vim'
+
+  Bundle 'troydm/easybuffer.vim'
+  nmap <leader>be :EasyBufferToggle<enter>
+
+  Bundle 'terryma/vim-multiple-cursors'
+
+  Bundle 'tpope/vim-rake'
+  Bundle 'ervandew/supertab'
+  Bundle 'tpope/vim-cucumber'
+  Bundle 'vim-scripts/ZoomWin'
+  Bundle 'mattn/gist-vim'
+  Bundle 'tpope/vim-git'
+  Bundle 'itspriddle/vim-jquery'
+  Bundle 'vim-scripts/taglist.vim'
+  Bundle 'vim-scripts/bufkill.vim'
+  Bundle 'chrismetcalf/vim-yankring'
+  Bundle 'sjl/gundo.vim'
+  Bundle 'tpope/vim-markdown'
+  Bundle 'vim-scripts/buftabs'
+  Bundle 'majutsushi/tagbar'
+  Bundle 'vim-scripts/louver.vim'
+  Bundle 'sjl/badwolf'
+  Bundle 'slim-template/vim-slim'
+  Bundle 'airblade/vim-gitgutter'
+endif
+" }}}
+
+" _. Fancy {{{
+if count(g:vimified_packages, 'fancy')
+  Bundle 'bling/vim-airline'
+  let g:airline_left_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_branch_prefix = ''
+endif
+" }}}
+
+" _. Indent {{{
+if count(g:vimified_packages, 'indent')
+  Bundle 'Yggdroot/indentLine'
+  set list lcs=tab:\|\
+  let g:indentLine_color_term = 111
+  let g:indentLine_color_gui = '#DADADA'
+  let g:indentLine_char = 'c'
+  "let g:indentLine_char = '∙▹¦'
+  let g:indentLine_char = '∙'
+endif
+" }}}
+
+" _. OS {{{
+if count(g:vimified_packages, 'os')
+  Bundle 'zaiste/tmux.vim'
+  Bundle 'benmills/vimux'
+  map <Leader>rp :VimuxPromptCommand<CR>
+  map <Leader>rl :VimuxRunLastCommand<CR>
+
+  map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
+
+  " Vipe
+  Bundle 'luan/vipe'
+endif
+" }}}
+
+" _. Coding {{{
+
+if count(g:vimified_packages, 'coding')
+  Bundle 'majutsushi/tagbar'
+  "nmap <leader>t :TagbarToggle<CR>
+
+  "Bundle 'gregsexton/gitv'
+
+  Bundle 'scrooloose/nerdcommenter'
+  nmap <leader># :call NERDComment(0, "invert")<cr>
+  vmap <leader># :call NERDComment(0, "invert")<cr>
+
+  Bundle 'msanders/snipmate.vim'
+  Bundle 'sjl/splice.vim'
+
+  Bundle 'tpope/vim-fugitive'
+  "nmap <leader>g :Ggrep
+  " ,f for global git serach for word under the cursor (with highlight)
+  "nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
+  " same in visual mode
+  ":vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
+
+  Bundle 'scrooloose/syntastic'
+  let g:syntastic_enable_signs=1
+  let g:syntastic_auto_loc_list=1
+  let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
+
+  Bundle 'vim-scripts/Reindent'
+
+  autocmd FileType gitcommit set tw=68 spell
+  autocmd FileType gitcommit setlocal foldmethod=manual
+endif
+" }}}
 
 " Javascript {{{
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'pangloss/vim-javascript'
 " }}}
 
-" Ruby {{{
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'ecomba/vim-ruby-refactoring'
-" }}}
+" _. HTML {{{
+if count(g:vimified_packages, 'html')
+  Bundle 'tpope/vim-haml'
+  Bundle 'juvenn/mustache.vim'
+  Bundle 'tpope/vim-markdown'
+  Bundle 'digitaltoad/vim-jade'
+  Bundle 'slim-template/vim-slim'
 
-" RSpec {{{
-Bundle 'thoughtbot/vim-rspec'
-
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-" }}}
-
-" Syntax {{{
-" Syntastic
-Bundle 'scrooloose/syntastic'
-let g:syntastic_enable_signs=1 " Enable syntastic syntax checking
-"let g:syntastic_quiet_warnings=1
-
-" }}}
-
-" Searching {{{
-" Command-T
-Bundle 'wincent/Command-T'
-let g:CommandTMaxHeight=15
-nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
-map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
-
-" Ctrl-P
-Bundle 'kien/ctrlp.vim'
-
-" }}}
-
-" Tabularize {{{
-Bundle 'godlygeek/tabular'
-
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:\zs<CR>
-  vmap <Leader>a: :Tabularize /:\zs<CR>
+  au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 endif
-
 " }}}
 
-" Indent Guides {{{
-Bundle 'nathanaelkane/vim-indent-guides'
-
-" Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
-let g:indent_guides_color_change_percent=30
-
+" _. CSS {{{
+if count(g:vimified_packages, 'css')
+  Bundle 'cakebaker/scss-syntax.vim'
+  Bundle 'wavded/vim-stylus'
+  Bundle 'lunaru/vim-less'
+  nnoremap ,m :w <BAR> !lessc % > %:t:r.css<CR><space>
+endif
 " }}}
 
+" _. Python {{{
+if count(g:vimified_packages, 'python')
+  Bundle 'klen/python-mode'
+  Bundle 'python.vim'
+  Bundle 'python_match.vim'
+  Bundle 'pythoncomplete'
+endif
+" }}}
+
+" _. Ruby {{{
+if count(g:vimified_packages, 'ruby')
+  Bundle 'vim-ruby/vim-ruby'
+  Bundle 'tpope/vim-rails'
+  Bundle 'nelstrom/vim-textobj-rubyblock'
+  Bundle 'ecomba/vim-ruby-refactoring'
+
+  autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
+  autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
+  autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+endif
+" }}}
 
 " Themes {{{
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
-Bundle 'jnurmine/Zenburn'
-Bundle 'wgibbs/vim-irblack'
-Bundle 'tpope/vim-vividchalk'
-Bundle 'daoo/Mustang2'
-Bundle 'fmoralesc/vim-vitamins'
-Bundle 'grillpanda/github-colorscheme'
-Bundle 'nelstrom/vim-mac-classic-theme'
-Bundle 'vim-scripts/mayansmoke'
+if count(g:vimified_packages, 'color')
+  Bundle 'Elive/vim-colorscheme-elive'
+  Bundle 'altercation/vim-colors-solarized'
+  Bundle 'chriskempson/base16-vim'
+  Bundle 'daoo/Mustang2'
+  Bundle 'fmoralesc/vim-vitamins'
+  Bundle 'grillpanda/github-colorscheme'
+  Bundle 'jnurmine/Zenburn'
+  Bundle 'nelstrom/vim-mac-classic-theme'
+  Bundle 'sjl/badwolf'
+  Bundle 'tomasr/molokai'
+  Bundle 'tpope/vim-vividchalk'
+  Bundle 'vim-scripts/mayansmoke'
+  Bundle 'w0ng/vim-hybrid'
+  Bundle 'wgibbs/vim-irblack'
+  Bundle 'zaiste/Atom'
+  Bundle 'zeis/vim-kolor'
+
+  " Solarized theme
+  set t_Co=256
+  let g:solarized_termcolors=256
+  set background=light
+  "color solarized
+  color mustang
+else
+  colorscheme default
+endif
 " }}}
+
+
+"" RSpec {{{
+  "Bundle 'thoughtbot/vim-rspec'
+
+  "map <Leader>t :call RunCurrentSpecFile()<CR>
+  "map <Leader>s :call RunNearestSpec()<CR>
+  "map <Leader>l :call RunLastSpec()<CR>
+  "map <Leader>a :call RunAllSpecs()<CR>
+"" }}}
+
+
+
+"" Indent Guides {{{
+  "Bundle 'nathanaelkane/vim-indent-guides'
+
+  "" Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
+  "let g:indent_guides_color_change_percent=30
+"" }}}
+
+
+
+
+" General {{{
+filetype plugin indent on " Turn on file type detection.
+syntax on                 " Without this it does not generate the helptags
+syntax enable             " Turn on syntax highlighting.
+
+set autoindent
+set cursorline
+set cmdheight=2
+set switchbuf=useopen " use the buffer
+set showtabline=2
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
 set encoding=utf-8
 
-syntax on                 " Without this it does not generate the helptags
-syntax enable             " Turn on syntax highlighting.
-set autoindent
-filetype plugin indent on " Turn on file type detection.
-
-" Solarized theme
-set t_Co=256
-let g:solarized_termcolors=256
-set background=light
-color solarized
-"color mustang
 
 " disable match parentheses hopefully speed up
 " file loading
 let g:loaded_matchparen = 1
 
-set cursorline
-set cmdheight=2
-set switchbuf=useopen
-set showtabline=2
 
 set showmatch                     " Show matching brackets
 set showcmd                       " Display partial/incomplete commands in the status line.
@@ -218,6 +410,8 @@ set pastetoggle=<F2>              " Stupid paste. No auto-indent
 
 set clipboard+=unnamed  " Yanks go on clipboard instead.
 
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Status Line
 " https://github.com/mislav/vimfiles
@@ -229,6 +423,7 @@ if has("statusline") && !&cp
   set statusline+=%{fugitive#statusline()}
 endif
 
+" Mappings {{{
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
@@ -264,8 +459,22 @@ nnoremap <CR> :nohlsearch<cr>
 " Clear highlighted search history using ,/
 nmap <silent> ,/ :silent :nohlsearch<CR>
 
-" Forgot to use sudo? just use !!w instead
-"cmap !!w w !sudo tee % >/dev/null
+" Yank from current cursor position to end of line
+map Y y$
+" Yank content in OS's clipboard. `o` stands for "OS's Clipoard".
+vnoremap <leader>yo "*y
+" Paste content from OS's clipboard
+nnoremap <leader>po "*p
+
+" better ESC
+inoremap <C-k> <Esc>
+
+" Seriously, guys. It's not like :W is bound to anything anyway.
+command! W :w
+
+" Emacs bindings in command line mode
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
 
 " Remember last location in file
 if has("autocmd")
@@ -313,14 +522,6 @@ map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
-" Unimpaired configuration
-" Bubble single lines
-nmap <C-Up> [e
-nmap <C-Down> ]e
-" Bubble multiple lines
-vmap <C-Up> [egv
-vmap <C-Down> ]egv
-
 " gist-vim defaults
 if has("mac")
   let g:gist_clip_command = 'pbcopy'
@@ -334,8 +535,6 @@ let g:gist_open_browser_after_post = 1
 set modeline
 set modelines=10
 
-" % to bounce from do to end etc.
-runtime! macros/matchit.vim
 
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
@@ -367,3 +566,42 @@ map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclu
 
 " vim-rooter
 let g:rooter_use_lcd = 1
+" }}}
+
+" Triggers {{{
+
+" Save when losing focus
+au FocusLost    * :silent! wall
+
+" When vimrc is edited, reload it
+autocmd! BufWritePost vimrc source ~/.vimrc
+
+" }}}
+
+" Cursorline {{{
+" Only show cursorline in the current window and in normal mode.
+augroup cline
+  au!
+  au WinLeave * set nocursorline
+  au WinEnter * set cursorline
+  au InsertEnter * set nocursorline
+  au InsertLeave * set cursorline
+augroup END
+" }}}
+
+" Trailing whitespace {{{
+
+" Only shown when not in insert mode so I don't go insane.
+augroup trailing
+  au!
+  au InsertEnter * :set listchars-=trail:␣
+  au InsertLeave * :set listchars+=trail:␣
+augroup END
+
+" Load addidional configuration (ie to overwrite shorcuts) {{{
+
+if filereadable(expand("~/.vim/after.vimrc"))
+  source ~/.vim/after.vimrc
+endif
+
+" }}}
