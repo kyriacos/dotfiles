@@ -3,3 +3,7 @@
 --pager=less
 --ignore-dir=log/
 --ignore-dir=vendor/bundle/ruby
+--type-set=haml=.haml
+--type-set=sass=.sass
+
+

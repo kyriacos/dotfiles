@@ -30,6 +30,11 @@
   l = "!source ~/.githelpers && pretty_git_log"
   la = !git l --all
   d = difftool
+
+  # used to it from work so just add it here
+  st = status
+  # info shows information about your remote repo
+  info = remote show
 [apply]
   whitespace = warn
 [color]
