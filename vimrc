@@ -17,7 +17,16 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-surround'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'taq/vim-rspec'
+
+" RSpec {{{
+Bundle 'thoughtbot/vim-rspec'
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+" }}}
+
 Bundle 'pangloss/vim-javascript'
 Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-cucumber'
@@ -44,7 +53,6 @@ Bundle 'vim-scripts/bufkill.vim'
 Bundle 'chrismetcalf/vim-yankring'
 Bundle 'sjl/gundo.vim'
 Bundle 'tpope/vim-markdown'
-Bundle 'Lokaltog/vim-easymotion'
 Bundle 'vim-scripts/buftabs'
 Bundle 'daoo/Mustang2'
 Bundle 'fmoralesc/vim-vitamins'
@@ -285,7 +293,7 @@ runtime! macros/matchit.vim
 " Command-T configuration
 let g:CommandTMaxHeight=20
 nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
-nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
+"nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
 map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
@@ -319,11 +327,6 @@ function IndentV()
   Tabularize /^[^=>]*\zs=>/l1
 endfunction
 vmap <Leader>iv :call IndentV()
-
-" Easymotion. Disable the mappings. There's just too many of them
-" let g:EasyMotion_do_mapping=0
-" use as leader->ss->w
-let g:EasyMotion_leader_key="<Leader>ss"
 
 " Indent Guides. Set the color change percent higher
 " since you can just switch them on and off might as well see clearly ;)
