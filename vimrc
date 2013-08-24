@@ -7,8 +7,6 @@ call vundle#rc()
 
 " let Vundle manage Vundle
 Bundle 'gmarik/vundle'
-
-" vundle
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-haml'
 Bundle 'mileszs/ack.vim'
@@ -16,7 +14,39 @@ Bundle 'tpope/vim-rake'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-surround'
+Bundle 'ervandew/supertab'
+Bundle 'tpope/vim-cucumber'
+Bundle 'vim-scripts/ZoomWin'
+Bundle 'msanders/snipmate.vim'
+Bundle 'mattn/gist-vim'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'cakebaker/scss-syntax.vim'
+Bundle 'itspriddle/vim-jquery'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'vim-scripts/bufexplorer.zip'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'vim-scripts/bufkill.vim'
+Bundle 'chrismetcalf/vim-yankring'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'vim-scripts/buftabs'
+Bundle 'majutsushi/tagbar'
+Bundle 'vim-scripts/louver.vim'
+Bundle 'sjl/badwolf'
+Bundle 'slim-template/vim-slim'
+Bundle 'airblade/vim-gitgutter'
+
+" Javascript {{{
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'pangloss/vim-javascript'
+" }}}
+
+" Ruby {{{
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'nelstrom/vim-textobj-rubyblock'
+Bundle 'ecomba/vim-ruby-refactoring'
+" }}}
 
 " RSpec {{{
 Bundle 'thoughtbot/vim-rspec'
@@ -27,47 +57,60 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 " }}}
 
-Bundle 'pangloss/vim-javascript'
-Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-cucumber'
-Bundle 'vim-scripts/ZoomWin'
-Bundle 'msanders/snipmate.vim'
+" Syntax {{{
+" Syntastic
 Bundle 'scrooloose/syntastic'
-Bundle 'mattn/gist-vim'
+let g:syntastic_enable_signs=1 " Enable syntastic syntax checking
+"let g:syntastic_quiet_warnings=1
+
+" }}}
+
+" Searching {{{
+" Command-T
+Bundle 'wincent/Command-T'
+let g:CommandTMaxHeight=15
+nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
+map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+" Ctrl-P
+Bundle 'kien/ctrlp.vim'
+
+" }}}
+
+" Tabularize {{{
+Bundle 'godlygeek/tabular'
+
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:\zs<CR>
+  vmap <Leader>a: :Tabularize /:\zs<CR>
+endif
+
+" }}}
+
+" Indent Guides {{{
+Bundle 'nathanaelkane/vim-indent-guides'
+
+" Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
+let g:indent_guides_color_change_percent=30
+
+" }}}
+
+
+" Themes {{{
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'tomasr/molokai'
+Bundle 'jnurmine/Zenburn'
 Bundle 'wgibbs/vim-irblack'
 Bundle 'tpope/vim-vividchalk'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'cakebaker/scss-syntax.vim'
-Bundle 'itspriddle/vim-jquery'
-Bundle 'wincent/Command-T'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'godlygeek/tabular'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'tpope/vim-pathogen'
-Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'vim-scripts/taglist.vim'
-Bundle 'vim-scripts/bufkill.vim'
-Bundle 'chrismetcalf/vim-yankring'
-Bundle 'sjl/gundo.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'vim-scripts/buftabs'
 Bundle 'daoo/Mustang2'
 Bundle 'fmoralesc/vim-vitamins'
 Bundle 'grillpanda/github-colorscheme'
-Bundle 'majutsushi/tagbar'
-Bundle 'kien/ctrlp.vim'
 Bundle 'nelstrom/vim-mac-classic-theme'
 Bundle 'vim-scripts/mayansmoke'
-Bundle 'vim-scripts/louver.vim'
-Bundle 'sjl/badwolf'
-Bundle 'tomasr/molokai'
-Bundle 'jnurmine/Zenburn'
-Bundle 'slim-template/vim-slim'
-Bundle 'airblade/vim-gitgutter'
-
+" }}}
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
@@ -83,6 +126,7 @@ set t_Co=256
 let g:solarized_termcolors=256
 set background=light
 color solarized
+"color mustang
 
 " disable match parentheses hopefully speed up
 " file loading
@@ -168,6 +212,9 @@ set directory=~/.vim/backup
 " Pasting
 set pastetoggle=<F2>              " Stupid paste. No auto-indent
 
+set clipboard+=unnamed  " Yanks go on clipboard instead.
+
+
 " Status Line
 " https://github.com/mislav/vimfiles
 if has("statusline") && !&cp
@@ -242,6 +289,9 @@ au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 au BufRead,BufNewFile *.ejs set filetype=js.html
 au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 ft=coffee expandtab foldmethod=indent nofoldenable
 
+" Commit Edit Msg file type
+au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
+
 " Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
 au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
 
@@ -270,10 +320,6 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
-" Enable syntastic syntax checking
-let g:syntastic_enable_signs=1
-"let g:syntastic_quiet_warnings=1
-
 " gist-vim defaults
 if has("mac")
   let g:gist_clip_command = 'pbcopy'
@@ -290,23 +336,8 @@ set modelines=10
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
 
-" Command-T configuration
-let g:CommandTMaxHeight=20
-nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
-"nmap <silent> <Leader>t :CommandTFlush<cr>\|:CommandT<CR>
-map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
-
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-
-" Tabular Config
-if exists(":Tabularize")
-  nmap <Leader>a= :Tabularize /=<CR>
-  vmap <Leader>a= :Tabularize /=<CR>
-  nmap <Leader>a: :Tabularize /:\zs<CR>
-  vmap <Leader>a: :Tabularize /:\zs<CR>
-endif
 
 " Automagically align stuff using tabular for cucumber
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
@@ -327,10 +358,6 @@ function IndentV()
   Tabularize /^[^=>]*\zs=>/l1
 endfunction
 vmap <Leader>iv :call IndentV()
-
-" Indent Guides. Set the color change percent higher
-" since you can just switch them on and off might as well see clearly ;)
-let g:indent_guides_color_change_percent=30
 
 " Add some teaching/learning maps for now
 " Regenerate tags
