@@ -66,7 +66,7 @@ if count(g:vimified_packages, 'general')
     Bundle 'kien/ctrlp.vim'
   " }}}
 
-  " Tabularize {{{
+   "Tabularize {{{
   Bundle 'godlygeek/tabular'
 
   if exists(":Tabularize")
@@ -137,7 +137,7 @@ if count(g:vimified_packages, 'general')
   Bundle 'vim-scripts/louver.vim'
   Bundle 'sjl/badwolf'
   Bundle 'slim-template/vim-slim'
-  Bundle 'airblade/vim-gitgutter'
+  "Bundle 'airblade/vim-gitgutter'
 endif
 " }}}
 
@@ -156,9 +156,11 @@ if count(g:vimified_packages, 'indent')
   set list lcs=tab:\|\
   let g:indentLine_color_term = 111
   let g:indentLine_color_gui = '#DADADA'
-  let g:indentLine_char = 'c'
+  "let g:indentLine_char = 'c'
   "let g:indentLine_char = '∙▹¦'
-  let g:indentLine_char = '∙'
+  let g:indentLine_char = '¦'
+  "let g:indentLine_char = '∙'
+  map <Leader>ig :IndentLinesToggle<cr>
 endif
 " }}}
 
@@ -199,7 +201,7 @@ if count(g:vimified_packages, 'coding')
   ":vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
   Bundle 'scrooloose/syntastic'
-  let g:syntastic_enable_signs=1
+  "let g:syntastic_enable_signs=1
   let g:syntastic_auto_loc_list=1
   let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
 
@@ -592,11 +594,11 @@ augroup END
 " Trailing whitespace {{{
 
 " Only shown when not in insert mode so I don't go insane.
-augroup trailing
-  au!
-  au InsertEnter * :set listchars-=trail:␣
-  au InsertLeave * :set listchars+=trail:␣
-augroup END
+"augroup trailing
+  "au!
+  "au InsertEnter * :set listchars-=trail:␣
+  "au InsertLeave * :set listchars+=trail:␣
+"augroup END
 
 " Load addidional configuration (ie to overwrite shorcuts) {{{
 
