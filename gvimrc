@@ -38,8 +38,8 @@ if has("gui_macvim")
   "color solarized
   "set background=dark
   "color mustang
-  set background=light
-  color github
+  "set background=light
+  "color github
 
   " Dont beep
   set visualbell
