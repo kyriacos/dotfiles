@@ -29,6 +29,8 @@ alias tm='top -o vsize' # memory
 
 # vim
 alias vim="mvim -v"
+alias vimbi="vim +BundleInstall +qall"
+alias vimbc="vim +BundleClean +qall"
 
 #work with aliases
 alias reload!="source ~/.zshrc"
