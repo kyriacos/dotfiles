@@ -137,7 +137,6 @@ if count(g:vimified_packages, 'general')
   Bundle 'vim-scripts/louver.vim'
   Bundle 'sjl/badwolf'
   Bundle 'slim-template/vim-slim'
-  "Bundle 'airblade/vim-gitgutter'
 endif
 " }}}
 
@@ -152,18 +151,9 @@ endif
 
 " _. Indent {{{
 if count(g:vimified_packages, 'indent')
-  "Bundle 'Yggdroot/indentLine'
-  "set list lcs=tab:\|\
-  "let g:indentLine_color_term = 111
-  "let g:indentLine_color_gui = '#DADADA'
-  ""let g:indentLine_char = 'c'
-  ""let g:indentLine_char = '∙▹¦'
-  "let g:indentLine_char = '¦'
-  ""let g:indentLine_char = '∙'
-  "map <Leader>ig :IndentLinesToggle<cr>
   Bundle 'nathanaelkane/vim-indent-guides'
+  map <Leader>ig :IndentGuidesToggle<cr>
 
-  " Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
   set ts=1 sw=1 et
   let g:indent_guides_color_change_percent=30
   let g:indent_guides_start_level=2
@@ -287,6 +277,7 @@ if count(g:vimified_packages, 'color')
   Bundle 'wgibbs/vim-irblack'
   Bundle 'zaiste/Atom'
   Bundle 'zeis/vim-kolor'
+  Bundle 'luan/vim-hybrid'
 
   " Solarized theme
   "set t_Co=256
@@ -294,11 +285,9 @@ if count(g:vimified_packages, 'color')
   "set background=light
   "color solarized
 
-  " base16-tomorrow
+  let g:hybrid_use_iTerm_colors = 1
   set background=dark
-  color base16-default
-
-  "color mustang
+  colorscheme hybrid
 else
   colorscheme default
 endif
