@@ -152,15 +152,22 @@ endif
 
 " _. Indent {{{
 if count(g:vimified_packages, 'indent')
-  Bundle 'Yggdroot/indentLine'
-  set list lcs=tab:\|\
-  let g:indentLine_color_term = 111
-  let g:indentLine_color_gui = '#DADADA'
-  "let g:indentLine_char = 'c'
-  "let g:indentLine_char = '∙▹¦'
-  let g:indentLine_char = '¦'
-  "let g:indentLine_char = '∙'
-  map <Leader>ig :IndentLinesToggle<cr>
+  "Bundle 'Yggdroot/indentLine'
+  "set list lcs=tab:\|\
+  "let g:indentLine_color_term = 111
+  "let g:indentLine_color_gui = '#DADADA'
+  ""let g:indentLine_char = 'c'
+  ""let g:indentLine_char = '∙▹¦'
+  "let g:indentLine_char = '¦'
+  ""let g:indentLine_char = '∙'
+  "map <Leader>ig :IndentLinesToggle<cr>
+  Bundle 'nathanaelkane/vim-indent-guides'
+
+  " Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
+  set ts=1 sw=1 et
+  let g:indent_guides_color_change_percent=30
+  let g:indent_guides_start_level=2
+  let g:indent_guides_guide_size=1
 endif
 " }}}
 
@@ -213,8 +220,8 @@ endif
 " }}}
 
 " Javascript {{{
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'pangloss/vim-javascript'
+  Bundle 'kchmck/vim-coffee-script'
+  Bundle 'pangloss/vim-javascript'
 " }}}
 
 " _. HTML {{{
@@ -282,11 +289,16 @@ if count(g:vimified_packages, 'color')
   Bundle 'zeis/vim-kolor'
 
   " Solarized theme
-  set t_Co=256
-  let g:solarized_termcolors=256
-  set background=light
+  "set t_Co=256
+  "let g:solarized_termcolors=256
+  "set background=light
   "color solarized
-  color mustang
+
+  " base16-tomorrow
+  set background=dark
+  color base16-default
+
+  "color mustang
 else
   colorscheme default
 endif
@@ -301,18 +313,6 @@ endif
   "map <Leader>l :call RunLastSpec()<CR>
   "map <Leader>a :call RunAllSpecs()<CR>
 "" }}}
-
-
-
-"" Indent Guides {{{
-  "Bundle 'nathanaelkane/vim-indent-guides'
-
-  "" Set the color change percent higher since you can just switch them on and off might as well see clearly ;)
-  "let g:indent_guides_color_change_percent=30
-"" }}}
-
-
-
 
 " General {{{
 filetype plugin indent on " Turn on file type detection.
@@ -386,7 +386,6 @@ let r_syntax_folding=1        " R
 let sh_fold_enabled=1         " sh
 let vimsyn_folding='af'       " Vim script
 let xml_syntax_folding=1      " XML
-
 
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 
@@ -470,6 +469,7 @@ nnoremap <leader>po "*p
 
 " better ESC
 inoremap <C-k> <Esc>
+inoremap <C-c> <Esc>
 
 " Seriously, guys. It's not like :W is bound to anything anyway.
 command! W :w
@@ -537,8 +537,7 @@ let g:gist_open_browser_after_post = 1
 set modeline
 set modelines=10
 
-
-" http://vimcasts.org/e/14
+" expand to file path in command mode
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 
 " Automagically align stuff using tabular for cucumber
@@ -572,23 +571,23 @@ let g:rooter_use_lcd = 1
 
 " Triggers {{{
 
-" Save when losing focus
-au FocusLost    * :silent! wall
+  " Save when losing focus
+  au FocusLost    * :silent! wall
 
-" When vimrc is edited, reload it
-autocmd! BufWritePost vimrc source ~/.vimrc
+  " When vimrc is edited, reload it
+  autocmd! BufWritePost vimrc source ~/.vimrc
 
 " }}}
 
 " Cursorline {{{
-" Only show cursorline in the current window and in normal mode.
-augroup cline
-  au!
-  au WinLeave * set nocursorline
-  au WinEnter * set cursorline
-  au InsertEnter * set nocursorline
-  au InsertLeave * set cursorline
-augroup END
+  " Only show cursorline in the current window and in normal mode.
+  augroup cline
+    au!
+    au WinLeave * set nocursorline
+    au WinEnter * set cursorline
+    au InsertEnter * set nocursorline
+    au InsertLeave * set cursorline
+  augroup END
 " }}}
 
 " Trailing whitespace {{{
@@ -601,9 +600,7 @@ augroup END
 "augroup END
 
 " Load addidional configuration (ie to overwrite shorcuts) {{{
-
-if filereadable(expand("~/.vim/after.vimrc"))
-  source ~/.vim/after.vimrc
-endif
-
+  if filereadable(expand("~/.vim/after.vimrc"))
+    source ~/.vim/after.vimrc
+  endif
 " }}}
