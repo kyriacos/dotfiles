@@ -3,7 +3,6 @@ export ZSH=~/.zsh
 # PATH and EXPORT VARIABLES
 export LESS=-RFX
 export SHELL=/bin/zsh
-export EDITOR="mvim -v"
 #export PATH=~/QtSDK/Simulator/Qt/gcc/bin/:/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
 export PATH=/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
@@ -13,7 +12,12 @@ export VIEW="open" # used by google function to open links in browser
 
 # enable colored output from ls, etc
 export LSCOLORS="exfxcxdxbxegedabagacad"
+export LS_COLORS="di=1;;40:ln=35;40:so=32;40:pi=33;40:ex=33;40:bd=34;46:cd=34;43:su=0;41:sg=0;46:tw=0;42:ow=0;43:"
 export CLICOLOR=true
+
+# editor
+export EDITOR="mvim -v"
+export GIT_EDITOR="mvim -v"
 
 # rubygems
 export RUBYOPT='rubygems'
