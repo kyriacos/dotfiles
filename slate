@@ -26,6 +26,9 @@ bind left:ctrl;alt;cmd ${lefthalf}
 bind f:ctrl;alt;cmd ${full}
 bind right:ctrl;alt;cmd ${righthalf}
 
+bind tab:alt switch
+bind esc:ctrl grid
+
 /*# Resize Bindings*/
 /*bind right:alt       resize +10% +0*/
 /*bind left:alt        resize -10% +0*/
