@@ -2,9 +2,9 @@
 export ZSH=~/.zsh
 # PATH and EXPORT VARIABLES
 export LESS=-RFX
-export SHELL=/bin/zsh
-#export PATH=~/QtSDK/Simulator/Qt/gcc/bin/:/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
-export PATH=/usr/local/sbin:~/bin:$ZSH/bin:/usr/local/bin:$PATH
+#export SHELL=/bin/zsh
+export SHELL=/usr/local/bin/zsh
+export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin::$PATH
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='3;33'
@@ -20,12 +20,19 @@ export EDITOR="mvim -v"
 export GIT_EDITOR="mvim -v"
 
 # rubygems
-export RUBYOPT='rubygems'
 export GEM_EDITOR="mvim -v"
 
 # rbenv configuration
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+rbenv_exist=$(command -v rbenv >/dev/null 2>&1)
+if [[ $rbenv_exist != "" ]]
+then
+  export PATH="$HOME/.rbenv/bin":$PATH
+  eval "$(rbenv init -)"
+fi
+
+# rvm config
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 # Ruby gc optimizations
 export RUBY_HEAP_MIN_SLOTS=1000000
