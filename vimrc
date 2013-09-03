@@ -179,15 +179,21 @@ endif
 
 if count(g:vimified_packages, 'coding')
   Bundle 'majutsushi/tagbar'
-  "nmap <leader>t :TagbarToggle<CR>
+  nmap <leader>tb :TagbarToggle<CR>
 
   "Bundle 'gregsexton/gitv'
+
+  " the msanders version conflicts with supertab
+  " Snipmate {{{
+    Bundle "MarcWeber/vim-addon-mw-utils"
+    Bundle "tomtom/tlib_vim"
+    Bundle 'garbas/vim-snipmate'
+  " }}}
 
   Bundle 'scrooloose/nerdcommenter'
   nmap <leader># :call NERDComment(0, "invert")<cr>
   vmap <leader># :call NERDComment(0, "invert")<cr>
 
-  Bundle 'msanders/snipmate.vim'
   Bundle 'sjl/splice.vim'
 
   Bundle 'tpope/vim-fugitive'
