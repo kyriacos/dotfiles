@@ -2,6 +2,7 @@
 /.rbenv-version
 vendor/bundle
 vendor/cache
+.gems/
 tags
 gems.tags
 .DS_Store
@@ -11,3 +12,6 @@ gems.tags
 .localrc
 .netrwhist
 .idea
+default-gems
+.rbenv-vars
+.env
