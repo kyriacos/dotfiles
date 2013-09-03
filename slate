@@ -9,13 +9,15 @@ config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
 
 # Window Hints
-bind e:cmd hint
+bind e:shift;cmd hint
 /*ASDFGHJKLQWERTYUIOPCVBN # use whatever keys you want*/
 
 # Abstract positions
 alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
 alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
 alias righthalf move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
+alias top move screenOriginX;screenOriginY screenSizeX;screenSizeY/2
+alias bottom move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
 alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
 alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
 alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
@@ -25,6 +27,8 @@ alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
 bind left:ctrl;alt;cmd ${lefthalf}
 bind f:ctrl;alt;cmd ${full}
 bind right:ctrl;alt;cmd ${righthalf}
+bind up:ctrl;alt;cmd ${top}
+bind down:ctrl;alt;cmd ${bottom}
 
 bind tab:alt switch
 bind esc:ctrl grid
