@@ -10,8 +10,15 @@ alias ebuild='nocorrect ebuild'
 alias hpodder='nocorrect hpodder'
 alias npm='nocorrect npm'
 alias bundler='nocorrect bundler'
+alias bundle='nocorrect bundle'
 alias pry='nocorrect pry'
 alias tree='nocorrect tree'
 alias cheat='nocorrect cheat'
 alias rspec='nocorrect rspec'
 alias wget='nocorrect wget'
+
+# keep this here as a fix for rake
+alias rake='noglob rake'
+
+alias rvm='nocorrect rvm'
+

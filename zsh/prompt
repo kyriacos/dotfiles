@@ -16,8 +16,8 @@ git_dirty() {
           echo "%{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
       else
         echo "%{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
-          fi
-          fi
+      fi
+    fi
 }
 
 git_prompt_info () {
@@ -38,22 +38,30 @@ need_push () {
       fi
 }
 
-#rvm_prompt(){
-#if $(which rvm &> /dev/null)
-#then
-#echo "%{$fg_bold[magenta]%}$(rvm-prompt)%{$reset_color%}"
-#else
-#echo ""
-#fi
-#}
+rvm_prompt(){
+  if $(command rvm-prompt >/dev/null 2>&1)
+  then
+    echo "%{$fg_bold[magenta]%}- $(rvm-prompt v p g)%{$reset_color%}"
+  fi
+}
 
 # show the ruby version currently used
 rbenv_prompt() {
-  rv=$(rbenv version | cut -d " " -f 1 2>/dev/null)
-    if $(which rbenv &> /dev/null)
-      then
-        echo "%{$fg_bold[magenta]%}- $rv%{$reset_color%}"
-        fi
+  if $(command rbenv >/dev/null 2>&1)
+  then
+    rv=$(rbenv version | cut -d " " -f 1 2>/dev/null)
+    echo "%{$fg_bold[magenta]%}- $rv%{$reset_color%}"
+  fi
+}
+
+ruby_version_prompt() {
+  rbenv=$(rbenv_prompt)
+  rvm=$(rvm_prompt)
+
+  if [[ $rbenv != "" ]]; then echo $rbenv;
+  else
+  if [[ $rvm != "" ]]; then echo $rvm; fi
+  fi
 }
 
 directory_name(){
@@ -64,7 +72,8 @@ local blue_op="%{$fg[blue]%}[%{$reset_color%}"
 local blue_cp="%{$fg[blue]%}]%{$reset_color%}"
 local user_host=""
 [[ -n $SSH_CONNECTION ]] && user_host="${blue_op}%{$fg[white]%}%n@%m${blue_cp}-"
-export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(rbenv_prompt) \n%{$fg[white]%}╰  '
+
+export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(ruby_version_prompt) \n%{$fg[white]%}╰  '
 
 set_prompt () {
   export RPROMPT=$'$(git_dirty)$(need_push)'

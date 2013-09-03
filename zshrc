@@ -1,17 +1,17 @@
+# set the keyboard mode in terminal (if loaded after the plugins some stuff dont work)
+set -o emacs # or vi if you prefer
+
+# load initial stuff
 . $ZSH/config
 . $ZSH/prompt
 . $ZSH/aliases
 . $ZSH/completion
 . $ZSH/correction
+. $ZSH/key_bindings
+. $ZSH/plugins/*
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
-
-# set the keyboard mode in terminal
-set -o emacs # or vi if you prefer
-
-# keep this here as a fix for rake
-alias rake='noglob rake'
 
 # http://talkings.org/post/5236392664/zsh-and-slow-git-completion
 # superfly tnt git autocomplete
@@ -34,3 +34,10 @@ set_title_and_prompt() {
 }
 precmd () { set_title_and_prompt }
 preexec () { set_title_and_prompt }
+
+__rvm_project_rvmrc
+
+# temp from homebrew
+unalias run-help
+autoload run-help
+HELPDIR=/usr/local/share/zsh/helpfiles
