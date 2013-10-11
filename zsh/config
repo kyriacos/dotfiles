@@ -20,7 +20,7 @@ setopt NO_BEEP # beeps are annoying
 setopt NO_LIST_BEEP # don not beep on history expansion errors
 setopt LOCAL_OPTIONS # allow functions to have local options
 setopt LOCAL_TRAPS # allow functions to have local traps
-setopt PROMPT_SUBST # prompt more dynamic, allow function in prompt
+#setopt PROMPT_SUBST # prompt more dynamic, allow function in prompt
 setopt PROMPTSUBST # prompt more dynamic, allow function in prompt
 setopt CORRECT # spell check for commands only
 setopt COMPLETE_IN_WORD # stays where it is and completion is done from both ends

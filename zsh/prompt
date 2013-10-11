@@ -11,7 +11,7 @@ git_dirty() {
       then
         echo ""
     else
-      if [[ $st == "nothing to commit (working directory clean)" ]]
+      if [[ $st == "nothing to commit, working directory clean" ]]
         then
           echo "%{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
       else
@@ -76,6 +76,6 @@ local user_host=""
 export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(ruby_version_prompt) \n%{$fg[white]%}╰  '
 
 set_prompt () {
-  export RPROMPT=$'$(git_dirty)$(need_push)'
+  export RPROMPT='$(git_dirty)$(need_push)'
 }
 
