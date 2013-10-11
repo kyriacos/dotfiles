@@ -9,7 +9,7 @@ config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
 
 # Window Hints
-bind e:shift;cmd hint
+bind r:shift;cmd hint
 /*ASDFGHJKLQWERTYUIOPCVBN # use whatever keys you want*/
 
 # Abstract positions
