@@ -25,6 +25,7 @@ setopt PROMPTSUBST # prompt more dynamic, allow function in prompt
 setopt CORRECT # spell check for commands only
 setopt COMPLETE_IN_WORD # stays where it is and completion is done from both ends
 setopt IGNORE_EOF
+setopt NO_NOMATCH # passes a bad match (regex) to the command. Allows git co HEAD^ to work. (also unsetopt nomatch)
 
 # history file
 HISTFILE=~/.zsh_history
