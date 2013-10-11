@@ -38,20 +38,20 @@ endif
 " }}}
 
 " VUNDLE {{{
-let s:bundle_path=$HOME."/.vim/bundle/"
-execute "set rtp+=".s:bundle_path."vundle/"
-call vundle#rc()
+  let s:bundle_path=$HOME."/.vim/bundle/"
+  execute "set rtp+=".s:bundle_path."vundle/"
+  call vundle#rc()
 
-Bundle 'gmarik/vundle'
+  Bundle 'gmarik/vundle'
 " }}}
 
 " PACKAGES {{{
 
 " Install user-supplied Bundles {{{
-let s:extrarc = expand($HOME . '/.vim/extra.vimrc')
-if filereadable(s:extrarc)
-  exec ':so ' . s:extrarc
-endif
+  let s:extrarc = expand($HOME . '/.vim/extra.vimrc')
+  if filereadable(s:extrarc)
+    exec ':so ' . s:extrarc
+  endif
 " }}}
 
 " _. General {{{
@@ -141,78 +141,78 @@ endif
 " }}}
 
 " _. Fancy {{{
-if count(g:vimified_packages, 'fancy')
-  Bundle 'bling/vim-airline'
-  let g:airline_left_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_branch_prefix = ''
-endif
+  if count(g:vimified_packages, 'fancy')
+    Bundle 'bling/vim-airline'
+    let g:airline_left_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_branch_prefix = ''
+  endif
 " }}}
 
 " _. Indent {{{
-if count(g:vimified_packages, 'indent')
-  Bundle 'nathanaelkane/vim-indent-guides'
-  map <Leader>ig :IndentGuidesToggle<cr>
+  if count(g:vimified_packages, 'indent')
+    Bundle 'nathanaelkane/vim-indent-guides'
+    map <Leader>ig :IndentGuidesToggle<cr>
 
-  set ts=1 sw=1 et
-  let g:indent_guides_color_change_percent=30
-  let g:indent_guides_start_level=2
-  let g:indent_guides_guide_size=1
-endif
+    set ts=1 sw=1 et
+    let g:indent_guides_color_change_percent=30
+    let g:indent_guides_start_level=2
+    let g:indent_guides_guide_size=1
+  endif
 " }}}
 
 " _. OS {{{
-if count(g:vimified_packages, 'os')
-  Bundle 'zaiste/tmux.vim'
-  Bundle 'benmills/vimux'
-  map <Leader>rp :VimuxPromptCommand<CR>
-  map <Leader>rl :VimuxRunLastCommand<CR>
+  if count(g:vimified_packages, 'os')
+    Bundle 'zaiste/tmux.vim'
+    Bundle 'benmills/vimux'
+    map <Leader>rp :VimuxPromptCommand<CR>
+    map <Leader>rl :VimuxRunLastCommand<CR>
 
-  map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
+    map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
 
-  " Vipe
-  Bundle 'luan/vipe'
-endif
+    " Vipe
+    Bundle 'luan/vipe'
+  endif
 " }}}
 
 " _. Coding {{{
 
-if count(g:vimified_packages, 'coding')
-  Bundle 'majutsushi/tagbar'
-  nmap <leader>tb :TagbarToggle<CR>
+  if count(g:vimified_packages, 'coding')
+    Bundle 'majutsushi/tagbar'
+    nmap <leader>tb :TagbarToggle<CR>
 
-  "Bundle 'gregsexton/gitv'
+    "Bundle 'gregsexton/gitv'
 
-  " the msanders version conflicts with supertab
-  " Snipmate {{{
-    Bundle "MarcWeber/vim-addon-mw-utils"
-    Bundle "tomtom/tlib_vim"
-    Bundle 'garbas/vim-snipmate'
-  " }}}
+    " the msanders version conflicts with supertab
+    " Snipmate {{{
+      Bundle "MarcWeber/vim-addon-mw-utils"
+      Bundle "tomtom/tlib_vim"
+      Bundle 'garbas/vim-snipmate'
+    " }}}
 
-  Bundle 'scrooloose/nerdcommenter'
-  nmap <leader># :call NERDComment(0, "invert")<cr>
-  vmap <leader># :call NERDComment(0, "invert")<cr>
+    Bundle 'scrooloose/nerdcommenter'
+    nmap <leader># :call NERDComment(0, "invert")<cr>
+    vmap <leader># :call NERDComment(0, "invert")<cr>
 
-  Bundle 'sjl/splice.vim'
+    Bundle 'sjl/splice.vim'
 
-  Bundle 'tpope/vim-fugitive'
-  "nmap <leader>g :Ggrep
-  " ,f for global git serach for word under the cursor (with highlight)
-  "nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
-  " same in visual mode
-  ":vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
+    Bundle 'tpope/vim-fugitive'
+    "nmap <leader>g :Ggrep
+    " ,f for global git serach for word under the cursor (with highlight)
+    "nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
+    " same in visual mode
+    ":vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
-  Bundle 'scrooloose/syntastic'
-  "let g:syntastic_enable_signs=1
-  let g:syntastic_auto_loc_list=1
-  let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
+    Bundle 'scrooloose/syntastic'
+    "let g:syntastic_enable_signs=1
+    let g:syntastic_auto_loc_list=1
+    let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
 
-  Bundle 'vim-scripts/Reindent'
+    Bundle 'vim-scripts/Reindent'
 
-  autocmd FileType gitcommit set tw=68 spell
-  autocmd FileType gitcommit setlocal foldmethod=manual
-endif
+    autocmd FileType gitcommit set tw=68 spell
+    autocmd FileType gitcommit setlocal foldmethod=manual
+  endif
 " }}}
 
 " Javascript {{{
@@ -221,82 +221,82 @@ endif
 " }}}
 
 " _. HTML {{{
-if count(g:vimified_packages, 'html')
-  Bundle 'tpope/vim-haml'
-  Bundle 'juvenn/mustache.vim'
-  Bundle 'tpope/vim-markdown'
-  Bundle 'digitaltoad/vim-jade'
-  Bundle 'slim-template/vim-slim'
+  if count(g:vimified_packages, 'html')
+    Bundle 'tpope/vim-haml'
+    Bundle 'juvenn/mustache.vim'
+    Bundle 'tpope/vim-markdown'
+    Bundle 'digitaltoad/vim-jade'
+    Bundle 'slim-template/vim-slim'
 
-  au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-  au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-  au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-endif
+    au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+    au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+    au BufNewFile,BufReadPost *.slim setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+  endif
 " }}}
 
 " _. CSS {{{
-if count(g:vimified_packages, 'css')
-  Bundle 'cakebaker/scss-syntax.vim'
-  Bundle 'wavded/vim-stylus'
-  Bundle 'lunaru/vim-less'
-  nnoremap ,m :w <BAR> !lessc % > %:t:r.css<CR><space>
-endif
+  if count(g:vimified_packages, 'css')
+    Bundle 'cakebaker/scss-syntax.vim'
+    Bundle 'wavded/vim-stylus'
+    Bundle 'lunaru/vim-less'
+    nnoremap ,m :w <BAR> !lessc % > %:t:r.css<CR><space>
+  endif
 " }}}
 
 " _. Python {{{
-if count(g:vimified_packages, 'python')
-  Bundle 'klen/python-mode'
-  Bundle 'python.vim'
-  Bundle 'python_match.vim'
-  Bundle 'pythoncomplete'
-endif
+  if count(g:vimified_packages, 'python')
+    Bundle 'klen/python-mode'
+    Bundle 'python.vim'
+    Bundle 'python_match.vim'
+    Bundle 'pythoncomplete'
+  endif
 " }}}
 
 " _. Ruby {{{
-if count(g:vimified_packages, 'ruby')
-  Bundle 'vim-ruby/vim-ruby'
-  Bundle 'tpope/vim-rails'
-  Bundle 'nelstrom/vim-textobj-rubyblock'
-  Bundle 'ecomba/vim-ruby-refactoring'
+  if count(g:vimified_packages, 'ruby')
+    Bundle 'vim-ruby/vim-ruby'
+    Bundle 'tpope/vim-rails'
+    Bundle 'nelstrom/vim-textobj-rubyblock'
+    Bundle 'ecomba/vim-ruby-refactoring'
 
-  autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
-  autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
-  autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-endif
+    autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
+    autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
+    autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
+  endif
 " }}}
 
 " Themes {{{
-if count(g:vimified_packages, 'color')
-  Bundle 'Elive/vim-colorscheme-elive'
-  Bundle 'altercation/vim-colors-solarized'
-  Bundle 'chriskempson/base16-vim'
-  Bundle 'daoo/Mustang2'
-  Bundle 'fmoralesc/vim-vitamins'
-  Bundle 'grillpanda/github-colorscheme'
-  Bundle 'jnurmine/Zenburn'
-  Bundle 'nelstrom/vim-mac-classic-theme'
-  Bundle 'sjl/badwolf'
-  Bundle 'tomasr/molokai'
-  Bundle 'tpope/vim-vividchalk'
-  Bundle 'vim-scripts/mayansmoke'
-  Bundle 'w0ng/vim-hybrid'
-  Bundle 'wgibbs/vim-irblack'
-  Bundle 'zaiste/Atom'
-  Bundle 'zeis/vim-kolor'
-  Bundle 'luan/vim-hybrid'
+  if count(g:vimified_packages, 'color')
+    Bundle 'Elive/vim-colorscheme-elive'
+    Bundle 'altercation/vim-colors-solarized'
+    Bundle 'chriskempson/base16-vim'
+    Bundle 'daoo/Mustang2'
+    Bundle 'fmoralesc/vim-vitamins'
+    Bundle 'grillpanda/github-colorscheme'
+    Bundle 'jnurmine/Zenburn'
+    Bundle 'nelstrom/vim-mac-classic-theme'
+    Bundle 'sjl/badwolf'
+    Bundle 'tomasr/molokai'
+    Bundle 'tpope/vim-vividchalk'
+    Bundle 'vim-scripts/mayansmoke'
+    Bundle 'w0ng/vim-hybrid'
+    Bundle 'wgibbs/vim-irblack'
+    Bundle 'zaiste/Atom'
+    Bundle 'zeis/vim-kolor'
+    Bundle 'luan/vim-hybrid'
 
-  " Solarized theme
-  "set t_Co=256
-  "let g:solarized_termcolors=256
-  "set background=light
-  "color solarized
+    " Solarized theme
+    "set t_Co=256
+    "let g:solarized_termcolors=256
+    "set background=light
+    "color solarized
 
-  let g:hybrid_use_iTerm_colors = 1
-  set background=dark
-  colorscheme hybrid
-else
-  colorscheme default
-endif
+    let g:hybrid_use_iTerm_colors = 1
+    set background=dark
+    colorscheme hybrid
+  else
+    colorscheme default
+  endif
 " }}}
 
 
@@ -346,7 +346,7 @@ set hidden                        " Hide buffers instead of closing them
 
 set wildmenu                                " Enhanced command line completion.
 set wildmode=list:longest,list:full         " Complete files like a shell.
-set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**,vendor/cache/**,log/**,public/assets/**,tmp/**
+set wildignore=*.swp,*.bak,*.pyc,*.o,*.obj,*.class,*.rbc,.git,.svn,vendor/gems,vendor/bundle/**,vendor/cache/**,log/**,public/assets/**,public/uploads/**,tmp/**
 
 " Searching
 set incsearch                  " Highlight matches as you type.
