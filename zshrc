@@ -37,7 +37,7 @@ preexec () { set_title_and_prompt }
 
 __rvm_project_rvmrc
 
-# temp from homebrew
+# get help online from homebrew
 unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
