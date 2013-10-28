@@ -272,7 +272,7 @@ endif
     Bundle 'chriskempson/base16-vim'
     Bundle 'daoo/Mustang2'
     Bundle 'fmoralesc/vim-vitamins'
-    Bundle 'grillpanda/github-colorscheme'
+    "Bundle 'grillpanda/github-colorscheme'
     Bundle 'jnurmine/Zenburn'
     Bundle 'nelstrom/vim-mac-classic-theme'
     Bundle 'sjl/badwolf'
