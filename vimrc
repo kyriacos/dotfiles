@@ -33,7 +33,7 @@ runtime! macros/matchit.vim " % to bounce from do to end etc.
 " Use this variable inside your local configuration to declare
 " which package you would like to include
 if ! exists('g:vimified_packages')
-  let g:vimified_packages = ['general', 'fancy', 'os', 'coding', 'python', 'ruby', 'html', 'css', 'js', 'clojure', 'haskell', 'color']
+  let g:vimified_packages = ['general', 'fancy', 'os', 'coding', 'color', 'python', 'ruby', 'html', 'css', 'js', 'clojure', 'haskell']
 endif
 " }}}
 
@@ -279,7 +279,6 @@ endif
     Bundle 'tomasr/molokai'
     Bundle 'tpope/vim-vividchalk'
     Bundle 'vim-scripts/mayansmoke'
-    Bundle 'w0ng/vim-hybrid'
     Bundle 'wgibbs/vim-irblack'
     Bundle 'zaiste/Atom'
     Bundle 'zeis/vim-kolor'
