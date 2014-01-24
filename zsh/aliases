@@ -1,3 +1,7 @@
+#work with aliases
+alias reload!="source ~/.zshrc"
+alias ea="vim $ZSH/aliases && reload!"
+
 # cd
 alias ..='cd ..'
 alias cdd="cd -"
@@ -32,11 +36,15 @@ alias vim="mvim -v"
 alias vimbi="vim +BundleInstall +qall"
 alias vimbc="vim +BundleClean +qall"
 
-#work with aliases
-alias reload!="source ~/.zshrc"
-alias ea="vim $ZSH/aliases && reload!"
-
 # redis
 alias redisserver="redis-server /usr/local/etc/redis.conf"
 
+# rbenv
 alias rbenv="rvm"
+
+#irb
+alias irb="irb --readline"
+
+# postgres
+alias pg-start="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
+alias pg-stop="pg_ctl -D /usr/local/var/postgres stop"
