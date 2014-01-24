@@ -3,13 +3,16 @@ config defaultToCurrentScreen true
 config nudgePercentOf screenSize
 config resizePercentOf screenSize
 
+alias mon-laptop 0
+alias mon-asus 1
+
 # Shows app icons and background apps, spreads icons in the same place.
 config windowHintsShowIcons true
 config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
 
 # Window Hints
-bind r:shift;cmd hint
+/*bind e:shift;cmd hint*/
 /*ASDFGHJKLQWERTYUIOPCVBN # use whatever keys you want*/
 
 # Abstract positions
@@ -26,12 +29,18 @@ alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
 # Numpad location Bindings
 bind left:ctrl;alt;cmd ${lefthalf}
 bind f:ctrl;alt;cmd ${full}
+bind m:ctrl;alt;cmd ${full}
 bind right:ctrl;alt;cmd ${righthalf}
 bind up:ctrl;alt;cmd ${top}
 bind down:ctrl;alt;cmd ${bottom}
 
 bind tab:alt switch
 bind esc:ctrl grid
+
+/*bind s:ctrl:alt;cmd move screenOriginX;screenOriginY screenSizeX;screenSizeY         ${mon-asus}*/
+bind s:ctrl;alt;cmd throw 1
+bind n:ctrl;alt;cmd throw next
+
 
 /*# Resize Bindings*/
 /*bind right:alt       resize +10% +0*/
