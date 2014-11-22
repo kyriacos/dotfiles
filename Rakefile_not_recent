@@ -15,22 +15,22 @@ task :install do
                if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
                  if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
                    puts "identical ~/.#{file.sub('.erb', '')}"
-               elsif replace_all
-                 replace_file(file)
-               else
-                 print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
-                 case $stdin.gets.chomp
-                 when 'a'
-                   replace_all = true
+                 elsif replace_all
                    replace_file(file)
-                 when 'y'
-                   replace_file(file)
-                 when 'q'
-                   exit
                  else
-                   puts "skipping ~/.#{file.sub('.erb', '')}"
+                   print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
+                   case $stdin.gets.chomp
+                   when 'a'
+                     replace_all = true
+                     replace_file(file)
+                   when 'y'
+                     replace_file(file)
+                   when 'q'
+                     exit
+                   else
+                     puts "skipping ~/.#{file.sub('.erb', '')}"
+                   end
                  end
-               end
                else
                  link_file(file)
                end
@@ -49,7 +49,7 @@ end
 desc "OSX Lion hacks and annoyances"
 task :lion_osx_hacks do
   disable_resume_preview_lion
-  lion_hacks
+  osx_hacks
 end
 
 def replace_file(file)
@@ -61,8 +61,8 @@ def link_file(file)
   if file =~ /.erb$/
     puts "generating ~/.#{file.sub('.erb', '')}"
     File.open(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"), 'w') do |new_file|
-    new_file.write ERB.new(File.read(file)).result(binding)
-  end
+      new_file.write ERB.new(File.read(file)).result(binding)
+    end
   else
     puts "linking ~/.#{file}"
     system %Q{ln -s "$PWD/#{file}" "$HOME/.#{file}"}
@@ -83,7 +83,7 @@ def disable_resume_preview_lion
   end
 end
 
-def lion_hacks
+def osx_hacks
   print "Things like stupid repeat rate on lion [yn]"
   if $stdin.gets.chomp == "y"
     # Disable press-and-hold for keys in favor of key repeat
@@ -92,5 +92,8 @@ def lion_hacks
     system %Q{defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1}
     # Show the ~/Library folder
     system %Q{chflags nohidden ~/Library}
+
+    print "Allow text selection in the Quick Look window"
+    system %Q{defaults write com.apple.finder QLEnableTextSelection -bool true && killall Finder}
   end
 end
