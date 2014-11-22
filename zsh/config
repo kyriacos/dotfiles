@@ -1,5 +1,6 @@
 # load functions
 fpath=($ZSH/functions/**/ $fpath)
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U $ZSH/functions/*(:t)
 
 # initialize autocomplete here, otherwise functions won't be loaded!

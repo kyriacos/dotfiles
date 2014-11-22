@@ -21,11 +21,20 @@ alias gco="git checkout"
 alias gs="git status"
 alias go="git checkout"
 
+# quick http server with python
+alias qhttp="python -m SimpleHTTPServer"
+
 #rails
 alias migrate='rake db:migrate && rake db:test:prepare'
 alias be='bundle exec'
 alias brs='bundle exec rails s'
 alias brc='bundle exec rails c'
+rgr() {
+  rails generate resource "$@" --skip-stylesheets --skip-javascripts
+}
+
+#ctags
+alias gen-ctags='ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)'
 
 # top
 alias tu='top -o cpu' # cpu
@@ -48,3 +57,10 @@ alias irb="irb --readline"
 # postgres
 alias pg-start="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pg-stop="pg_ctl -D /usr/local/var/postgres stop"
+
+# ejabberd
+alias ej="/Applications/ejabberd-14.07/bin/ejabberdctl"
+
+# ports listening on
+alias listening='lsof -i -P | grep -i "listen"'
+
