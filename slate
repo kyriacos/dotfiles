@@ -12,7 +12,7 @@ config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
 
 # Window Hints
-/*bind e:shift;cmd hint*/
+bind e:shift;cmd hint
 /*ASDFGHJKLQWERTYUIOPCVBN # use whatever keys you want*/
 
 # Abstract positions
@@ -20,11 +20,12 @@ alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
 alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
 alias righthalf move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
 alias top move screenOriginX;screenOriginY screenSizeX;screenSizeY/2
-alias bottom move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
+alias bottom sequence move screenOriginX;screenOriginY screenSizeX;screenSizeY/2 | push down
 alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
 alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
 alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
 alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
+alias center move screenOriginX+(screenSizeX/2-(screenSizeX*0.4));screenOriginY+(screenSizeY/2-(screenSizeY*0.4))  screenSizeX*0.8;screenSizeY*0.8
 
 # Numpad location Bindings
 bind left:ctrl;alt;cmd ${lefthalf}
@@ -33,8 +34,11 @@ bind m:ctrl;alt;cmd ${full}
 bind right:ctrl;alt;cmd ${righthalf}
 bind up:ctrl;alt;cmd ${top}
 bind down:ctrl;alt;cmd ${bottom}
+# chain lets you toggle between two things in this case full screen and centered
+bind c:ctrl;alt;cmd chain ${center} | ${full}
 
-bind tab:alt switch
+
+/*bind tab:alt switch*/
 bind esc:ctrl grid
 
 /*bind s:ctrl:alt;cmd move screenOriginX;screenOriginY screenSizeX;screenSizeY         ${mon-asus}*/
@@ -84,3 +88,15 @@ bind n:ctrl;alt;cmd throw next
 /*# Grid*/
 /*bind g:alt;cmd grid padding:5 0:6,2 1:8,3*/
 
+bind g:ctrl;cmd;alt focus 'Google Chrome'
+bind i:ctrl;cmd;alt focus 'iTerm'
+bind d:ctrl;alt;cmd chain focus 'Google Chrome' | focus 'iTerm'
+
+/* layouts */
+layout 1monitor 'iTerm':REPEAT ${bottomright}
+layout 1monitor 'RubyMine':REPEAT ${lefthalf}
+/*layout 1monitor 'MacVim':REPEAT ${lefthalf}*/
+layout 1monitor 'Safari':REPEAT ${righthalf}
+layout 1monitor 'Google Chrome':REPEAT ${righthalf}
+
+bind l:shift;cmd layout 1monitor
