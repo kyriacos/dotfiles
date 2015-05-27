@@ -21,3 +21,5 @@ alias wget='nocorrect wget'
 alias rake='noglob rake'
 
 alias rvm='nocorrect rvm'
+alias gulp='nocorrect gulp'
+alias esformatter='nocorrect esformatter'
