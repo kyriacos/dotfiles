@@ -1,3 +1,8 @@
+# du
+* du -cksh dirname = human readable total size of directory
+* du -h -d 0 dirname = human readable total size of directory
+* du -h -d 1 dirname = depth 1 and display human readable total size
+
 # ls command
 * ls -t = last modified
 * vim `ls -t | head -1` = opens last edited file
@@ -59,3 +64,9 @@
 * --reject=gif url = reject certain file types
 * -r -A.pdf url = download only certain files
 * --ftp-user=USER --ftp-password=PASS ftp-url = or nothing for anonymous
+
+# zsh rename
+* zmv -n "(**/)plain(*)" '$1read_only$2'
+    - Remember to use single quotes for the second part! 
+    - This does a recursive rename, looks for files and directories with 'plain' in their name and `mv` all of them to 'read_only'. 
+    - The -n just displays the changes doesn't actually carry it out.
