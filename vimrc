@@ -39,15 +39,16 @@ endif
 
 " VUNDLE {{{
   let s:bundle_path=$HOME."/.vim/bundle/"
-  execute "set rtp+=".s:bundle_path."vundle/"
-  call vundle#rc()
+  " execute "set rtp+=".s:bundle_path."vundle/"
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
 
-  Bundle 'gmarik/vundle'
+  Plugin 'gmarik/vundle.vim'
 " }}}
 
 " PACKAGES {{{
 
-" Install user-supplied Bundles {{{
+" Install user-supplied Plugins {{{
   let s:extrarc = expand($HOME . '/.vim/extra.vimrc')
   if filereadable(s:extrarc)
     exec ':so ' . s:extrarc
@@ -57,17 +58,17 @@ endif
 " _. General {{{
 if count(g:vimified_packages, 'general')
   " Searching {{{
-    Bundle 'wincent/Command-T'
+    Plugin 'wincent/Command-T'
     let g:CommandTMaxHeight=15
     nmap <silent> <Leader>b :CommandTFlush<cr>\|:CommandTBuffer<CR>
     map <leader>f :CommandTFlush<cr>\|:CommandT <cr>
     map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
-    Bundle 'kien/ctrlp.vim'
+    Plugin 'kien/ctrlp.vim'
   " }}}
 
    "Tabularize {{{
-  Bundle 'godlygeek/tabular'
+  Plugin 'godlygeek/tabular'
 
   if exists(":Tabularize")
     nmap <Leader>a= :Tabularize /=<CR>
@@ -78,7 +79,7 @@ if count(g:vimified_packages, 'general')
 
   " }}}
 
-  Bundle 'tpope/vim-unimpaired'
+  Plugin 'tpope/vim-unimpaired'
   " Bubble single lines
   nmap <C-Up> [e
   nmap <C-Down> ]e
@@ -86,63 +87,63 @@ if count(g:vimified_packages, 'general')
   vmap <C-Up> [egv
   vmap <C-Down> ]egv
 
-  Bundle 'mileszs/ack.vim'
-  Bundle 'tpope/vim-endwise'
-  Bundle 'tpope/vim-repeat'
-  Bundle 'tpope/vim-speeddating'
-  Bundle 'tpope/vim-surround'
-  Bundle 'maxbrunsfeld/vim-yankstack'
-  Bundle 'tpope/vim-eunuch'
+  Plugin 'mileszs/ack.vim'
+  Plugin 'tpope/vim-endwise'
+  Plugin 'tpope/vim-repeat'
+  Plugin 'tpope/vim-speeddating'
+  Plugin 'tpope/vim-surround'
+  Plugin 'maxbrunsfeld/vim-yankstack'
+  Plugin 'tpope/vim-eunuch'
 
-  Bundle 'scrooloose/nerdtree'
+  Plugin 'scrooloose/nerdtree'
   nmap <C-i> :NERDTreeToggle<CR>
   " Disable the scrollbars (NERDTree)
   set guioptions-=r
   set guioptions-=L
 
-  Bundle 'kana/vim-textobj-user'
+  Plugin 'kana/vim-textobj-user'
   " LOOK
-  "Bundle 'vim-scripts/YankRing.vim'
+  "Plugin 'vim-scripts/YankRing.vim'
   "let g:yankring_replace_n_pkey = '<leader>['
   "let g:yankring_replace_n_nkey = '<leader>]'
   "let g:yankring_history_dir = '~/.vim/tmp/'
   "nmap <leader>y :YRShow<cr>
 
-  Bundle 'michaeljsmith/vim-indent-object'
+  Plugin 'michaeljsmith/vim-indent-object'
   let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
 
-  Bundle 'Spaceghost/vim-matchit'
+  Plugin 'Spaceghost/vim-matchit'
 
-  Bundle 'vim-scripts/scratch.vim'
+  Plugin 'vim-scripts/scratch.vim'
 
-  Bundle 'troydm/easybuffer.vim'
+  Plugin 'troydm/easybuffer.vim'
   nmap <leader>be :EasyBufferToggle<enter>
 
-  Bundle 'terryma/vim-multiple-cursors'
+  Plugin 'terryma/vim-multiple-cursors'
 
-  Bundle 'tpope/vim-rake'
-  Bundle 'ervandew/supertab'
-  Bundle 'tpope/vim-cucumber'
-  Bundle 'vim-scripts/ZoomWin'
-  Bundle 'mattn/gist-vim'
-  Bundle 'tpope/vim-git'
-  Bundle 'itspriddle/vim-jquery'
-  Bundle 'vim-scripts/taglist.vim'
-  Bundle 'vim-scripts/bufkill.vim'
-  Bundle 'chrismetcalf/vim-yankring'
-  Bundle 'sjl/gundo.vim'
-  Bundle 'tpope/vim-markdown'
-  Bundle 'vim-scripts/buftabs'
-  Bundle 'majutsushi/tagbar'
-  Bundle 'vim-scripts/louver.vim'
-  Bundle 'sjl/badwolf'
-  Bundle 'slim-template/vim-slim'
+  Plugin 'tpope/vim-rake'
+  Plugin 'ervandew/supertab'
+  Plugin 'tpope/vim-cucumber'
+  Plugin 'vim-scripts/ZoomWin'
+  Plugin 'mattn/gist-vim'
+  Plugin 'tpope/vim-git'
+  Plugin 'itspriddle/vim-jquery'
+  Plugin 'vim-scripts/taglist.vim'
+  Plugin 'vim-scripts/bufkill.vim'
+  Plugin 'chrismetcalf/vim-yankring'
+  Plugin 'sjl/gundo.vim'
+  Plugin 'tpope/vim-markdown'
+  Plugin 'vim-scripts/buftabs'
+  Plugin 'majutsushi/tagbar'
+  Plugin 'vim-scripts/louver.vim'
+  Plugin 'sjl/badwolf'
+  Plugin 'slim-template/vim-slim'
 endif
 " }}}
 
 " _. Fancy {{{
   if count(g:vimified_packages, 'fancy')
-    Bundle 'bling/vim-airline'
+    Plugin 'bling/vim-airline'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
     let g:airline_branch_prefix = ''
@@ -151,7 +152,7 @@ endif
 
 " _. Indent {{{
   if count(g:vimified_packages, 'indent')
-    Bundle 'nathanaelkane/vim-indent-guides'
+    Plugin 'nathanaelkane/vim-indent-guides'
     map <Leader>ig :IndentGuidesToggle<cr>
 
     set ts=1 sw=1 et
@@ -163,52 +164,52 @@ endif
 
 " _. OS {{{
   if count(g:vimified_packages, 'os')
-    Bundle 'zaiste/tmux.vim'
-    Bundle 'benmills/vimux'
+    Plugin 'zaiste/tmux.vim'
+    Plugin 'benmills/vimux'
     map <Leader>rp :VimuxPromptCommand<CR>
     map <Leader>rl :VimuxRunLastCommand<CR>
 
     map <LocalLeader>d :call VimuxRunCommand(@v, 0)<CR>
 
     " Vipe
-    Bundle 'luan/vipe'
+    Plugin 'luan/vipe'
   endif
 " }}}
 
 " _. Coding {{{
 
   if count(g:vimified_packages, 'coding')
-    Bundle 'majutsushi/tagbar'
+    Plugin 'majutsushi/tagbar'
     nmap <leader>tb :TagbarToggle<CR>
 
-    "Bundle 'gregsexton/gitv'
+    "Plugin 'gregsexton/gitv'
 
     " the msanders version conflicts with supertab
     " Snipmate {{{
-      Bundle "MarcWeber/vim-addon-mw-utils"
-      Bundle "tomtom/tlib_vim"
-      Bundle 'garbas/vim-snipmate'
+      Plugin "MarcWeber/vim-addon-mw-utils"
+      Plugin "tomtom/tlib_vim"
+      Plugin 'garbas/vim-snipmate'
     " }}}
 
-    Bundle 'scrooloose/nerdcommenter'
+    Plugin 'scrooloose/nerdcommenter'
     nmap <leader># :call NERDComment(0, "invert")<cr>
     vmap <leader># :call NERDComment(0, "invert")<cr>
 
-    Bundle 'sjl/splice.vim'
+    Plugin 'sjl/splice.vim'
 
-    Bundle 'tpope/vim-fugitive'
+    Plugin 'tpope/vim-fugitive'
     "nmap <leader>g :Ggrep
     " ,f for global git serach for word under the cursor (with highlight)
     "nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
     " same in visual mode
     ":vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
-    Bundle 'scrooloose/syntastic'
+    Plugin 'scrooloose/syntastic'
     "let g:syntastic_enable_signs=1
     let g:syntastic_auto_loc_list=1
     let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby'], 'passive_filetypes': ['html', 'css', 'slim'] }
 
-    Bundle 'vim-scripts/Reindent'
+    Plugin 'vim-scripts/Reindent'
 
     autocmd FileType gitcommit set tw=68 spell
     autocmd FileType gitcommit setlocal foldmethod=manual
@@ -216,17 +217,17 @@ endif
 " }}}
 
 " Javascript {{{
-  Bundle 'kchmck/vim-coffee-script'
-  Bundle 'pangloss/vim-javascript'
+  Plugin 'kchmck/vim-coffee-script'
+  Plugin 'pangloss/vim-javascript'
 " }}}
 
 " _. HTML {{{
   if count(g:vimified_packages, 'html')
-    Bundle 'tpope/vim-haml'
-    Bundle 'juvenn/mustache.vim'
-    Bundle 'tpope/vim-markdown'
-    Bundle 'digitaltoad/vim-jade'
-    Bundle 'slim-template/vim-slim'
+    Plugin 'tpope/vim-haml'
+    Plugin 'juvenn/mustache.vim'
+    Plugin 'tpope/vim-markdown'
+    Plugin 'digitaltoad/vim-jade'
+    Plugin 'slim-template/vim-slim'
 
     au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
     au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -239,28 +240,28 @@ endif
 
 " _. CSS {{{
   if count(g:vimified_packages, 'css')
-    Bundle 'cakebaker/scss-syntax.vim'
-    Bundle 'wavded/vim-stylus'
-    Bundle 'lunaru/vim-less'
+    Plugin 'cakebaker/scss-syntax.vim'
+    Plugin 'wavded/vim-stylus'
+    Plugin 'lunaru/vim-less'
     nnoremap ,m :w <BAR> !lessc % > %:t:r.css<CR><space>
   endif
 " }}}
 
 " _. Python {{{
   if count(g:vimified_packages, 'python')
-    Bundle 'klen/python-mode'
-    Bundle 'python.vim'
-    Bundle 'python_match.vim'
-    Bundle 'pythoncomplete'
+    Plugin 'klen/python-mode'
+    Plugin 'python.vim'
+    Plugin 'python_match.vim'
+    Plugin 'pythoncomplete'
   endif
 " }}}
 
 " _. Ruby {{{
   if count(g:vimified_packages, 'ruby')
-    Bundle 'vim-ruby/vim-ruby'
-    Bundle 'tpope/vim-rails'
-    Bundle 'nelstrom/vim-textobj-rubyblock'
-    Bundle 'ecomba/vim-ruby-refactoring'
+    Plugin 'vim-ruby/vim-ruby'
+    Plugin 'tpope/vim-rails'
+    Plugin 'nelstrom/vim-textobj-rubyblock'
+    Plugin 'ecomba/vim-ruby-refactoring'
 
     autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
     autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
@@ -270,22 +271,22 @@ endif
 
 " Themes {{{
   if count(g:vimified_packages, 'color')
-    Bundle 'Elive/vim-colorscheme-elive'
-    Bundle 'altercation/vim-colors-solarized'
-    Bundle 'chriskempson/base16-vim'
-    Bundle 'daoo/Mustang2'
-    Bundle 'fmoralesc/vim-vitamins'
-    "Bundle 'grillpanda/github-colorscheme'
-    Bundle 'jnurmine/Zenburn'
-    Bundle 'nelstrom/vim-mac-classic-theme'
-    Bundle 'sjl/badwolf'
-    Bundle 'tomasr/molokai'
-    Bundle 'tpope/vim-vividchalk'
-    Bundle 'vim-scripts/mayansmoke'
-    Bundle 'wgibbs/vim-irblack'
-    Bundle 'zaiste/Atom'
-    Bundle 'zeis/vim-kolor'
-    Bundle 'luan/vim-hybrid'
+    Plugin 'Elive/vim-colorscheme-elive'
+    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'chriskempson/base16-vim'
+    Plugin 'daoo/Mustang2'
+    Plugin 'fmoralesc/vim-vitamins'
+    "Plugin 'grillpanda/github-colorscheme'
+    Plugin 'jnurmine/Zenburn'
+    Plugin 'nelstrom/vim-mac-classic-theme'
+    Plugin 'sjl/badwolf'
+    Plugin 'tomasr/molokai'
+    Plugin 'tpope/vim-vividchalk'
+    Plugin 'vim-scripts/mayansmoke'
+    Plugin 'wgibbs/vim-irblack'
+    Plugin 'zaiste/Atom'
+    Plugin 'zeis/vim-kolor'
+    Plugin 'luan/vim-hybrid'
 
     " Solarized theme
     "set t_Co=256
@@ -302,8 +303,12 @@ endif
 " }}}
 
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
 "" RSpec {{{
-  "Bundle 'thoughtbot/vim-rspec'
+  "Plugin 'thoughtbot/vim-rspec'
 
   "map <Leader>t :call RunCurrentSpecFile()<CR>
   "map <Leader>s :call RunNearestSpec()<CR>
