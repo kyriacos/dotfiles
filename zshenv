@@ -5,13 +5,22 @@ export LESS=-RFX
 #export SHELL=/bin/zsh
 export SHELL=/usr/local/bin/zsh
 
-# rvm config (do it here otherwise it fucks up my binstubs
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
 # bundler binstubs i.e. execute rspec without bundle exec
 export PATH="./bin:$PATH"
+
+# add ./node_modules/.bin/ to path
+export PATH="./node_modules/.bin:$PATH"
+
+# java home
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+
+# brew cask
+export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Applications
+
+# rvm config (do it here otherwise it fucks up my binstubs
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto'
@@ -26,9 +35,6 @@ export CLICOLOR=true
 # editor
 export EDITOR="mvim -v"
 export GIT_EDITOR="mvim -v"
-
-# z plugin
-. `brew --prefix`/etc/profile.d/z.sh
 
 # rubygems
 export GEM_EDITOR="mvim -v"

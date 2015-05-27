@@ -18,10 +18,10 @@ zstyle ':completion:*' insert-tab pending
 zstyle ':completion::*:(git|less|rm|emacs)' ignore-line true
 
 # some stuff about processes
-zstyle ':completion:*:*:kill:*' menu yes select
-zstyle ':completion:*:*:*:*:processes' force-list always
-zstyle ':completion:*:processes' command 'ps -au$USER' 
-zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=1;31"
+# zstyle ':completion:*:*:kill:*' menu yes select
+# zstyle ':completion:*:*:*:*:processes' force-list always
+# zstyle ':completion:*:processes' command 'ps -au$USER' 
+# zstyle ':completion:*:*:kill:*:processes' list-colors "=(#b) #([0-9]#)*=36=1;31"
 
 # This adds remote hostnames for 'ssh' and other network commands to the autocomplete suggestions
 # based on the contents of your ~/.ssh/known_hosts lists

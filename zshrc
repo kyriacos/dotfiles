@@ -41,3 +41,11 @@ __rvm_project_rvmrc
 unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fasd
+eval "$(fasd --init auto)"

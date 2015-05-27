@@ -45,6 +45,18 @@ alias vim="mvim -v"
 alias vimbi="vim +BundleInstall +qall"
 alias vimbc="vim +BundleClean +qall"
 
+# fasd
+# alias v='f -e vim' # quick opening files with vim
+alias o='a -e open' # quick opening files with xdg-open
+alias v='f -t -e vim -b viminfo' # mimic v behavior. uses viminfo as a backend
+
+# fzf
+alias af='ag -l -g "" | fzf' # pipe ag output of all files to fzf
+
+# less
+#http://unix.stackexchange.com/questions/19317/can-less-retain-colored-output
+alias rless='less -r' # retain color codes in less. Or use export LESS=R
+
 # redis
 alias redisserver="redis-server /usr/local/etc/redis.conf"
 
@@ -64,3 +76,5 @@ alias ej="/Applications/ejabberd-14.07/bin/ejabberdctl"
 # ports listening on
 alias listening='lsof -i -P | grep -i "listen"'
 
+# count all file recursively in directory
+# alias count_files ='find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find "$dir" -type f | wc -l; done'
