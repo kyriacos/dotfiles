@@ -14,12 +14,12 @@ alias la="ls -A"
 alias lr="l -R"
 
 #git
-alias ga="git add"
-alias gb="git branch"
-alias gc="git commit"
-alias gco="git checkout"
-alias gs="git status"
-alias go="git checkout"
+#alias ga="git add"
+#alias gb="git branch"
+#alias gc="git commit"
+#alias gco="git checkout"
+#alias gs="git status"
+#alias go="git checkout"
 
 # quick http server with python
 alias qhttp="python -m SimpleHTTPServer"
@@ -78,3 +78,6 @@ alias listening='lsof -i -P | grep -i "listen"'
 
 # count all file recursively in directory
 # alias count_files ='find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find "$dir" -type f | wc -l; done'
+
+# ngrok
+alias open-tunnel="ngrok -subdomain=kyriacos -httpauth=k:12345 localhost:3000"

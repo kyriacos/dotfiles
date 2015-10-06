@@ -27,6 +27,7 @@ alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
 alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
 alias center move screenOriginX+(screenSizeX/2-(screenSizeX*0.4));screenOriginY+(screenSizeY/2-(screenSizeY*0.4))  screenSizeX*0.8;screenSizeY*0.8
 
+
 # Numpad location Bindings
 bind left:ctrl;alt;cmd ${lefthalf}
 bind f:ctrl;alt;cmd ${full}
