@@ -3,7 +3,7 @@
 [github]
   username = kyriacos
 [core]
-  excludesfile = /Users/kaks/.gitignore
+  excludesfile = ~/.gitignore
 [heroku]
   account = personal
 [alias]
@@ -58,4 +58,3 @@
   prompt = false
 [user]
   name = Kyriacos Souroullas
-  email = kyriacos.souroullas@gmail.com
