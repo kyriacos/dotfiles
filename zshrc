@@ -35,18 +35,29 @@ set_title_and_prompt() {
 precmd () { set_title_and_prompt }
 preexec () { set_title_and_prompt }
 
-__rvm_project_rvmrc
-
 # get help online from homebrew
 unalias run-help
 autoload run-help
 HELPDIR=/usr/local/share/zsh/helpfiles
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# z 
+. `brew --prefix`/etc/profile.d/z.sh
 
 # fasd
 # eval "$(fasd --init auto)"
 [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export NVM_DIR="/Users/ksouroullas/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export PATH="/usr/local/bin:$PATH"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# nodenv
+eval "$(nodenv init -)"
+
+# npmbrew
+export PATH=$HOME/.npmbrew/current/bin:$PATH
