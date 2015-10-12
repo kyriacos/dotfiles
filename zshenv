@@ -15,10 +15,6 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 # brew cask
 export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Applications
 
-# rvm config (do it here otherwise it fucks up my binstubs
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-export PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
 # node modules (npm)
 export PATH="./node_modules/.bin:$PATH"
 # go
