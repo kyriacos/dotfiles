@@ -50,11 +50,13 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 # eval "$(fasd --init auto)"
 [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export PATH="/usr/local/bin:$PATH"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 # nodenv
 eval "$(nodenv init -)"
 
 # npmbrew
 export PATH=$HOME/.npmbrew/current/bin:$PATH
+
+# must be last thing otherwise it locks up the terminal. Should just probably move to rbenv
+export PATH="/usr/local/bin:$PATH"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
