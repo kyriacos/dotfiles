@@ -17,9 +17,10 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Appli
 
 # node modules (npm)
 export PATH="./node_modules/.bin:$PATH"
+
 # go
-export GOPATH=/usr/local/opt/go/libexec/bin
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=/usr/local/opt/go/libexec
+export PATH=$PATH:$GOPATH/bin
 
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 export GREP_OPTIONS='--color=auto'
@@ -46,9 +47,3 @@ then
   eval "$(rbenv init -)"
 fi
 
-# Ruby gc optimizations
-export RUBY_GC_HEAP_INIT_SLOTS=100000
-export RUBY_HEAP_SLOTS_INCREMENT=1000000
-export RUBY_HEAP_SLOTS_GROWTH_FACTOR=1
-export RUBY_GC_MALLOC_LIMIT=1000000000
-export RUBY_HEAP_FREE_MIN=500000
