@@ -5,35 +5,31 @@ require 'erb'
 desc "install the dot files into user's home directory"
 task :install do
   replace_all = false
-  Dir['*'].each do |file|
-    next if %w[ruby-patch Rakefile README README.md NOTES.md cheatsheet.md
-	       .md
-               LICENSE Solarized-Dark-xterm-256color-mod-kaks.terminal
-	       .itermcolors
-               gitconfig].include? file
+  Dir.chdir('dots');
+  Dir.glob('*') do |file|
+    if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
+      if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
+        puts "identical ~/.#{file.sub('.erb', '')}"
+      elsif replace_all
+        replace_file(file)
+      else
+        print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
+        case $stdin.gets.chomp
+        when 'a'
+          replace_all = true
+          replace_file(file)
+        when 'y'
+          replace_file(file)
+        when 'q'
+          exit
+        else
+          puts "skipping ~/.#{file.sub('.erb', '')}"
+        end
+      end
+    else
+      link_file(file)
+    end
 
-               if File.exist?(File.join(ENV['HOME'], ".#{file.sub('.erb', '')}"))
-                 if File.identical? file, File.join(ENV['HOME'], ".#{file.sub('.erb', '')}")
-                   puts "identical ~/.#{file.sub('.erb', '')}"
-                 elsif replace_all
-                   replace_file(file)
-                 else
-                   print "overwrite ~/.#{file.sub('.erb', '')}? [ynaq] "
-                   case $stdin.gets.chomp
-                   when 'a'
-                     replace_all = true
-                     replace_file(file)
-                   when 'y'
-                     replace_file(file)
-                   when 'q'
-                     exit
-                   else
-                     puts "skipping ~/.#{file.sub('.erb', '')}"
-                   end
-                 end
-               else
-                 link_file(file)
-               end
   end
   print "would you like to remove the global zshenv file? [yn] "
   if $stdin.gets.chomp == "y"
@@ -48,8 +44,8 @@ end
 
 desc "OSX Lion hacks and annoyances"
 task :lion_osx_hacks do
-  disable_resume_preview_lion
-  osx_hacks
+  #disable_resume_preview_lion
+  #osx_hacks
 end
 
 def replace_file(file)
@@ -65,7 +61,7 @@ def link_file(file)
     end
   else
     puts "linking ~/.#{file}"
-    system %Q{ln -s "$PWD/#{file}" "$HOME/.#{file}"}
+    system %Q{ln -s "$PWD/dots/#{file}" "$HOME/.#{file}"}
   end
 end
 
