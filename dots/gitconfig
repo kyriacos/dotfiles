@@ -3,7 +3,7 @@
 [github]
   username = kyriacos
 [core]
-	excludesfile = /Users/kaks/.gitignore
+  excludesfile = /Users/kaks/.gitignore
 [heroku]
   account = personal
 [alias]
@@ -57,11 +57,10 @@
 [difftool]
   prompt = false
 [user]
-	name = Kyriacos Souroullas
-	email = kyriacos.souroullas@gmail.com
+  name = Kyriacos Souroullas
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
