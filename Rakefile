@@ -61,7 +61,7 @@ def link_file(file)
     end
   else
     puts "linking ~/.#{file}"
-    system %Q{ln -s "$PWD/dots/#{file}" "$HOME/.#{file}"}
+    system %Q{ln -s "$PWD/#{file}" "$HOME/.#{file}"}
   end
 end
 
