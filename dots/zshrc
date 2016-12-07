@@ -43,9 +43,6 @@ HELPDIR=/usr/local/share/zsh/helpfiles
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# z 
-. `brew --prefix`/etc/profile.d/z.sh
-
 # fasd
 eval "$(fasd --init auto)"
 
