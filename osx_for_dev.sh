@@ -36,6 +36,17 @@ echo ""
 echo "Enabling full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
+echo "Enable AirDrop over Ethernet and on unsupported Macs running Lion"
+defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true
+
+echo ""
+echo "Set key repeat rate"
+defaults write NSGlobalDomain KeyRepeat -int 2
+
+echo ""
+echo "Set a shorter Delay until key repeat"
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
 echo ""
 echo "Disabling press-and-hold for keys in favor of a key repeat"
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
@@ -43,6 +54,14 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 echo ""
 echo "Disabling auto-correct"
 defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+echo ""
+echo "Disable smart quotes as they’re annoying when typing code"
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+
+echo ""
+echo "Disable smart dashes as they’re annoying when typing code"
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
 echo ""
 echo "Turn off keyboard illumination when computer is not used for 5 minutes"
@@ -124,8 +143,18 @@ echo ""
 echo "Don’t automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false
 
-# Add iOS Simulator to Launchpad
-# sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app" "/Applications/iOS Simulator.app"
+echo ""
+echo "Add iOS Simulator to Launchpad"
+sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app" "/Applications/iOS Simulator.app"
+
+echo ""
+echo "Menu bar icons"
+defaults write com.apple.systemuiserver menuExtras -array \
+	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
+	"/System/Library/CoreServices/Menu Extras/Volume.menu" \
+	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
+	"/System/Library/CoreServices/Menu Extras/Battery.menu" \
+	"/System/Library/CoreServices/Menu Extras/Clock.menu"
 
 ###############################################################################
 # Hot Corners
@@ -250,35 +279,35 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 #   MENU_SPOTLIGHT_SUGGESTIONS (send search queries to Apple)
 #   MENU_WEBSEARCH             (send search queries to Apple)
 #   MENU_OTHER
-#defaults write com.apple.spotlight orderedItems -array \
-#  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
-#  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-#  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-#  '{"enabled" = 1;"name" = "PDF";}' \
-#  '{"enabled" = 1;"name" = "FONTS";}' \
-#  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
-#  '{"enabled" = 0;"name" = "MESSAGES";}' \
-#  '{"enabled" = 0;"name" = "CONTACT";}' \
-#  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-#  '{"enabled" = 0;"name" = "IMAGES";}' \
-#  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-#  '{"enabled" = 0;"name" = "MUSIC";}' \
-#  '{"enabled" = 0;"name" = "MOVIES";}' \
-#  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-#  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-#  '{"enabled" = 0;"name" = "SOURCE";}' \
-#  '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-#  '{"enabled" = 0;"name" = "MENU_OTHER";}' \
-#  '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
-#  '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
-#  '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-#  '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+defaults write com.apple.spotlight orderedItems -array \
+	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
+	'{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
+	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
+	'{"enabled" = 0;"name" = "DOCUMENTS";}' \
+	'{"enabled" = 1;"name" = "PDF";}' \
+	'{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
+	'{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
+	'{"enabled" = 0;"name" = "MENU_OTHER";}' \
+	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
+	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
+	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+	'{"enabled" = 0;"name" = "MESSAGES";}' \
+	'{"enabled" = 0;"name" = "CONTACT";}' \
+	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
+	'{"enabled" = 0;"name" = "IMAGES";}' \
+	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
+	'{"enabled" = 0;"name" = "MUSIC";}' \
+	'{"enabled" = 0;"name" = "MOVIES";}' \
+	'{"enabled" = 0;"name" = "PRESENTATIONS";}' \
+	'{"enabled" = 0;"name" = "SPREADSHEETS";}' \
+	'{"enabled" = 0;"name" = "SOURCE";}' \
+	'{"enabled" = 1;"name" = "FONTS";}'
 # Load new settings before rebuilding the index
-#killall mds > /dev/null 2>&1
+killall mds > /dev/null 2>&1
 # Make sure indexing is enabled for the main volume
-#sudo mdutil -i on / > /dev/null
+sudo mdutil -i on / > /dev/null
 # Rebuild the index from scratch
-#sudo mdutil -E / > /dev/null
+sudo mdutil -E / > /dev/null
 
 ###############################################################################
 # Screen                                                                      #
@@ -296,6 +325,11 @@ defaults write com.apple.appstore ShowDebugMenu -bool true
 
 # Enable HiDPI display modes (requires restart)
 # sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+
+echo ""
+echo "Save to disk (not to iCloud) by default"
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
 
 
 ###############################################################################

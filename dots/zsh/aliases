@@ -41,9 +41,9 @@ alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 
 # vim
-alias vim="mvim -v"
-alias vimbi="vim +BundleInstall +qall"
-alias vimbc="vim +BundleClean +qall"
+#alias vim="mvim -v"
+# alias vimbi="vim +BundleInstall +qall"
+# alias vimbc="vim +BundleClean +qall"
 
 # fasd
 # alias v='f -e vim' # quick opening files with vim
@@ -59,9 +59,6 @@ alias rless='less -r' # retain color codes in less. Or use export LESS=R
 
 # redis
 alias redisserver="redis-server /usr/local/etc/redis.conf"
-
-# rbenv
-alias rbenv="rvm"
 
 #irb
 alias irb="irb --readline"
