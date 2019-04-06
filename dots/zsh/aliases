@@ -41,7 +41,7 @@ alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 
 # vim
-#alias vim="mvim -v"
+alias vim="nvim"
 # alias vimbi="vim +BundleInstall +qall"
 # alias vimbc="vim +BundleClean +qall"
 

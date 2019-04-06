@@ -1,8 +1,7 @@
 # shortcut to this $ZSH path is $ZSH
 export ZSH=~/.zsh
+
 # PATH and EXPORT VARIABLES
-export LESS=-RFX
-#export SHELL=/bin/zsh
 export SHELL=/usr/local/bin/zsh
 
 export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
@@ -10,10 +9,13 @@ export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
 export PATH="./bin:$PATH"
 
 # java home
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export JAVA_HOME=$(/usr/libexec/java_home)
 
 # brew cask
 export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Applications
+
+# node path
+export NODE_PATH=$(npm root --quiet -g)
 
 # node modules (npm)
 export PATH="./node_modules/.bin:$PATH"
@@ -22,7 +24,26 @@ export PATH="./node_modules/.bin:$PATH"
 export GOPATH=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 
+# findutils - gnu from homebrew (findutils)
+# export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+# export MANPATH="/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
+# coreutils - gnu from homebrew (coreutils)
+# export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+# export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
+
+# Get color support for 'less'
+export LESS=-RFX
+#export LESS="--RAW-CONTROL-CHARS"
+
+# Use colors for less, man, etc.
+#[[ -f ~/.LESS_TERMCAP ]] && . ~/.LESS_TERMCAP
+
+# manpath
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
+
+# manpager
+export MANPAGER='less -s -M +Gg' # show percentage progress
+
 export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='3;33'
 export VIEW="open" # used by google function to open links in browser
@@ -34,7 +55,8 @@ export CLICOLOR=true
 
 # editor
 export EDITOR="vim -v"
-export GIT_EDITOR="vim -v"
+#export GIT_EDITOR="vim -v"
+export GIT_EDITOR="code --wait"
 
 # rubygems
 export GEM_EDITOR="vim -v"

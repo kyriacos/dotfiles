@@ -15,3 +15,6 @@ gems.tags
 default-gems
 .rbenv-vars
 .env
+node_modules
+build/
+.rpt2_cache/
