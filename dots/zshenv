@@ -21,8 +21,11 @@ export NODE_PATH=$(npm root --quiet -g)
 export PATH="./node_modules/.bin:$PATH"
 
 # go
-export GOPATH=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin
+# export GOPATH=/usr/local/opt/go/libexec
+# export PATH=$PATH:$GOPATH/bin
+export GOROOT=$(brew --prefix golang)/libexec
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
 # findutils - gnu from homebrew (findutils)
 # export PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"

@@ -76,5 +76,5 @@ alias listening='lsof -i -P | grep -i "listen"'
 # count all file recursively in directory
 # alias count_files ='find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find "$dir" -type f | wc -l; done'
 
-# ngrok
-alias open-tunnel="ngrok -subdomain=kyriacos -httpauth=k:12345 localhost:3000"
+alias mathrename="ls -ltr1 | xargs rename -N ...01 -X -e '$_ = "$N - $_"'"
+#alias gowebserver=" goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`.`)))'"
