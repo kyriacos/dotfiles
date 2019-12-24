@@ -18,3 +18,4 @@ default-gems
 node_modules
 build/
 .rpt2_cache/
+.tern-port

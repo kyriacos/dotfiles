@@ -57,5 +57,5 @@ export PATH=$HOME/.npmbrew/current/bin:$PATH
 
 # must be last thing otherwise it locks up the terminal. Should just probably move to rbenv
 export PATH="/usr/local/bin:$PATH"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
