@@ -4,35 +4,13 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U $ZSH/functions/*(:t)
 
 # initialize autocomplete here, otherwise functions won't be loaded!
-autoload -U compinit && compinit
-# autoload -Uz compinit
-# if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
-#   echo "fuck"
-#   compinit
-# else
-#   echo "yo"
-#   compinit -C
-# fi
-
-# Compile compinit once a day.
-# From: https://gist.github.com/ctechols/ca1035271ad134841284
-_zpcompinit_custom() {
-  setopt extendedglob local_options
-  autoload -Uz compinit
-  local zcd=${ZDOTDIR:-$HOME}/.zcompdump
-  local zcdc="$zcd.zwc"
-  # Compile the completion dump to increase startup speed, if dump is newer or doesn't exist,
-  # in the background as this is doesn't affect the current session
-  if [[ -f "$zcd"(#qN.m+1) ]]; then
-        echo "COMPILING NEW COMPINIT"
-        compinit -i -d "$zcd"
-        { rm -f "$zcdc" && zcompile "$zcd" } &!
-  else
-        compinit -C -d "$zcd"
-        { [[ ! -f "$zcdc" || "$zcd" -nt "$zcdc" ]] && rm -f "$zcdc" && zcompile "$zcd" } &!
-  fi
-}
-_zpcompinit_custom
+# run once a day only
+autoload -Uz compinit
+if [ $(date +'%j') != $(/usr/bin/stat -f '%Sm' -t '%j' $HOME/.zcompdump) ]; then
+  compinit
+else
+  compinit -C
+fi
 
 autoload -U zmv
 
