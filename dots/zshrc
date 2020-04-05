@@ -44,22 +44,28 @@ eval "$(fasd --init auto)"
 # zsh extra syntax highlighting from brew
 [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/kaks/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+
+# node modules (npm)
+export PATH="./node_modules/.bin:$PATH"
+
+# java home
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+# node path
+export NODE_PATH=$(npm root --quiet -g)
+
+# go
+export GOROOT=$(brew --prefix golang)/libexec
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
+
 # nodenv
 if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
-
-# npmbrew
-export PATH=$HOME/.npmbrew/current/bin:$PATH
 
 # python - use pyenv
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# must be last thing otherwise it locks up the terminal. Should just probably move to rbenv
-export PATH="/usr/local/bin:$PATH"
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/kaks/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
-
-# zprof
