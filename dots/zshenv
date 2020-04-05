@@ -1,36 +1,8 @@
 # shortcut to this $ZSH path is $ZSH
 export ZSH=~/.zsh
 
-# PATH and EXPORT VARIABLES
-export SHELL=/bin/zsh
-
-export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
-export PATH="./bin:$PATH"
-
-# java home
-export JAVA_HOME=$(/usr/libexec/java_home)
-
-# brew cask
-export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Applications
-
-# node path
-export NODE_PATH=$(npm root --quiet -g)
-
-# node modules (npm)
-export PATH="./node_modules/.bin:$PATH"
-
-# go
-# export GOPATH=/usr/local/opt/go/libexec
-# export PATH=$PATH:$GOPATH/bin
-export GOROOT=$(brew --prefix golang)/libexec
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
-
 # Get color support for 'less'
 export LESS=-RFX
-
-# manpath
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 
 # manpager
 export MANPAGER='less -s -M +Gg' # show percentage progress
@@ -51,3 +23,16 @@ export GIT_EDITOR="code --wait"
 
 # rubygems
 export GEM_EDITOR="vim -v"
+
+# brew cask
+export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Applications
+
+# PATH and EXPORT VARIABLES
+export SHELL=/bin/zsh
+
+# manpath
+export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
+
+export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
+export PATH="./bin:$PATH"
+
