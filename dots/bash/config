@@ -1,4 +1,0 @@
-# load rvm completion if available
-[[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
-
-export PS1="\h:  \w\n ➡ "
