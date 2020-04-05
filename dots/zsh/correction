@@ -23,3 +23,7 @@ alias rake='noglob rake'
 alias rvm='nocorrect rvm'
 alias gulp='nocorrect gulp'
 alias esformatter='nocorrect esformatter'
+
+# do not autocorrect some of the git commands
+alias git st='nocorrect git st'
+alias git='nocorrect git'

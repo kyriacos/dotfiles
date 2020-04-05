@@ -2,7 +2,7 @@
 export ZSH=~/.zsh
 
 # PATH and EXPORT VARIABLES
-export SHELL=/usr/local/bin/zsh
+#export SHELL=/usr/local/bin/zsh
 
 export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
 # bundler binstubs i.e. execute rspec without bundle exec
@@ -71,4 +71,3 @@ then
   export PATH="$HOME/.rbenv/bin":$PATH
   eval "$(rbenv init -)"
 fi
-
