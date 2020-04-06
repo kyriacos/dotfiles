@@ -13,37 +13,12 @@ alias ll="ls -l"
 alias la="ls -A"
 alias lr="l -R"
 
-#git
-#alias ga="git add"
-#alias gb="git branch"
-#alias gc="git commit"
-#alias gco="git checkout"
-#alias gs="git status"
-#alias go="git checkout"
-
-# quick http server with python
-alias qhttp="python -m SimpleHTTPServer"
-
-#rails
-alias migrate='rake db:migrate && rake db:test:prepare'
-alias be='bundle exec'
-alias brs='bundle exec rails s'
-alias brc='bundle exec rails c'
-rgr() {
-  rails generate resource "$@" --skip-stylesheets --skip-javascripts
-}
-
-#ctags
-alias gen-ctags='ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)'
-
 # top
 alias tu='top -o cpu' # cpu
 alias tm='top -o vsize' # memory
 
 # vim
 alias vim="nvim"
-# alias vimbi="vim +BundleInstall +qall"
-# alias vimbc="vim +BundleClean +qall"
 
 # fasd
 # alias v='f -e vim' # quick opening files with vim
@@ -51,7 +26,7 @@ alias o='a -e open' # quick opening files with xdg-open
 alias v='f -t -e vim -b viminfo' # mimic v behavior. uses viminfo as a backend
 
 # fzf
-alias af='ag -l -g "" | fzf' # pipe ag output of all files to fzf
+alias af='rg -l "" | fzf' # pipe rg output of all files to fzf
 
 # less
 #http://unix.stackexchange.com/questions/19317/can-less-retain-colored-output
@@ -60,24 +35,21 @@ alias rless='less -r' # retain color codes in less. Or use export LESS=R
 # redis
 alias redisserver="redis-server /usr/local/etc/redis.conf"
 
-#irb
-alias irb="irb --readline"
-
 # postgres
 alias pg-start="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
 alias pg-stop="pg_ctl -D /usr/local/var/postgres stop"
 
-# ejabberd
-alias ej="/Applications/ejabberd-14.07/bin/ejabberdctl"
-
 # ports listening on
-alias listening='lsof -i -P | grep -i "listen"'
+alias listening="lsof -i -P | grep -i 'listen'"
 
 # count all file recursively in directory
 # alias count_files ='find . -maxdepth 1 -type d | while read -r dir; do printf "%s:\t" "$dir"; find "$dir" -type f | wc -l; done'
 
+alias love="/Applications/love.app/Contents/MacOS/love"
+
+# quick http server with python
+alias qhttp="python -m SimpleHTTPServer"
+
 alias mathrename="ls -ltr1 | xargs rename -N ...01 -X -e '$_ = "$N - $_"'"
 #alias gowebserver=" goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`.`)))'"
-
-alias love="/Applications/love.app/Contents/MacOS/love"
 

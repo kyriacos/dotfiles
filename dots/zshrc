@@ -10,7 +10,7 @@ set -o emacs # or vi if you prefer
 . $ZSH/completion
 . $ZSH/correction
 . $ZSH/key_bindings
-. $ZSH/plugins/*
+# . $ZSH/plugins/*
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
@@ -29,14 +29,10 @@ set_title_and_prompt() {
 precmd () { set_title_and_prompt }
 preexec () { set_title_and_prompt }
 
-# get help online from homebrew
-unalias run-help
-autoload run-help
-HELPDIR=/usr/local/share/zsh/helpfiles
-
 # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_COMMAND='ag -g ""'
+#export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # fasd
 eval "$(fasd --init auto)"
