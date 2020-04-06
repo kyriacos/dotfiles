@@ -1,4 +1,0 @@
-#!/bin/sh
-function git_diff_wrapper() {
-  vimdiff "$3" "$4"
-}
