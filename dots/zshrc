@@ -17,9 +17,9 @@ set -o emacs # or vi if you prefer
 
 # http://talkings.org/post/5236392664/zsh-and-slow-git-completion
 # superfly tnt git autocomplete
-__git_files () {
-  _wanted files expl 'local files' _files
-}
+# __git_files () {
+#   _wanted files expl 'local files' _files
+# }
 
 # print current directory to title bar
 set_title_and_prompt() {
@@ -86,9 +86,8 @@ cacheplease () {
 # cache for 30 minutes
 cacheplease $HOME/.cachedenv 30
 
-# nodenv
-if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init -)"; fi
+# nodenv -- use no rehash for faster initialization
+if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh --no-rehash)"; fi
 
-# python - use pyenv
-if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
-
+# pyenv -- use no rehash for faster initialization
+if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh --no-rehash)"; fi
