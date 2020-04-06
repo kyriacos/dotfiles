@@ -1,21 +1,15 @@
-temporary set up for now. Browse through them. I might change some things as i go along. Check back in a week when everything is running smoothly and the README is updated too :).
-
-I still haven't really decided if i'm going to symlink all the files or just the whole dotfile directory.
-
-the dotfiles i have are just a collection of other dotfiles i found from people around the web.
-
-
 clone the directory and have a look:
 git clone git@github.com:kyriacos/dotfiles.git ~/.dotfiles
-
-
-TODO:
-- update README
-- updated symlink path
-- add install script
-- update path to $DOTFILES
 
 NOTES:
 - brew install zsh-syntax-highlighting
 - brew install zsh-completion
 - brew install bash-completion
+- brew install fd
+- brew install ripgrep
+- brew install findutils
+- brew install coreutils
+- brew install fasd
+- brew install fzf
+
+===> PROFIT
