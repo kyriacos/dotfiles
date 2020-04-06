@@ -45,27 +45,57 @@ eval "$(fasd --init auto)"
 [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/kaks/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+HEROKU_AC_ZSH_SETUP_PATH=~/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
-# node modules (npm)
-export PATH="./node_modules/.bin:$PATH"
 
-# java home
-export JAVA_HOME=$(/usr/libexec/java_home)
+lastmod () {
+  local result=$(( $(date +"%s") - $(/usr/bin/stat -f "%m" $1) ))
+  return result
+}
 
-# node path
-export NODE_PATH=$(npm root --quiet -g)
+stale () {
+  local filename=$1
+  local maxminutes=$2
+  [[ $(lastmod $filename; echo $?) -gt $maxminutes*60 ]]
+}
 
-# go
-export GOROOT=$(brew --prefix golang)/libexec
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
+cacheplease () {
+  if [ -f $1 ] && ! stale $1 $2; then
+    #echo "exists"
+    source $1
+  else
+    #echo "reload"
+    local before=$(ENV)
+    # node modules (npm)
+    export PATH="./node_modules/.bin:$PATH"
 
-# nodenv
-if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+    # java home
+    export JAVA_HOME=$(/usr/libexec/java_home)
 
-# python - use pyenv
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+    # node path
+    export NODE_PATH=$(npm root --quiet -g)
+
+    # go
+    export GOROOT=$(brew --prefix golang)/libexec
+
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
+
+    # nodenv
+    if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
+
+    # python - use pyenv
+    if command -v pyenv 1>/dev/null 2>&1; then
+      eval "$(pyenv init -)"
+    fi
+
+    local after=$(ENV)
+
+    output=$(comm -23 <(printf '%s\n' $after) <(printf '%s\n' $before))
+    echo $output > $1
+  fi
+}
+# cache for 30 minutes
+cacheplease $HOME/.cachedenv 30
+
 
