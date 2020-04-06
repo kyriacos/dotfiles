@@ -77,6 +77,12 @@ cacheplease () {
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
+    # nodenv -- use "--no-rehash" for faster initialization
+    if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh --no-rehash)"; fi
+
+    # pyenv -- use "--no-rehash" for faster initialization
+    if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh --no-rehash)"; fi
+
     local after=$(ENV)
 
     output=$(comm -23 <(printf '%s\n' $after) <(printf '%s\n' $before))
@@ -86,8 +92,14 @@ cacheplease () {
 # cache for 30 minutes
 cacheplease $HOME/.cachedenv 30
 
-# nodenv -- use no rehash for faster initialization
-if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh --no-rehash)"; fi
+pyenv() {
+ # pyenv -- use "--no-rehash" for faster initialization
+ eval "$(command pyenv init - zsh --no-rehash)"
+ pyenv "$@"
+}
 
-# pyenv -- use no rehash for faster initialization
-if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh --no-rehash)"; fi
+nodenv() {
+ # nodenv -- use "--no-rehash" for faster initialization
+ eval "$(command nodenv init - zsh --no-rehash)"
+ nodenv "$@"
+}
