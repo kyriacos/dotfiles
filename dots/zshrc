@@ -81,14 +81,6 @@ cacheplease () {
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
-    # nodenv
-    if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
-
-    # python - use pyenv
-    if command -v pyenv 1>/dev/null 2>&1; then
-      eval "$(pyenv init -)"
-    fi
-
     local after=$(ENV)
 
     output=$(comm -23 <(printf '%s\n' $after) <(printf '%s\n' $before))
@@ -98,4 +90,9 @@ cacheplease () {
 # cache for 30 minutes
 cacheplease $HOME/.cachedenv 30
 
+# nodenv
+if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init -)"; fi
+
+# python - use pyenv
+if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
 
