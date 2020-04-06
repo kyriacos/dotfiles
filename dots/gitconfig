@@ -3,38 +3,25 @@
 [github]
   username = kyriacos
 [core]
-  excludesfile = /Users/kaks/.gitignore
+  excludesfile = ~/.gitignore
 [heroku]
   account = personal
 [alias]
-  co = checkout
   # Other useful aliases:
+  co = checkout
+  st = status
+
   unstage = reset HEAD
   staged = diff --cached
   unstaged = diff
   current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+  head = !git l -1
+
   # Usage: git track origin/feature-123-login-form
   track = checkout -t
-
-  # logs
-  # Log display from screencast, with train tracks.
-  lo = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
-  # Alternate log display from Scott Chacon
-  lol = log --pretty=oneline --abbrev-commit --graph --decorate
-  # gb
-  head = !git l -1
-  h = !git head
-  hp = "!source ~/.githelpers && show_git_head"
-  r = !git l -30
-  ra = !git r --all
-  l = "!source ~/.githelpers && pretty_git_log"
-  la = !git l --all
-  d = difftool
-
-  # used to it from work so just add it here
-  st = status
   # info shows information about your remote repo
   info = remote show
+
 [apply]
   whitespace = warn
 [color]
