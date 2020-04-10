@@ -30,9 +30,8 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Appli
 # PATH and EXPORT VARIABLES
 export SHELL=/bin/zsh
 
-# manpath
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
-
 export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
 export PATH="./bin:$PATH"
 
+# cache for 30 minutes
+[ -f $HOME/.cachedenv ] && source $HOME/.cachedenv

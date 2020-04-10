@@ -10,7 +10,7 @@ set -o emacs # or vi if you prefer
 . $ZSH/completion
 . $ZSH/correction
 . $ZSH/key_bindings
-# . $ZSH/plugins/*
+. $ZSH/plugins/*
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
@@ -62,6 +62,10 @@ cacheplease () {
   else
     #echo "reload"
     local before=$(ENV)
+
+    # manpath
+    export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
+
     # node modules (npm)
     export PATH="./node_modules/.bin:$PATH"
 
@@ -73,7 +77,6 @@ cacheplease () {
 
     # go
     export GOROOT=$(brew --prefix golang)/libexec
-
     export GOPATH=$HOME/go
     export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
@@ -90,7 +93,7 @@ cacheplease () {
   fi
 }
 # cache for 30 minutes
-cacheplease $HOME/.cachedenv 30
+cacheplease $HOME/.cachedenv 180
 
 pyenv() {
  # pyenv -- use "--no-rehash" for faster initialization
