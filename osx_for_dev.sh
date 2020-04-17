@@ -7,7 +7,21 @@
 # Ask for the administrator password upfront
 sudo -v
 
+disable_agent() {
+	mv "$1" "$1_DISABLED" >/dev/null 2>&1 ||
+		sudo mv "$1" "$1_DISABLED" >/dev/null 2>&1
+}
+
+unload_agent() {
+	launchctl unload -w "$1" >/dev/null 2>&1
+}
+
 echo "This script will make your Mac awesome"
+
+echo ""
+echo "Disable Chrome's poor backswipe implementation"
+defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
+defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
@@ -32,6 +46,8 @@ echo "This script will make your Mac awesome"
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input
 # ###############################################################################
+echo "Trackpad, mouse, keyboard, Bluetooth accessories, and input"
+
 echo ""
 echo "Enabling full keyboard access for all controls (e.g. enable Tab in modal dialogs)"
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
@@ -231,6 +247,9 @@ defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 # ###############################################################################
 
 echo ""
+echo "## Activity Monitor"
+
+echo ""
 echo "Show the main window when launching Activity Monitor"
 defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
 
@@ -250,6 +269,9 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 # Mac App Store                                                               #
 # ###############################################################################
+
+echo ""
+echo "## Mac App Store"
 
 echo ""
 echo "Enable the WebKit Developer Tools in the Mac App Store"
@@ -326,13 +348,47 @@ sudo mdutil -E / > /dev/null
 # Enable HiDPI display modes (requires restart)
 # sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
 
+################################
+# Other												 #
+################################
+echo ""
+echo "## Other"
+
 echo ""
 echo "Save to disk (not to iCloud) by default"
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
+################################
+
+
+##########################
+# Agents								 #
+##########################
+
+echo ""
+echo "## Media"
+if [ -z "$KEEP_ITUNES" ]; then
+	echo "  › Disable iTunes helper"
+	disable_agent /Applications/iTunes.app/Contents/MacOS/iTunesHelper.app
+	echo "  › Prevent play button from launching iTunes"
+	unload_agent /System/Library/LaunchAgents/com.apple.rcd.plist
+fi
+
+echo "  › Disable Spotify web helper"
+disable_agent ~/Applications/Spotify.app/Contents/MacOS/SpotifyWebHelper
+
+
+#############################################################################
 
 
 ###############################################################################
 # Kill affected applications
 # ###############################################################################
+echo ""
+echo "Killing all related apps"
+for app in "Activity Monitor", "Finder", "Dock", "Mail", "Messages", "Safari", "Chrome"; do
+	killall $app >/dev/null 2>&1
+done
+
 echo "Done! Some of the changes require a logout or restart."
+
