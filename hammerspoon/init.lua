@@ -11,6 +11,7 @@ require("modules/muteOnWake")
 require("modules/dontFuckWithPaste")
 require("modules/applicationMenuHacks")
 require("modules/whereIsMouse")
+require("modules/tabSearch");
 
 
 -- RELOAD Config
@@ -19,8 +20,6 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
 end)
 -- this is here since any code after hs.reload() would not be called. hs.reload() destroys the current Lua interpreter
 hs.alert.show("Config loaded")
-
-
 
 -- open -g hammerspoon://someAlert
 -- hs.urlevent.bind("someAlert", function(eventName, params)
