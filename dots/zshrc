@@ -23,7 +23,7 @@ set -o emacs # or vi if you prefer
 
 # print current directory to title bar
 set_title_and_prompt() {
-  print -Pn "\e]2; ${PWD/#$HOME/~}\a"
+  # print -Pn "\e]2; ${PWD/#$HOME/~}\a"
   set_prompt
 }
 precmd () { set_title_and_prompt }
