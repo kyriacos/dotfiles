@@ -89,7 +89,7 @@ cacheplease () {
     local after=$(ENV)
 
     output=$(comm -23 <(printf '%s\n' $after) <(printf '%s\n' $before))
-    echo $output > $1
+    echo $output | sed 's/^\(.*\)=\(.*\)$/\1="\2"/' > $1
   fi
 }
 # cache for 30 minutes
