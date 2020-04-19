@@ -31,7 +31,7 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications" # install cask apps to /Appli
 export SHELL=/bin/zsh
 
 export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
-export PATH="./bin:$PATH"
+export PATH=./bin:${PATH}
 
 # cache for 30 minutes
 [ -f $HOME/.cachedenv ] && source $HOME/.cachedenv
