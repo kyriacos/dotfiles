@@ -81,10 +81,10 @@ cacheplease () {
     export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
     # nodenv -- use "--no-rehash" for faster initialization
-    if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh --no-rehash)"; fi
+    if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh)"; fi
 
     # pyenv -- use "--no-rehash" for faster initialization
-    if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh --no-rehash)"; fi
+    if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh)"; fi
 
     local after=$(ENV)
 
@@ -92,17 +92,8 @@ cacheplease () {
     echo $output | sed 's/^\(.*\)=\(.*\)$/\1="\2"/' > $1
   fi
 }
-# cache for 30 minutes
-cacheplease $HOME/.cachedenv 180
+# cache for X minutes
+cacheplease $HOME/.cachedenv 1440
 
-pyenv() {
- # pyenv -- use "--no-rehash" for faster initialization
- eval "$(command pyenv init - zsh --no-rehash)"
- pyenv "$@"
-}
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-nodenv() {
- # nodenv -- use "--no-rehash" for faster initialization
- eval "$(command nodenv init - zsh --no-rehash)"
- nodenv "$@"
-}
