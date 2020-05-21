@@ -120,6 +120,7 @@ brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 
 
 ## CASKS
+cask "monitorcontrol"
 cask "alacritty"
 cask "appcleaner"
 cask "betterzip"
