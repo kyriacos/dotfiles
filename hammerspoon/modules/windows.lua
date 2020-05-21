@@ -10,10 +10,10 @@ local windowCycler = nil
 local wf = hs.window.filter.new(function(win)
     local fw = hs.window.focusedWindow()
     return (
-    win:isStandard() and
-    -- win:application() == fw:application() and
-    win:screen() == fw:screen() and
-    win:isVisible()
+      win:isStandard() and
+      -- win:application() == fw:application() and
+      win:screen() == fw:screen() and
+      win:isVisible()
     )
 end)
 
@@ -132,6 +132,7 @@ hs.hotkey.bind(hyper, 'L', function() hs.caffeinate.startScreensaver() end)
 local applicationHotkeys = {
   b = 'Google Chrome',
   t = 'iTerm',
+  v = 'Visual Studio Code',
 }
 for key, app in pairs(applicationHotkeys) do
   hs.hotkey.bind(hyper, key, function()
