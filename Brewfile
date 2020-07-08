@@ -158,14 +158,17 @@ cask "webpquicklook"
 ## APP STORE
 mas "1Password", id: 443987910
 mas "Affinity Designer", id: 824171161
+mas "Affinity Publisher", id: 881418622
 mas "Amphetamine", id: 937984704
 mas "Day One", id: 1055511498
 mas "Disk Speed Test", id: 425264550
 mas "ForkLift", id: 412448059
 mas "GoodNotes", id: 1480793815
+mas "GoodNotes", id: 1444383602
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Lungo", id: 1263070803
+mas "Microsoft Remote Desktop", id: 1295203466
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
