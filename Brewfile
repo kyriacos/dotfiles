@@ -140,7 +140,6 @@ cask "java"
 cask "jdownloader"
 cask "kap"
 cask "keyboard-cleaner"
-cask "qlcolorcode"
 cask "qlimagesize"
 cask "qlmarkdown"
 cask "qlprettypatch"
@@ -163,7 +162,6 @@ mas "Amphetamine", id: 937984704
 mas "Day One", id: 1055511498
 mas "Disk Speed Test", id: 425264550
 mas "ForkLift", id: 412448059
-mas "GoodNotes", id: 1480793815
 mas "GoodNotes", id: 1444383602
 mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
