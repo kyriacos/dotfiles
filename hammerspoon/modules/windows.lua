@@ -75,6 +75,24 @@ hs.hotkey.bind(hyper, '3', baseMove(0, 0.5, 0.5, 0.5))
 hs.hotkey.bind(hyper, '4', baseMove(0.5, 0.5, 0.5, 0.5))
 hs.hotkey.bind(hyper, 'M', baseMove(0, 0, 1, 1)) -- hs.grid.maximizeWindow
 
+-- move window between screens
+hs.hotkey.bind(hyper, 'n', function()
+  -- BUG: the window keeps getting smaller...
+  --
+  -- https://stackoverflow.com/questions/54151343/how-to-move-an-application-between-monitors-in-hammerspoon
+
+
+  -- get the focused window
+  local win = hs.window.focusedWindow()
+  -- get the screen where the focused window is displayed, a.k.a. current screen
+  local screen = win:screen()
+  -- compute the unitRect of the focused window relative to the current screen
+  -- and move the window to the next screen setting the same unitRect
+  -- win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
+  local nextScreen = screen:next()
+  win:moveToScreen(nextScreen, false, true)
+end)
+
 -- focus, center and hide all other windows
 function resizeAndCenter(hideAllOthers)
     hideAllOthers = hideAllOthers or false
