@@ -2,8 +2,9 @@
 #
 # bootstrap installs things.
 
-cd "$(dirname "$0")/.."
-DOTFILES_ROOT=$(pwd -P)
+#cd "$(dirname "$0")/.."
+#DOTFILES_ROOT=$(pwd -P)
+DOTFILES_ROOT=$HOME/.dotfiles/dots
 
 set -e
 
@@ -80,9 +81,9 @@ link_file() {
 
 install_dotfiles() {
 	info 'installing dotfiles'
-	find -H "$DOTFILES_ROOT" -maxdepth 1 -name '*.symlink' -not -path '*.git*' |
+	find -H "$DOTFILES_ROOT" -maxdepth 1 -name '*' -not -path '*.git*' |
 		while read -r src; do
-			dst="$HOME/.$(basename "${src%.*}")"
+			dst="$HOME/.$(basename "${src}")"
 			link_file "$src" "$dst"
 		done
 }
@@ -109,7 +110,7 @@ echo ''
 echo '  All installed!'
 
 # Rehash so zsh can find all its commands
-rehash
+# rehash
 
 
 info "installing essentials"
@@ -120,12 +121,12 @@ if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr
   xcode-select --install
 fi
 
-sudo xcodebuild -license accept
+# sudo xcodebuild -license accept
 
 # Download and install Homebrew
 if [[ ! -x /usr/local/bin/brew ]]; then
   info "Installing Homebrew"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 # Install homebrew bundle
@@ -133,7 +134,7 @@ info "Updating brew, running 'brew bundle', and upgrading packages"
 
 brew update
 brew tap Homebrew/bundle
-brew bundle --verbose
+brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
 brew upgrade
 
 info "Setting up defaults for macOS"
