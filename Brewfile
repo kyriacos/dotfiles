@@ -9,6 +9,8 @@ tap "heroku/brew"
 
 cask_args appdir: "/Applications"
 
+# Install SVN for google fonts
+brew "svn"
 # Automatic configure script builder
 brew "autoconf"
 # Tool for generating GNU Standards-compliant Makefiles
@@ -134,6 +136,8 @@ cask "font-inconsolata"
 cask "font-mononoki"
 cask "font-open-sans"
 cask "font-roboto"
+cask "font-jetbrains-mono"
+cask "font-input"
 cask "hammerspoon"
 cask "iterm2-beta"
 cask "java"
