@@ -86,6 +86,10 @@ cacheplease () {
     # pyenv -- use "--no-rehash" for faster initialization
     if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh)"; fi
 
+    # elastic beanstalk
+    export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
+
+
     local after=$(ENV)
 
     output=$(comm -23 <(printf '%s\n' $after) <(printf '%s\n' $before))
