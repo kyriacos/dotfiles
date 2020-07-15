@@ -157,6 +157,7 @@ cask "skype"
 cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
+cask "bitbar"
 
 ## APP STORE
 mas "1Password", id: 443987910
