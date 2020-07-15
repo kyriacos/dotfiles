@@ -2,19 +2,19 @@
   "entries": {
     "tap": {
       "homebrew/bundle": {
-        "revision": "f56efde2425c278b127cb10be2844a9e00237139"
+        "revision": "f760551841012ee20c90f2afd336c15423b23479"
       },
       "homebrew/cask": {
-        "revision": "7bce60cdb5145095af70a534622b381403f84410"
+        "revision": "66218db9a1fcc66f87054a93dcec73b44badb111"
       },
       "homebrew/cask-fonts": {
-        "revision": "f0177f59ec25a75a9e0acba1c44d12b752a53ebf"
+        "revision": "70b06df1704d77baca7c43e4d5446df1c23d52a3"
       },
       "homebrew/cask-versions": {
-        "revision": "896cfd1f714875195c45302eb9f21b107ef586c5"
+        "revision": "8370a5b84f722c5bffb3f8e17f1f1cde3928299f"
       },
       "homebrew/core": {
-        "revision": "aed956a84e2ece259c1971fa232a45ad26cfd17a"
+        "revision": "e199bda3292d7412a98fd262ce1956610919596f"
       },
       "sptim/formulae": {
         "revision": "662735b1063cd9c1cb268a500fea53bcc298d6d0"
@@ -23,7 +23,7 @@
         "revision": "faaef55ab7b513529e06d454d49d973ede007151"
       },
       "heroku/brew": {
-        "revision": "b6eee0bc937bfe30c8aa37ad1082c143801f1add"
+        "revision": "351854e10f79b6f269fe799873fd0dc85bc0af40"
       }
     },
     "brew": {
@@ -370,22 +370,22 @@
         }
       },
       "graphviz": {
-        "version": "2.44.0",
+        "version": "2.44.1",
         "bottle": {
           "cellar": "/usr/local/Cellar",
           "prefix": "/usr/local",
           "files": {
             "catalina": {
-              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.0.catalina.bottle.tar.gz",
-              "sha256": "b7622910804f75702b6124ed0a376f7d4f1c8aaa8dde38601549bb4c9a84589b"
+              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.1.catalina.bottle.tar.gz",
+              "sha256": "e1cc69e09c92ac1507e461e374de9a0b2d7b01d15e29bf43808f8f458303c67f"
             },
             "mojave": {
-              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.0.mojave.bottle.tar.gz",
-              "sha256": "cadbefa8657abfbc63d66827ca1492226d10fc6fdba9276f41e62be3b9434ba2"
+              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.1.mojave.bottle.tar.gz",
+              "sha256": "facbce9f3c97e2ad4b0ebf7344da4937722d6ae03c2091853c0bdd4f0e313e08"
             },
             "high_sierra": {
-              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.0.high_sierra.bottle.tar.gz",
-              "sha256": "c3b0269db2fb418c0e1b7413f10e0bec2d4f69485cfda484e8acf99cb1b86a54"
+              "url": "https://homebrew.bintray.com/bottles/graphviz-2.44.1.high_sierra.bottle.tar.gz",
+              "sha256": "86d0bb5111d0f97f4de3b1542280815f0b11cfda64bdbea09ba6ea2764205b8a"
             }
           }
         }
@@ -1382,7 +1382,7 @@
         }
       },
       "font-jetbrains-mono": {
-        "version": "1.0.6",
+        "version": "2.001",
         "options": {
           "full_name": "font-jetbrains-mono",
           "args": {
@@ -1394,6 +1394,15 @@
         "version": "latest",
         "options": {
           "full_name": "font-input",
+          "args": {
+            "appdir": "/Applications"
+          }
+        }
+      },
+      "bitbar": {
+        "version": "1.9.2",
+        "options": {
+          "full_name": "bitbar",
           "args": {
             "appdir": "/Applications"
           }
@@ -1490,9 +1499,9 @@
   "system": {
     "macos": {
       "catalina": {
-        "HOMEBREW_VERSION": "2.4.4",
+        "HOMEBREW_VERSION": "2.4.6",
         "HOMEBREW_PREFIX": "/usr/local",
-        "Homebrew/homebrew-core": "aed956a84e2ece259c1971fa232a45ad26cfd17a",
+        "Homebrew/homebrew-core": "e199bda3292d7412a98fd262ce1956610919596f",
         "CLT": "11.5.0.0.1.1588476445",
         "Xcode": "11.5",
         "macOS": "10.15.5"
