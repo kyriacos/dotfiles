@@ -158,6 +158,7 @@ cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
 cask "bitbar"
+cask "responsively"
 
 ## APP STORE
 mas "1Password", id: 443987910
