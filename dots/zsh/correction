@@ -27,3 +27,6 @@ alias esformatter='nocorrect esformatter'
 # do not autocorrect some of the git commands
 alias git st='nocorrect git st'
 alias git='nocorrect git'
+
+alias yarn='nocorrect yarn'
+alias npm='nocorrect npm'

@@ -37,6 +37,40 @@ hs.hotkey.bind({"ctrl", "cmd", "shift"}, "`", function()
   -- hs.eventtap.keyStroke({}, "ctrl", "cmd"
   -- https://gist.github.com/nonissue/5e6d2de97d24e31347483365911a919c
 end)
+
+-- TEST MOVING THE MOUSE POINTER TO THE CURRENTLY FOCUSED WINDOWS
+local function focus_other_screen() -- focuses the other screen 
+   local screen = hs.mouse.getCurrentScreen()
+   local nextScreen = screen:next()
+   local rect = nextScreen:fullFrame()
+   local center = hs.geometry.rectMidPoint(rect)
+   hs.mouse.setAbsolutePosition(center)
+end 
+
+function get_window_under_mouse() -- from https://gist.github.com/kizzx2/e542fa74b80b7563045a 
+   local my_pos = hs.geometry.new(hs.mouse.getAbsolutePosition())
+   local my_screen = hs.mouse.getCurrentScreen()
+   return hs.fnutils.find(hs.window.orderedWindows(), function(w)
+                 return my_screen == w:screen() and my_pos:inside(w:frame())
+   end)
+end
+
+function activate_other_screen()
+   focus_other_screen() 
+   local win = get_window_under_mouse() 
+   -- now activate that window 
+   win:focus() 
+end 
+
+hs.hotkey.bind({'ctrl', 'alt', 'cmd'}, "p", function() -- does the keybinding
+      activate_other_screen()
+end)
+
+
+
+
+
+
 -- open -g hammerspoon://someAlert
 -- hs.urlevent.bind("someAlert", function(eventName, params)
 --     hs.alert.show("Received someAlert")
