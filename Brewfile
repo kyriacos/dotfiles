@@ -6,6 +6,7 @@ tap "homebrew/core"
 tap "sptim/formulae"
 tap "universal-ctags/universal-ctags"
 tap "heroku/brew"
+tap "jason0x43/homebrew-neovim-nightly"
 
 cask_args appdir: "/Applications"
 
@@ -65,8 +66,6 @@ brew "mdf2iso"
 brew "mkvtoolnix"
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
-# Ambitious Vim-fork focused on extensibility and agility
-brew "neovim"
 # Platform built on V8 to build network applications
 brew "node"
 # Install NodeJS versions
@@ -159,6 +158,7 @@ cask "vlc"
 cask "webpquicklook"
 cask "bitbar"
 cask "responsively"
+cask "neovim-nightly"
 
 ## APP STORE
 mas "1Password", id: 443987910
