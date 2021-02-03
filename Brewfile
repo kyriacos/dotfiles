@@ -94,8 +94,6 @@ brew "sdl2_ttf"
 brew "trash"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
-# Extract, view, and test RAR archives
-brew "unrar"
 # Vi 'workalike' with many additional features
 brew "vim"
 # Watch files and take action when they change
@@ -126,7 +124,6 @@ cask "alacritty"
 cask "appcleaner"
 cask "betterzip"
 cask "coconutbattery"
-cask "docker"
 cask "epubquicklook"
 cask "firefox"
 cask "flux"
