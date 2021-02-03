@@ -9,5 +9,8 @@
 hs.loadSpoon("ModalMgr")
 hs.loadSpoon("HSearch")
 
+-- Mute/Unmute global toggle
+-- hs.loadSpoon("GlobalMute")
+
 
 -- spoon.RoundedCorners:start()
