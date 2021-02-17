@@ -30,3 +30,4 @@ alias git='nocorrect git'
 
 alias yarn='nocorrect yarn'
 alias npm='nocorrect npm'
+alias next='nocorrect next'
