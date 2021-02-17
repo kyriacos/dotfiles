@@ -22,6 +22,9 @@
   # info shows information about your remote repo
   info = remote show
 
+  # remove branches no longer on remote that have been merged - using https://stackoverflow.com/a/38404202
+  clean-branches = !git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d
+
 [apply]
   whitespace = warn
 [color]
