@@ -97,7 +97,7 @@ cacheplease () {
   fi
 }
 # cache for X minutes
-cacheplease $HOME/.cachedenv 1440
+cacheplease $HOME/.cachedenv 18000
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
