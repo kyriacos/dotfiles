@@ -1674,13 +1674,25 @@
             "appdir": "/Applications"
           }
         }
+      },
+      "mos": {
+        "version": null,
+        "options": {
+          "full_name": "mos",
+          "args": {
+            "appdir": "/Applications"
+          }
+        }
       }
     },
     "mas": {
-      "1Password": null,
+      "1Password": {
+        "id": "443987910",
+        "version": "6.8.9"
+      },
       "Affinity Designer": {
         "id": "824171161",
-        "version": "1.8.6"
+        "version": "1.9.0"
       },
       "Amphetamine": {
         "id": "937984704",
@@ -1700,7 +1712,7 @@
       },
       "GoodNotes": {
         "id": "1444383602",
-        "version": "5.6.34"
+        "version": "5.6.36"
       },
       "iMovie": {
         "id": "408981434",
@@ -1752,7 +1764,7 @@
       },
       "Affinity Publisher": {
         "id": "881418622",
-        "version": "1.8.6"
+        "version": "1.9.0"
       },
       "Microsoft Remote Desktop": {
         "id": "1295203466",
@@ -1776,7 +1788,7 @@
         "Homebrew/homebrew-core": "85b3ffbe8a2f9cc346c89e174a069c3c288d246c",
         "CLT": "",
         "Xcode": "12.4",
-        "macOS": "11.2"
+        "macOS": "11.2.1"
       }
     }
   }
