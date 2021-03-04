@@ -156,6 +156,8 @@ cask "webpquicklook"
 cask "bitbar"
 cask "responsively"
 cask "neovim-nightly"
+## I use this to invert the razer mouse scroll direction https://github.com/Caldis/Mos
+cask "mos"
 
 ## APP STORE
 mas "1Password", id: 443987910
