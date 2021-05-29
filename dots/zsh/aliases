@@ -48,7 +48,8 @@ alias listening="lsof -i -P | grep -i 'listen'"
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 # quick http server with python
-alias qhttp="python -m SimpleHTTPServer"
+# alias qhttp='python -m SimpleHTTPServer'
+# remember you have shttp
 
 alias mathrename="ls -ltr1 | xargs rename -N ...01 -X -e '$_ = "$N - $_"'"
 #alias gowebserver=" goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`.`)))'"
