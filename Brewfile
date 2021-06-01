@@ -153,14 +153,14 @@ cask "skype"
 cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
-cask "bitbar"
+#cask "bitbar"
 cask "responsively"
 cask "neovim-nightly"
 ## I use this to invert the razer mouse scroll direction https://github.com/Caldis/Mos
 cask "mos"
 
 ## APP STORE
-mas "1Password", id: 443987910
+mas "1Password 7", id: 1333542190
 mas "Affinity Designer", id: 824171161
 mas "Affinity Publisher", id: 881418622
 mas "Amphetamine", id: 937984704
@@ -168,16 +168,20 @@ mas "Day One", id: 1055511498
 mas "Disk Speed Test", id: 425264550
 mas "ForkLift", id: 412448059
 mas "GoodNotes", id: 1444383602
-mas "iMovie", id: 408981434
 mas "Keynote", id: 409183694
 mas "Lungo", id: 1263070803
+mas "Messenger", id: 1480068668
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "NextDNS", id: 1464122853
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Pixelmator", id: 407963104
+mas "Slack", id: 803453959
+mas "Steam Link", id: 1246969117
+mas "Surfshark", id: 1437809329
 mas "The Unarchiver", id: 425424353
 mas "Things", id: 904280696
 mas "Ulysses", id: 1225570693
 mas "WireGuard", id: 1451685025
 mas "Xcode", id: 497799835
+mas "iMovie", id: 408981434
