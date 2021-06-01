@@ -117,7 +117,6 @@ brew "sptim/formulae/pdfbooklet"
 # Maintained ctags implementation
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 
-
 ## CASKS
 cask "monitorcontrol"
 cask "alacritty"
@@ -154,10 +153,23 @@ cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
 #cask "bitbar"
-cask "responsively"
 cask "neovim-nightly"
-## I use this to invert the razer mouse scroll direction https://github.com/Caldis/Mos
+## browser that shows a bunch of responsive containers
+cask "responsively"
+## use this to invert the razer mouse scroll direction https://github.com/Caldis/Mos
 cask "mos"
+## Discord
+cask "discord"
+## Pop (remote pair programming) - used to be called Screen
+cask "pop"
+## Figma
+cask "figma"
+## Moonlight - stream windows pc and games with nvidia graphics card
+cask "moonlight"
+## redream - dreamcast emulator
+cask "redream"
+
+
 
 ## APP STORE
 mas "1Password 7", id: 1333542190
