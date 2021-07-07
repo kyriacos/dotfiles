@@ -199,3 +199,4 @@ mas "Ulysses", id: 1225570693
 mas "WireGuard", id: 1451685025
 mas "Xcode", id: 497799835
 mas "iMovie", id: 408981434
+mas "LottieFiles", id: 1531085233
