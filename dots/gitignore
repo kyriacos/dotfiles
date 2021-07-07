@@ -14,7 +14,6 @@ gems.tags
 .idea
 default-gems
 .rbenv-vars
-.env
 node_modules
 build/
 .rpt2_cache/
