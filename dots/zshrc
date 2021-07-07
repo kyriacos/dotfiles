@@ -83,8 +83,13 @@ cacheplease () {
     # nodenv -- use "--no-rehash" for faster initialization
     if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh)"; fi
 
-    # pyenv -- use "--no-rehash" for faster initialization
-    if which pyenv 1>/dev/null 2>&1; then eval "$(pyenv init - zsh)"; fi
+    # pyenv 
+    if which pyenv 1>/dev/null 2>&1; then 
+	    export PYENV_ROOT="$HOME/.pyenv"
+	    export PATH="$PYENV_ROOT/bin:$PATH"
+	    eval "$(pyenv init --path)"
+	    eval "$(pyenv init - zsh)"; 
+    fi
 
     # elastic beanstalk
     export PATH="$HOME/.ebcli-virtual-env/executables:$PATH"
