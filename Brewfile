@@ -6,7 +6,7 @@ tap "homebrew/core"
 tap "sptim/formulae"
 tap "universal-ctags/universal-ctags"
 tap "heroku/brew"
-tap "jason0x43/homebrew-neovim-nightly"
+# tap "jason0x43/homebrew-neovim-nightly"
 
 cask_args appdir: "/Applications"
 
@@ -96,6 +96,8 @@ brew "trash"
 brew "tree"
 # Vi 'workalike' with many additional features
 brew "vim"
+# neovim
+brew "neovim"
 # Watch files and take action when they change
 brew "watchman"
 # Internet file retriever
@@ -153,7 +155,7 @@ cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
 #cask "bitbar"
-cask "neovim-nightly"
+# cask "neovim-nightly"
 ## browser that shows a bunch of responsive containers
 cask "responsively"
 ## use this to invert the razer mouse scroll direction https://github.com/Caldis/Mos
