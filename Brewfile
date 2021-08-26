@@ -120,6 +120,7 @@ brew "sptim/formulae/pdfbooklet"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 
 ## CASKS
+cask "background-music"
 cask "monitorcontrol"
 cask "alacritty"
 cask "appcleaner"
