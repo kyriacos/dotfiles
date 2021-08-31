@@ -118,9 +118,11 @@ brew "heroku/brew/heroku"
 brew "sptim/formulae/pdfbooklet"
 # Maintained ctags implementation
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
+# Blackhole Virtual Audio Driver
+brew "blackhole-2ch"
 
 ## CASKS
-cask "background-music"
+#cask "background-music"
 cask "monitorcontrol"
 cask "alacritty"
 cask "appcleaner"
