@@ -5,7 +5,7 @@ tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "sptim/formulae"
 tap "universal-ctags/universal-ctags"
-tap "heroku/brew"
+# tap "heroku/brew"
 # tap "jason0x43/homebrew-neovim-nightly"
 
 cask_args appdir: "/Applications"
@@ -113,7 +113,7 @@ brew "zsh-completions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
 # Everything you need to get started with Heroku
-brew "heroku/brew/heroku"
+# brew "heroku/brew/heroku"
 # command-line utility to reorder pages in a PDF for booklet printing
 brew "sptim/formulae/pdfbooklet"
 # Maintained ctags implementation
@@ -157,6 +157,7 @@ cask "skype"
 cask "suspicious-package"
 cask "vlc"
 cask "webpquicklook"
+cask "xbar"
 #cask "bitbar"
 # cask "neovim-nightly"
 ## browser that shows a bunch of responsive containers
