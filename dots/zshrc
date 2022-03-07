@@ -43,9 +43,17 @@ eval "$(fasd --init auto)"
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=~/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 
+# using python instead of /usr/bin/stat directly
+# https://github.com/aluxian/fish-kube-prompt/pull/11/files
+__stat_mtime () {
+  #-- cross-platform workaround; POSIX didn't specify stat(1) and so
+  #-- its interface is incompatibly different on Mac OS and Linux.
+  #-- see https://unix.stackexchange.com/q/561927/3097
+  python -c "print(__import__('os').stat(__import__('sys').argv[1]).st_mtime)" $argv
+}
 
 lastmod () {
-  local result=$(( $(date +"%s") - $(/usr/bin/stat -f "%m" $1) ))
+	local result=$(( $(date +"%s") - $(__stat_mtime "%m" $1) ))
   return result
 }
 
