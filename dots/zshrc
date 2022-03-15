@@ -110,7 +110,14 @@ cacheplease () {
   fi
 }
 # cache for X minutes
-cacheplease $HOME/.cachedenv 18000
+#cacheplease $HOME/.cachedenv 18000
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export PATH="./node_modules/.bin:$PATH"
+export PNPM_HOME="/home/kyriacos/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+# docker - linux
+export PATH=/usr/bin:$HOME/.local/bin:$PATH
+export DOCKER_HOST=unix:///run/user/1000/docker.sock

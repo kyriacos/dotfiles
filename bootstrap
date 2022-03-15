@@ -97,42 +97,42 @@ setup_gitconfig
 install_dotfiles
 
 
-info 'Try setting zsh as default shell'
-zsh="$(find_zsh)"
-test "$(expr "$SHELL" : '.*/\(.*\)')" != "zsh" &&
-	command -v chsh >/dev/null 2>&1 &&
-	chsh -s "$zsh" &&
-	success "set $("$zsh" --version) at $zsh as default shell"
+#info 'Try setting zsh as default shell'
+#zsh="$(find_zsh)"
+#test "$(expr "$SHELL" : '.*/\(.*\)')" != "zsh" &&
+#	command -v chsh >/dev/null 2>&1 &&
+#	chsh -s "$zsh" &&
+#	success "set $("$zsh" --version) at $zsh as default shell"
 
-info "Link bitbar config directory"
-mkdir -p $HOME/.config/bitbar
-ln -s $HOME/.dotfiles/bitbar $HOME/.config/bitbar
+#info "Link bitbar config directory"
+#mkdir -p $HOME/.config/bitbar
+#ln -s $HOME/.dotfiles/bitbar $HOME/.config/bitbar
 
 # Install essentials when necessary
-info "installing essentials"
-if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr/bin/gcc ]]; then
-  echo "Installing Xcode"
-  xcode-select --install
-fi
+#info "installing essentials"
+#if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr/bin/gcc ]]; then
+#  echo "Installing Xcode"
+#  xcode-select --install
+#fi
 
-sudo xcodebuild -license accept
-
-# Download and install Homebrew
-if [[ ! -x /usr/local/bin/brew ]]; then
-  info "Installing Homebrew"
- /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-fi
-
-# Install homebrew bundle
-info "Updating brew, running 'brew bundle', and upgrading packages"
-
-brew update
-brew tap Homebrew/bundle
-brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
-brew upgrade
-
-info "Setting up defaults for macOS"
-chmox +x $HOME/.dotfiles/osx_set_defaults.sh
-$HOME/.dotfiles/osx_set_defaults.sh 
-
-success "Finished set up"
+#sudo xcodebuild -license accept
+#
+## Download and install Homebrew
+#if [[ ! -x /usr/local/bin/brew ]]; then
+#  info "Installing Homebrew"
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+#fi
+#
+## Install homebrew bundle
+#info "Updating brew, running 'brew bundle', and upgrading packages"
+#
+#brew update
+#brew tap Homebrew/bundle
+#brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
+#brew upgrade
+#
+#info "Setting up defaults for macOS"
+#chmox +x $HOME/.dotfiles/osx_set_defaults.sh
+#$HOME/.dotfiles/osx_set_defaults.sh 
+#
+#success "Finished set up"
