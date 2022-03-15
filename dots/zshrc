@@ -120,4 +120,9 @@ export PATH="$PNPM_HOME:$PATH"
 
 # docker - linux
 export PATH=/usr/bin:$HOME/.local/bin:$PATH
+# add flatpak bins
+#export PATH=$PATH:$HOME/.local/share/flatpak/exports/bin
+#
+# vscode flatpak
+#alias code="flatpak run com.visualstudio.code"
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
