@@ -54,3 +54,8 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 alias mathrename="ls -ltr1 | xargs rename -N ...01 -X -e '$_ = "$N - $_"'"
 #alias gowebserver=" goexec 'http.ListenAndServe(`:8080`, http.FileServer(http.Dir(`.`)))'"
 
+
+alias cpugetavail='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_governors'
+alias cpushowcurrent='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+alias cpusethigh='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
+
