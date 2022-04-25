@@ -114,15 +114,17 @@ cacheplease () {
 
 #test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export PATH=/usr/bin:$HOME/.local/bin:$PATH
 export PATH="./node_modules/.bin:$PATH"
 export PNPM_HOME="/home/kyriacos/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 # docker - linux
-export PATH=/usr/bin:$HOME/.local/bin:$PATH
+export DOCKER_HOST=unix:///run/user/1000/docker.sock
+
+
 # add flatpak bins
 #export PATH=$PATH:$HOME/.local/share/flatpak/exports/bin
 #
 # vscode flatpak
 #alias code="flatpak run com.visualstudio.code"
-export DOCKER_HOST=unix:///run/user/1000/docker.sock
