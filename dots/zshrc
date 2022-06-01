@@ -114,3 +114,5 @@ cacheplease $HOME/.cachedenv 18000
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
