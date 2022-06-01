@@ -5,11 +5,14 @@ tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "sptim/formulae"
 tap "universal-ctags/universal-ctags"
+tap "dart-lang/dart"
 # tap "heroku/brew"
 # tap "jason0x43/homebrew-neovim-nightly"
 
 cask_args appdir: "/Applications"
 
+# Install dart language
+brew "dart"
 # Install SVN for google fonts
 brew "svn"
 # Automatic configure script builder
