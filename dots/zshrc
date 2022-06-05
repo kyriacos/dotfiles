@@ -128,3 +128,7 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 #
 # vscode flatpak
 #alias code="flatpak run com.visualstudio.code"
+#
+
+# temporarily adding this plugin to test out the functionality
+#test -e /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh && source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh

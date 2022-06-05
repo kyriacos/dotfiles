@@ -39,4 +39,5 @@ cat ~/.imwheelrc
 fi
 ##########################################################
 
-imwheel -kill -b "4 5"
+imwheel -kill -b "45"
+#imwheel -kill -b "4 5"

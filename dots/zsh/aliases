@@ -59,3 +59,5 @@ alias cpugetavail='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_go
 alias cpushowcurrent='cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 alias cpusethigh='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
+alias make=make -j$(nproc)
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/.git/ --work-tree=$HOME'

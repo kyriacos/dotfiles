@@ -72,8 +72,10 @@ local blue_op="%{$fg[blue]%}[%{$reset_color%}"
 local blue_cp="%{$fg[blue]%}]%{$reset_color%}"
 local user_host=""
 [[ -n $SSH_CONNECTION ]] && user_host="${blue_op}%{$fg[white]%}%n@%m${blue_cp}-"
+local osname=$(hostname)
+#cat /etc/os-release | grep PRETTY | cut -d "=" -f 2
 
-export PROMPT=$'\n%{$fg[white]%}╭  ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(ruby_version_prompt) \n%{$fg[white]%}╰  '
+export PROMPT=$'\n%{$fg[white]%}╭  ${osname} - ${user_host}%{$reset_color%}${blue_op}$(directory_name)${blue_cp} %{$fg[white]%}$(ruby_version_prompt) \n%{$fg[white]%}╰  '
 
 set_prompt () {
   export RPROMPT='$(git_dirty)$(need_push)'
