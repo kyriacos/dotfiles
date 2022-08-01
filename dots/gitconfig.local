@@ -4,6 +4,11 @@
   username = kyriacos
 [core]
   excludesfile = ~/.gitignore
+  pager = "diff-so-fancy | less --tabs=4 -RFX"
+[add "interactive"]
+  useBuiltin = false
+[interactive]
+  diffFilter = "diff-so-fancy --patch"
 [heroku]
   account = personal
 [alias]

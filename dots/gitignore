@@ -24,3 +24,5 @@ build/
 .env.test.local
 .env.production.localgit
 .env.local
+tags.lock
+*.temp
