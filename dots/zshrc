@@ -132,3 +132,4 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 # temporarily adding this plugin to test out the functionality
 #test -e /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh && source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+export LD_LIBRARY_PATH=/usr/local/lib

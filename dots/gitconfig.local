@@ -1,5 +1,7 @@
 # Copy this file or single lines to ~/.gitconfig
 
+[user]
+  name = Kyriacos Souroullas
 [github]
   username = kyriacos
 [core]
@@ -30,6 +32,9 @@
   # remove branches no longer on remote that have been merged - using https://stackoverflow.com/a/38404202
   clean-branches = !git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d
 
+  # `git dft` is less to type than `git difftool`.
+  dft = difftool
+
 [apply]
   whitespace = warn
 # [color]
@@ -46,7 +51,9 @@
   newHighlight = green bold 22
 [color "diff"]
   meta = 11
-  frag = magenta bold
+  # frag = magenta bold
+  # meta = cyan bold
+  frag = blue bold
   func = 146 bold
   commit = yellow bold
   old = red bold
@@ -65,9 +72,14 @@
 [merge]
   tool = vimdiff
   stat = true # show a diffstat at the end of a merge
+
+# [diff]
+#   tool = vimdiff
 [diff]
-  tool = vimdiff
+  tool = difftastic
 [difftool]
   prompt = false
-[user]
-  name = Kyriacos Souroullas
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+  difftool = true

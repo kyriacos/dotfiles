@@ -61,3 +61,5 @@ alias cpusethigh='echo performance | sudo tee /sys/devices/system/cpu/cpu*/cpufr
 
 alias make=make -j$(nproc)
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/.git/ --work-tree=$HOME'
+
+alias ls=exa
