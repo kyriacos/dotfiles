@@ -116,3 +116,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
+
+# pnpm
+export PNPM_HOME="/Users/kaks/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
