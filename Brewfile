@@ -98,7 +98,7 @@ brew "trash"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 # Vi 'workalike' with many additional features
-brew "vim"
+#brew "vim"
 # neovim
 brew "neovim"
 # Watch files and take action when they change
@@ -181,9 +181,9 @@ cask "redream"
 
 
 ## APP STORE
-mas "1Password 7", id: 1333542190
-mas "Affinity Designer", id: 824171161
-mas "Affinity Publisher", id: 881418622
+#mas "1Password 7", id: 1333542190
+#mas "Affinity Designer", id: 824171161
+#mas "Affinity Publisher", id: 881418622
 mas "Amphetamine", id: 937984704
 mas "Day One", id: 1055511498
 mas "Disk Speed Test", id: 425264550
