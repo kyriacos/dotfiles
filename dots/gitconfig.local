@@ -6,11 +6,11 @@
   username = kyriacos
 [core]
   excludesfile = ~/.gitignore
-  pager = "diff-so-fancy | less --tabs=4 -RFX"
+  # pager = "diff-so-fancy | less --tabs=4 -RFX"
 [add "interactive"]
   useBuiltin = false
-[interactive]
-  diffFilter = "diff-so-fancy --patch"
+# [interactive]
+#   diffFilter = "diff-so-fancy --patch"
 [heroku]
   account = personal
 [alias]
@@ -77,6 +77,7 @@
 #   tool = vimdiff
 [diff]
   tool = difftastic
+  # external = difft
 [difftool]
   prompt = false
 [difftool "difftastic"]
