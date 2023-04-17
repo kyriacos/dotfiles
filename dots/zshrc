@@ -30,6 +30,9 @@ precmd () { set_title_and_prompt }
 preexec () { set_title_and_prompt }
 
 # fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 # CTRL-/ to toggle small preview window to see the full command
@@ -41,9 +44,6 @@ export FZF_CTRL_R_OPTS="
   --color header:italic"
   # --header 'Press CTRL-Y to copy command into clipboard'"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
-[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 #export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # fasd
@@ -130,6 +130,8 @@ export PATH=/usr/bin:$HOME/.local/bin:$PATH
 export PATH="./node_modules/.bin:$PATH"
 export PNPM_HOME="/home/kyriacos/.local/share/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+# # nodenv -- use "--no-rehash" for faster initialization
+# if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh)"; fi
 
 # docker - linux
 export DOCKER_HOST=unix:///run/user/1000/docker.sock
