@@ -10,7 +10,11 @@ set -o emacs # or vi if you prefer
 . $ZSH/completion
 . $ZSH/correction
 . $ZSH/key_bindings
+# for simpler single file plugins
 . $ZSH/plugins/*
+# other plugins
+. $ZSH/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+. $ZSH/plugins/fzf-tab/fzf-tab.plugin.zsh
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
@@ -146,3 +150,24 @@ export DOCKER_HOST=unix:///run/user/1000/docker.sock
 
 # temporarily adding this plugin to test out the functionality
 #test -e /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh && source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+
+
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+
+function nvims() {
+  items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
+# bindkey -s ^a "nvims\n"
+# export VI_MODE_SET_CURSOR=true
