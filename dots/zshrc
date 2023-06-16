@@ -171,3 +171,15 @@ function nvims() {
 
 # bindkey -s ^a "nvims\n"
 # export VI_MODE_SET_CURSOR=true
+#
+# autoload edit-command-line
+# zle -N edit-command-line
+# bindkey -M vicmd v edit-command-line
+# Use ESC to edit the current command line:
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '\033' vicmd v edit-command-line # hit ESC then v v  (esc-vv)
+
+alias shttp='python3 -m http.server 9000'
+export GOPATH=$(go env GOPATH)
+export PATH=$PATH:$GOPATH/bin
