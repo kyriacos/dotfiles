@@ -90,7 +90,6 @@ cask "flux", args: { appdir: "/Applications" }
 cask "font-hack", args: { appdir: "/Applications" }
 cask "font-inconsolata", args: { appdir: "/Applications" }
 cask "font-input", args: { appdir: "/Applications" }
-cask "font-jetbrains-mono", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
 cask "font-mononoki", args: { appdir: "/Applications" }
 cask "font-open-sans", args: { appdir: "/Applications" }
