@@ -9,18 +9,17 @@ tap "universal-ctags/universal-ctags"
 brew "autoconf"
 brew "automake"
 brew "bash-completion"
-brew "boost"
 brew "freetype"
 brew "fontconfig"
 brew "glib"
-brew "python@3.9"
 brew "coreutils"
 brew "docker", link: false
-brew "python@3.10"
+brew "python"
 brew "docutils"
 brew "folly"
 brew "fasd"
 brew "fizz"
+brew "tmux"
 brew "wangle"
 brew "fbthrift"
 brew "fb303"
@@ -35,7 +34,6 @@ brew "unbound"
 brew "gnutls"
 brew "go"
 brew "tcl-tk"
-brew "python@3.8", link: false
 brew "harfbuzz"
 brew "pango"
 brew "librsvg"
@@ -93,6 +91,7 @@ cask "font-hack", args: { appdir: "/Applications" }
 cask "font-inconsolata", args: { appdir: "/Applications" }
 cask "font-input", args: { appdir: "/Applications" }
 cask "font-jetbrains-mono", args: { appdir: "/Applications" }
+cask "font-jetbrains-mono-nerd-font", args: { appdir: "/Applications" }
 cask "font-mononoki", args: { appdir: "/Applications" }
 cask "font-open-sans", args: { appdir: "/Applications" }
 cask "font-roboto", args: { appdir: "/Applications" }
