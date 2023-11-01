@@ -104,9 +104,9 @@ test "$(expr "$SHELL" : '.*/\(.*\)')" != "zsh" &&
 	chsh -s "$zsh" &&
 	success "set $("$zsh" --version) at $zsh as default shell"
 
-info "Link bitbar config directory"
-mkdir -p $HOME/.config/bitbar
-ln -s $HOME/.dotfiles/bitbar $HOME/.config/bitbar
+#info "Link bitbar config directory"
+#mkdir -p $HOME/.config/bitbar
+#ln -s $HOME/.dotfiles/bitbar $HOME/.config/bitbar
 
 # Install essentials when necessary
 info "installing essentials"
@@ -118,7 +118,7 @@ fi
 sudo xcodebuild -license accept
 
 # Download and install Homebrew
-if [[ ! -x /usr/local/bin/brew ]]; then
+if [[ ! -x /opt/homebrew/bin/brew ]]; then
   info "Installing Homebrew"
  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi

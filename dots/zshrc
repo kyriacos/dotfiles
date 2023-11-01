@@ -10,7 +10,8 @@ set -o emacs # or vi if you prefer
 . $ZSH/completion
 . $ZSH/correction
 . $ZSH/key_bindings
-. $ZSH/plugins/*
+for file in $ZSH/plugins/**/*(.); do source $file; done
+
 
 # use .localrc for settings specific to one system
 [[ -f ~/.localrc ]] && . ~/.localrc
@@ -35,7 +36,7 @@ preexec () { set_title_and_prompt }
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 
 # fasd
-eval "$(fasd --init auto)"
+# eval "$(fasd --init auto)"
 
 # zsh extra syntax highlighting from brew
 [ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -130,3 +131,5 @@ if [ -f '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/path.zsh.inc' ]; t
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+

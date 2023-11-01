@@ -35,3 +35,4 @@ export PATH=./bin:${PATH}
 
 # cache for 30 minutes
 [ -f $HOME/.cachedenv ] && source $HOME/.cachedenv
+. "$HOME/.cargo/env"
