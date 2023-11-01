@@ -3,7 +3,6 @@ tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
-tap "homebrew/core"
 tap "sptim/formulae"
 tap "universal-ctags/universal-ctags"
 brew "autoconf"
@@ -17,7 +16,7 @@ brew "docker", link: false
 brew "python"
 brew "docutils"
 brew "folly"
-brew "fasd"
+#brew "fasd"
 brew "fizz"
 brew "tmux"
 brew "wangle"
@@ -76,17 +75,17 @@ brew "youtube-dl"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "dart-lang/dart/dart"
-brew "sptim/formulae/pdfbooklet"
+#brew "sptim/formulae/pdfbooklet"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 cask "alacritty", args: { appdir: "/Applications" }
 cask "appcleaner", args: { appdir: "/Applications" }
 cask "betterzip", args: { appdir: "/Applications" }
 cask "coconutbattery"
 cask "discord", args: { appdir: "/Applications" }
-cask "epubquicklook", args: { appdir: "/Applications" }
-cask "figma", args: { appdir: "/Applications" }
-cask "firefox", args: { appdir: "/Applications" }
-cask "flux", args: { appdir: "/Applications" }
+#cask "epubquicklook", args: { appdir: "/Applications" }
+#cask "figma", args: { appdir: "/Applications" }
+#cask "firefox", args: { appdir: "/Applications" }
+#cask "flux", args: { appdir: "/Applications" }
 cask "font-hack", args: { appdir: "/Applications" }
 cask "font-inconsolata", args: { appdir: "/Applications" }
 cask "font-input", args: { appdir: "/Applications" }
@@ -95,8 +94,8 @@ cask "font-mononoki", args: { appdir: "/Applications" }
 cask "font-open-sans", args: { appdir: "/Applications" }
 cask "font-roboto", args: { appdir: "/Applications" }
 cask "hammerspoon", args: { appdir: "/Applications" }
-cask "iterm2-beta", args: { appdir: "/Applications" }
-cask "jdownloader", args: { appdir: "/Applications" }
+#cask "iterm2-beta", args: { appdir: "/Applications" }
+#cask "jdownloader", args: { appdir: "/Applications" }
 cask "kap", args: { appdir: "/Applications" }
 cask "keyboard-cleaner", args: { appdir: "/Applications" }
 cask "monitorcontrol", args: { appdir: "/Applications" }
@@ -118,7 +117,7 @@ cask "skype", args: { appdir: "/Applications" }
 cask "suspicious-package", args: { appdir: "/Applications" }
 cask "vlc", args: { appdir: "/Applications" }
 cask "webpquicklook", args: { appdir: "/Applications" }
-cask "xbar", args: { appdir: "/Applications" }
+#cask "xbar", args: { appdir: "/Applications" }
 mas "Affinity Designer 2", id: 1616831348
 mas "Affinity Photo 2", id: 1616822987
 mas "Affinity Publisher 2", id: 1606941598
