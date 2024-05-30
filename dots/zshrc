@@ -82,7 +82,7 @@ cacheplease () {
     export JAVA_HOME=$(/usr/libexec/java_home)
 
     # node path
-    export NODE_PATH=$(npm root --quiet -g)
+    # export NODE_PATH=$(npm root --quiet -g)
 
     # go
     export GOROOT=$(brew --prefix golang)/libexec
@@ -90,7 +90,7 @@ cacheplease () {
     export PATH=$GOPATH/bin:${GOROOT}/bin:$PATH
 
     # nodenv -- use "--no-rehash" for faster initialization
-    if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh)"; fi
+    # if which nodenv 1>/dev/null 2>&1; then eval "$(nodenv init - zsh)"; fi
 
     # pyenv 
     if which pyenv 1>/dev/null 2>&1; then 
@@ -119,7 +119,7 @@ export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
 
 # pnpm
-export PNPM_HOME="/Users/kaks/Library/pnpm"
+export PNPM_HOME=$HOME/Library/pnpm
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -131,5 +131,28 @@ if [ -f '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/path.zsh.inc' ]; t
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kaks/SynologyDrive/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+vv() {
+  select config in lazy own
+  do NVIM_APPNAME=nvim-$config nvim $@; break; done
+}
+
+# adding shitty NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+
+
+function change_node_version {
+	nvmrc="./.nvmrc"
+	if [ -f "$nvmrc" ]; then
+		version="$(cat "$nvmrc")"
+		nvm use $version
+	fi
+}
+chpwd_functions=(change_node_version)
 
 
