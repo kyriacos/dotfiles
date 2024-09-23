@@ -156,3 +156,5 @@ function change_node_version {
 chpwd_functions=(change_node_version)
 
 
+test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
+
