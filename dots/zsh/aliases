@@ -56,3 +56,8 @@ alias mathrename="ls -ltr1 | xargs rename -N ...01 -X -e '$_ = "$N - $_"'"
 
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
+# alias ragit="GIT_SSH_COMMAND='ssh -i ~/.ssh/ra -o IdentitiesOnly=yes' git"
+
+alias aws-recentive="aws s3 ls --profile recentive"
+
+alias ls="eza"

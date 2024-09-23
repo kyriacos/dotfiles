@@ -1,8 +1,15 @@
 # load functions
-fpath=($ZSH/functions/**/ $fpath)
-fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(/usr/local/share/zsh/site-functions $fpath)
+#FPATH=($ZSH/functions/**/ $FPATH)
+#FPATH=(/usr/local/share/zsh-completions $FPATH)
+#FPATH=(/usr/local/share/zsh/site-functions $FPATH)
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
 autoload -Uz $ZSH/functions/*(:t)
+
+# https://unix.stackexchange.com/questions/6620/how-to-edit-command-line-in-full-screen-editor-in-zs
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
 
 # On slow systems, checking the cached .zcompdump file to see if it must be 
 # regenerated adds a noticable delay to zsh startup.  This little hack restricts 

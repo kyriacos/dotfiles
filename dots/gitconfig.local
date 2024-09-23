@@ -1,5 +1,7 @@
 # Copy this file or single lines to ~/.gitconfig
 
+[user]
+  name = Kyriacos Souroullas
 [github]
   username = kyriacos
 [core]
@@ -39,6 +41,7 @@
 [push]
   # Only push branches that have been set up to track a remote branch.
   default = upstream
+  autoSetupRemote = true
 [pull]
   # Only push branches that have been set up to track a remote branch.
   default = current
@@ -49,5 +52,7 @@
   tool = vimdiff
 [difftool]
   prompt = false
-[user]
-  name = Kyriacos Souroullas
+
+[includeIf "gitdir:~/code/recentive-analytics/**"]
+path = ~/code/recentive-analytics/.gitconfig-recentive
+
