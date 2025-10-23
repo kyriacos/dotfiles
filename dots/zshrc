@@ -158,3 +158,9 @@ chpwd_functions=(change_node_version)
 
 test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
 
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/kyriacos/.cache/lm-studio/bin"
+export PATH="$HOME/.local/bin:$PATH"
