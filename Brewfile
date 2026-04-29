@@ -12,6 +12,7 @@ brew "freetype"
 brew "fontconfig"
 brew "glib"
 brew "coreutils"
+brew "batt"
 brew "docker", link: false
 brew "python"
 brew "docutils"
@@ -78,6 +79,8 @@ brew "dart-lang/dart/dart"
 #brew "sptim/formulae/pdfbooklet"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 cask "alacritty", args: { appdir: "/Applications" }
+#cask "jordanbaird-ice", args: { appdir: "/Applications" }
+cask "nikitabobko/tap/aerospace", args: { appdir: "/Applications" }
 cask "appcleaner", args: { appdir: "/Applications" }
 cask "betterzip", args: { appdir: "/Applications" }
 cask "coconutbattery"
@@ -101,7 +104,7 @@ cask "keyboard-cleaner", args: { appdir: "/Applications" }
 cask "monitorcontrol", args: { appdir: "/Applications" }
 cask "moonlight", args: { appdir: "/Applications" }
 cask "mos", args: { appdir: "/Applications" }
-cask "pop", args: { appdir: "/Applications" }
+cask "pop-app", args: { appdir: "/Applications" }
 cask "qlimagesize", args: { appdir: "/Applications" }
 cask "qlmarkdown", args: { appdir: "/Applications" }
 cask "qlprettypatch", args: { appdir: "/Applications" }

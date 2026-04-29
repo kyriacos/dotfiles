@@ -164,3 +164,13 @@ test -e "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/kyriacos/.cache/lm-studio/bin"
 export PATH="$HOME/.local/bin:$PATH"
+
+# bun completions
+[ -s "/Users/kyriacos/.bun/_bun" ] && source "/Users/kyriacos/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/kyriacos/.antigravity/antigravity/bin:$PATH"
