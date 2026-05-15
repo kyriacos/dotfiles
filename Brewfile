@@ -155,7 +155,6 @@ cask "quicklookase", args: { appdir: "/Applications" }
 cask "redream", args: { appdir: "/Applications" }
 cask "responsively", args: { appdir: "/Applications" }
 cask "shifty", args: { appdir: "/Applications" }
-cask "skype", args: { appdir: "/Applications" }
 cask "suspicious-package", args: { appdir: "/Applications" }
 cask "vlc", args: { appdir: "/Applications" }
 cask "webpquicklook", args: { appdir: "/Applications" }
