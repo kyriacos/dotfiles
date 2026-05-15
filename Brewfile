@@ -20,7 +20,7 @@ brew "freetype"
 brew "fontconfig"
 brew "glib"
 brew "coreutils"
-brew "docker", link: false
+# brew "docker", link: false
 brew "docutils"
 brew "folly"
 brew "fizz"
@@ -107,7 +107,7 @@ brew "wireguard-tools"
 brew "xcbeautify"
 brew "xcode-build-server"
 brew "yarn"
-brew "youtube-dl"
+# brew "youtube-dl"
 brew "zig"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
@@ -115,7 +115,7 @@ brew "anomalyco/tap/opencode"
 brew "arthur-ficial/tap/apfel"
 brew "bellicose100xp/tap/jiq"
 brew "dart-lang/dart/dart"
-brew "dopplerhq/cli/doppler", link: false
+# brew "dopplerhq/cli/doppler", link: false
 brew "felixkratz/formulae/borders"
 brew "felixkratz/formulae/sketchybar"
 cask "nikitabobko/tap/aerospace", args: { appdir: "/Applications" }

@@ -49,6 +49,11 @@ for arg in "$@"; do
   esac
 done
 
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 0
+fi
+
 [[ -f "$BREWFILE" ]] || fail "Brewfile not found at $BREWFILE"
 
 if [[ "$UPGRADE" == true ]]; then
