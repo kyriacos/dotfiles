@@ -1,4 +1,5 @@
-setopt correct_all
+unsetopt correct_all
+setopt correct
 
 alias man='nocorrect man'
 alias mv='nocorrect mv'

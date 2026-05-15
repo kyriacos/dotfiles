@@ -1,5 +1,10 @@
 clone the directory and have a look:
-git clone git@github.com:kyriacos/dotfiles.git ~/.dotfiles
+git clone --recurse-submodules git@github.com:kyriacos/dotfiles.git ~/.dotfiles
+
+(The --recurse-submodules flag pulls in TPM and any other submodules.)
+
+Then run the bootstrap script:
+sh ~/.dotfiles/bootstrap
 
 NOTES:
 - brew install zsh-syntax-highlighting
@@ -11,5 +16,34 @@ NOTES:
 - brew install coreutils
 - brew install fasd
 - brew install fzf
+
+## tmux setup
+
+Install tmux:
+  brew install tmux
+
+The bootstrap script symlinks ~/.tmux.conf and ~/.tmux from this repo.
+TPM (Tmux Plugin Manager) is included as a git submodule at
+dots/tmux/plugins/tpm, so it's available immediately after cloning.
+
+The bootstrap script runs plugin installation automatically. To install
+or reinstall plugins manually:
+  ~/.tmux/plugins/tpm/bin/install_plugins
+
+Or from inside tmux:
+  prefix + I   (capital I, as in Install)
+
+### Upgrading TPM and plugins
+
+Upgrade TPM (the submodule) to its latest upstream commit:
+  cd ~/.dotfiles
+  git submodule update --remote dots/tmux/plugins/tpm
+  git add dots/tmux/plugins/tpm && git commit -m "Bump TPM to latest"
+
+Upgrade all installed plugins:
+  ~/.tmux/plugins/tpm/bin/update_plugins all
+
+Or from inside tmux:
+  prefix + U   (capital U, as in Update)
 
 ===> PROFIT

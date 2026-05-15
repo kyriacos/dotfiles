@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # bootstrap installs things.
 DOTFILES_ROOT=$HOME/.dotfiles/dots
@@ -26,7 +26,7 @@ fail() {
 	# shellcheck disable=SC2059
 	printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
 	echo ''
-	exit
+	exit 1
 }
 
 setup_gitconfig() {
@@ -133,6 +133,19 @@ brew upgrade
 
 info "Setting up defaults for macOS"
 chmox +x $HOME/.dotfiles/osx_set_defaults.sh
-$HOME/.dotfiles/osx_set_defaults.sh 
+$HOME/.dotfiles/osx_set_defaults.sh
+
+# Install tmux plugins via TPM
+info "Installing tmux plugins"
+if command -v tmux >/dev/null 2>&1; then
+	TPM_INSTALL="$HOME/.tmux/plugins/tpm/bin/install_plugins"
+	if [ -x "$TPM_INSTALL" ]; then
+		"$TPM_INSTALL" && success "tmux plugins installed"
+	else
+		fail "TPM not found at $HOME/.tmux/plugins/tpm — did you clone with --recurse-submodules?"
+	fi
+else
+	info "tmux not found, skipping plugin install"
+fi
 
 success "Finished set up"
