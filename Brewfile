@@ -139,12 +139,12 @@ cask "monitorcontrol", args: { appdir: "/Applications" }
 cask "moonlight", args: { appdir: "/Applications" }
 cask "mos", args: { appdir: "/Applications" }
 cask "pop-app", args: { appdir: "/Applications" }
-cask "qlimagesize", args: { appdir: "/Applications" }
+# cask "qlimagesize", args: { appdir: "/Applications" }
 cask "qlmarkdown", args: { appdir: "/Applications" }
 cask "qlprettypatch", args: { appdir: "/Applications" }
 cask "qlstephen", args: { appdir: "/Applications" }
 cask "quicklook-csv", args: { appdir: "/Applications" }
-cask "quicklook-json", args: { appdir: "/Applications" }
+# cask "quicklook-json", args: { appdir: "/Applications" }
 cask "quicklook-video", args: { appdir: "/Applications" }
 cask "quicklookase", args: { appdir: "/Applications" }
 cask "redream", args: { appdir: "/Applications" }

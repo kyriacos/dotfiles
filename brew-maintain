@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+# Brewfile maintenance script
+# Usage: ./brew-maintain [--skip-mas] [--no-upgrade] [--cleanup] [--check-leaves]
+
+set -e
+
+DOTFILES_ROOT="$(cd "$(dirname "$0")" && pwd)"
+BREWFILE="$DOTFILES_ROOT/Brewfile"
+SKIP_MAS=false
+NO_UPGRADE=false
+DO_CLEANUP=false
+CHECK_LEAVES=false
+FORCE_DUMP_OVERWRITE=false
+DIFF=false
+INSTALL=false
+UPGRADE=false
+
+info()    { printf "\r  [ \033[00;34m..\033[0m ] %s\n" "$1"; }
+success() { printf "\r\033[2K  [ \033[00;32mOK\033[0m ] %s\n" "$1"; }
+fail()    { printf "\r\033[2K  [\033[0;31mFAIL\033[0m] %s\n" "$1"; echo ''; exit 1; }
+
+usage() {
+  echo "Usage: $(basename "$0") [options]"
+  echo ""
+  echo "Options:"
+  echo "  --install       Install from Brewfile (no update/upgrade)"
+  echo "  --upgrade       Run 'brew upgrade' only"
+  echo "  --skip-mas      Skip Mac App Store installs (use with --install)"
+  echo "  --no-upgrade    Skip 'brew upgrade' after bundle"
+  echo "  --cleanup       Run 'brew cleanup' after bundle"
+  echo "  --check-leaves  Show installed packages not in Brewfile"
+  echo "  --diff                  Diff Brewfile against currently installed packages"
+  echo "  --force-dump-overwrite  Overwrite Brewfile with all currently installed packages"
+  echo "  -h, --help      Show this help"
+}
+
+for arg in "$@"; do
+  case "$arg" in
+    --skip-mas)      SKIP_MAS=true ;;
+    --no-upgrade)    NO_UPGRADE=true ;;
+    --cleanup)       DO_CLEANUP=true ;;
+    --check-leaves)  CHECK_LEAVES=true ;;
+    --install)              INSTALL=true ;;
+    --upgrade)              UPGRADE=true ;;
+    --diff)                 DIFF=true ;;
+    --force-dump-overwrite) FORCE_DUMP_OVERWRITE=true ;;
+    -h|--help)       usage; exit 0 ;;
+    *) fail "Unknown option: $arg" ;;
+  esac
+done
+
+[[ -f "$BREWFILE" ]] || fail "Brewfile not found at $BREWFILE"
+
+if [[ "$UPGRADE" == true ]]; then
+  info "Upgrading packages"
+  brew upgrade
+  success "brew upgrade done"
+  exit 0
+fi
+
+if [[ "$INSTALL" == true ]]; then
+  info "Running brew bundle install"
+  if [[ "$SKIP_MAS" == true ]]; then
+    info "Skipping Mac App Store packages"
+    MAS_IDS="$(grep '^mas' "$BREWFILE" | awk '{print $NF}' | tr -d ',' | tr '\n' ' ')"
+    HOMEBREW_BUNDLE_MAS_SKIP="$MAS_IDS" brew bundle install --verbose --file="$BREWFILE"
+  else
+    brew bundle install --verbose --file="$BREWFILE"
+  fi
+  success "brew bundle install done"
+  exit 0
+fi
+
+if [[ "$DIFF" == true ]]; then
+  info "Diffing Brewfile against currently installed packages"
+  diff "$BREWFILE" <(brew bundle dump --force --file=-) || true
+  exit 0
+fi
+
+if [[ "$FORCE_DUMP_OVERWRITE" == true ]]; then
+  echo ""
+  echo "  ⚠️  WARNING: This will OVERWRITE $BREWFILE"
+  echo "  All current Brewfile contents will be replaced with"
+  echo "  everything currently installed on this machine."
+  echo ""
+  printf "  Type 'yes' to confirm: "
+  read -r confirm
+  [[ "$confirm" == "yes" ]] || { echo "Aborted."; exit 1; }
+  brew bundle dump --force --file="$BREWFILE"
+  success "Brewfile updated at $BREWFILE"
+  exit 0
+fi
+
+if [[ "$CHECK_LEAVES" == true ]]; then
+  info "Packages installed via brew but not in Brewfile"
+  BREWFILE_PKGS="$(grep '^brew' "$BREWFILE" | awk -F'"' '{print $2}')"
+  while IFS= read -r pkg; do
+    if ! echo "$BREWFILE_PKGS" | grep -qx "$pkg"; then
+      echo "  $pkg"
+    fi
+  done < <(brew leaves -r)
+  exit 0
+fi
+
+info "Updating Homebrew"
+brew update
+
+info "Running brew bundle"
+if [[ "$SKIP_MAS" == true ]]; then
+  info "Skipping Mac App Store packages"
+  MAS_IDS="$(grep '^mas' "$BREWFILE" | awk '{print $NF}' | tr -d ',' | tr '\n' ' ')"
+  HOMEBREW_BUNDLE_MAS_SKIP="$MAS_IDS" brew bundle install --verbose --file="$BREWFILE"
+else
+  brew bundle install --verbose --file="$BREWFILE"
+fi
+
+success "brew bundle done"
+
+if [[ "$NO_UPGRADE" == false ]]; then
+  info "Upgrading packages"
+  brew upgrade
+  success "brew upgrade done"
+fi
+
+if [[ "$DO_CLEANUP" == true ]]; then
+  info "Cleaning up"
+  brew cleanup
+  success "brew cleanup done"
+fi
+
+success "Brewfile maintenance complete"
