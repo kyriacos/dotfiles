@@ -20,6 +20,7 @@ brew "freetype"
 brew "fontconfig"
 brew "glib"
 brew "coreutils"
+brew "gh"
 # brew "docker", link: false
 brew "docutils"
 brew "folly"
