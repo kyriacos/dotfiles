@@ -218,7 +218,6 @@ install_homebrew() {
 	$SKIP_CASKS    && ! $FORMULAS_ONLY && info "skipping casks"
 
 	brew update
-	brew tap Homebrew/bundle
 	# shellcheck disable=SC2086
 	brew bundle $BUNDLE_ARGS
 	brew upgrade

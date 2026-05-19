@@ -1,21 +1,6 @@
 {
   "entries": {
     "tap": {
-      "homebrew/bundle": {
-        "revision": "f3e5960cf1c15f1bfdabe42c173df6592c787249"
-      },
-      "homebrew/cask": {
-        "revision": "e16151639469e54c99fbeb569192c3b760f2fac9"
-      },
-      "homebrew/cask-fonts": {
-        "revision": "0ed20f35d21ebc3f4f829689b101078718ad5ce1"
-      },
-      "homebrew/cask-versions": {
-        "revision": "057d1202c4ac9d4059909260af8d13e20fbf8cab"
-      },
-      "homebrew/core": {
-        "revision": "dc62629778adfb8ee0b6be6a0f77c3da00025ea7"
-      },
       "sptim/formulae": {
         "revision": "662735b1063cd9c1cb268a500fea53bcc298d6d0"
       },
