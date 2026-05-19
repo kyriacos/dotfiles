@@ -7,7 +7,7 @@
 #   ./editor-backup.sh --restore-code   [--dir <path>]
 #   ./editor-backup.sh --restore-cursor [--dir <path>]
 #
-# Default backup directory: ~/editor-backups
+# Default backup directory: <dotfiles>/dots/editor-backups
 
 set -euo pipefail
 
@@ -178,7 +178,7 @@ ${BOLD}Usage:${RESET}
   $0 --restore-cursor [--dir <path>]
 
 ${BOLD}Options:${RESET}
-  --dir <path>   Backup directory (default: ~/editor-backups)
+  --dir <path>   Backup directory (default: <dotfiles>/dots/editor-backups)
   --help         Show this help
 
 ${BOLD}What is backed up:${RESET}
@@ -195,7 +195,8 @@ EOF
 }
 
 COMMAND=""
-BACKUP_DIR="$HOME/editor-backups"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="$SCRIPT_DIR/dots/editor-backups"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
