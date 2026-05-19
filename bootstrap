@@ -16,6 +16,7 @@ FORMULAS_ONLY=false
 SKIP_OSX=false
 SKIP_TMUX=false
 SKIP_GITCONFIG=false
+COMPUTER_NAME=""
 
 info() {
 	# shellcheck disable=SC2059
@@ -44,6 +45,7 @@ usage() {
 Usage: $(basename "$0") [options]
 
 Options:
+  --name <name>        Set the computer name (ComputerName, HostName, LocalHostName)
   --karabiner-only     Only symlink the Karabiner config (macOS only)
   --skip-brew          Skip all Homebrew steps (update, bundle, upgrade)
   --skip-mas           Skip Mac App Store apps — useful before signing into the App Store
@@ -55,30 +57,34 @@ Options:
   -h, --help           Show this help message
 
 Running without options performs a full setup:
-  gitconfig → dotfiles → shell → Xcode tools → Homebrew → osx defaults → karabiner → tmux plugins
+  computer name → gitconfig → dotfiles → shell → Xcode tools → Homebrew → osx defaults → karabiner → tmux plugins
 
 Examples:
-  bootstrap                        Full setup
-  bootstrap --skip-mas             Full setup but skip App Store installs
-  bootstrap --formulas-only        Brew formulas only, no casks/mas/vscode
-  bootstrap --skip-brew --skip-osx Just symlink dotfiles and set up shell
-  bootstrap --karabiner-only       Only symlink Karabiner config
+  bootstrap                              Full setup (prompts for computer name)
+  bootstrap --name "Kyriacos MBP"        Full setup with computer name set upfront
+  bootstrap --skip-mas                   Full setup but skip App Store installs
+  bootstrap --formulas-only              Brew formulas only, no casks/mas/vscode
+  bootstrap --skip-brew --skip-osx       Just symlink dotfiles and set up shell
+  bootstrap --karabiner-only             Only symlink Karabiner config
 EOF
 	exit 0
 }
 
-for arg in "$@"; do
-	case "$arg" in
-		--karabiner-only|--install-karabiner) KARABINER_ONLY=true ;;
-		--skip-brew)      SKIP_BREW=true ;;
-		--skip-mas)       SKIP_MAS=true ;;
-		--skip-casks)     SKIP_CASKS=true ;;
-		--formulas-only)  FORMULAS_ONLY=true ;;
-		--skip-osx)       SKIP_OSX=true ;;
-		--skip-tmux)      SKIP_TMUX=true ;;
-		--skip-gitconfig) SKIP_GITCONFIG=true ;;
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+		--name)
+			[[ -z "${2-}" ]] && { echo "--name requires a value"; usage; }
+			COMPUTER_NAME="$2"; shift 2 ;;
+		--karabiner-only|--install-karabiner) KARABINER_ONLY=true; shift ;;
+		--skip-brew)      SKIP_BREW=true; shift ;;
+		--skip-mas)       SKIP_MAS=true; shift ;;
+		--skip-casks)     SKIP_CASKS=true; shift ;;
+		--formulas-only)  FORMULAS_ONLY=true; shift ;;
+		--skip-osx)       SKIP_OSX=true; shift ;;
+		--skip-tmux)      SKIP_TMUX=true; shift ;;
+		--skip-gitconfig) SKIP_GITCONFIG=true; shift ;;
 		-h|--help)        usage ;;
-		*) echo "Unknown option: $arg"; usage ;;
+		*) echo "Unknown option: $1"; usage ;;
 	esac
 done
 
@@ -182,6 +188,33 @@ install_homebrew() {
 	brew upgrade
 }
 
+set_computer_name() {
+	if [[ "$(uname)" != "Darwin" ]]; then
+		info "skipping computer name (not macOS)"
+		return 0
+	fi
+
+	local name="$1"
+	if [[ -z "$name" ]]; then
+		local current
+		current=$(scutil --get ComputerName 2>/dev/null || echo "")
+		user " - Computer name [${current}]: "
+		read -r name
+		[[ -z "$name" ]] && { info "keeping current computer name: ${current}"; return 0; }
+	fi
+
+	# LocalHostName can't have spaces — replace with hyphens and strip non-alphanumeric
+	local host_name
+	host_name=$(echo "$name" | tr ' ' '-' | tr -cd '[:alnum:]-')
+
+	sudo scutil --set ComputerName  "$name"
+	sudo scutil --set HostName      "$host_name"
+	sudo scutil --set LocalHostName "$host_name"
+	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server \
+		NetBIOSName -string "$host_name"
+	success "computer name set to: $name ($host_name)"
+}
+
 install_tmux_plugins() {
 	info "Installing tmux plugins"
 	if command -v tmux >/dev/null 2>&1; then
@@ -204,6 +237,8 @@ if $KARABINER_ONLY; then
 fi
 
 # --- Main setup ---
+set_computer_name "$COMPUTER_NAME"
+
 $SKIP_GITCONFIG || setup_gitconfig
 
 install_dotfiles
