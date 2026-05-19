@@ -5,9 +5,17 @@ DOTFILES_ROOT=$HOME/.dotfiles/dots
 
 set -e
 
-INSTALL_KARABINER_ONLY=false
-
 echo ''
+
+# Flags
+KARABINER_ONLY=false
+SKIP_BREW=false
+SKIP_MAS=false
+SKIP_CASKS=false
+FORMULAS_ONLY=false
+SKIP_OSX=false
+SKIP_TMUX=false
+SKIP_GITCONFIG=false
 
 info() {
 	# shellcheck disable=SC2059
@@ -31,9 +39,51 @@ fail() {
 	exit 1
 }
 
+usage() {
+	cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+  --karabiner-only     Only symlink the Karabiner config (macOS only)
+  --skip-brew          Skip all Homebrew steps (update, bundle, upgrade)
+  --skip-mas           Skip Mac App Store apps — useful before signing into the App Store
+  --skip-casks         Skip cask (GUI app) installations
+  --formulas-only      Only install brew formulas; skips mas, casks, and vscode extensions
+  --skip-osx           Skip macOS defaults setup (osx_set_defaults.sh)
+  --skip-tmux          Skip tmux plugin installation
+  --skip-gitconfig     Skip git config setup
+  -h, --help           Show this help message
+
+Running without options performs a full setup:
+  gitconfig → dotfiles → shell → Xcode tools → Homebrew → osx defaults → karabiner → tmux plugins
+
+Examples:
+  bootstrap                        Full setup
+  bootstrap --skip-mas             Full setup but skip App Store installs
+  bootstrap --formulas-only        Brew formulas only, no casks/mas/vscode
+  bootstrap --skip-brew --skip-osx Just symlink dotfiles and set up shell
+  bootstrap --karabiner-only       Only symlink Karabiner config
+EOF
+	exit 0
+}
+
+for arg in "$@"; do
+	case "$arg" in
+		--karabiner-only|--install-karabiner) KARABINER_ONLY=true ;;
+		--skip-brew)      SKIP_BREW=true ;;
+		--skip-mas)       SKIP_MAS=true ;;
+		--skip-casks)     SKIP_CASKS=true ;;
+		--formulas-only)  FORMULAS_ONLY=true ;;
+		--skip-osx)       SKIP_OSX=true ;;
+		--skip-tmux)      SKIP_TMUX=true ;;
+		--skip-gitconfig) SKIP_GITCONFIG=true ;;
+		-h|--help)        usage ;;
+		*) echo "Unknown option: $arg"; usage ;;
+	esac
+done
+
 setup_gitconfig() {
 	info 'setup gitconfig'
-	# if there is no user.email, we'll assume it's a new machine/setup and ask it
 	if [ -z "$(git config --global --get user.email)" ]; then
 		user ' - What is your github author name?'
 		read -r user_name
@@ -43,9 +93,6 @@ setup_gitconfig() {
 		git config --global user.name "$user_name"
 		git config --global user.email "$user_email"
 	elif [ "$(git config --global --get dotfiles.managed)" != "true" ]; then
-		# if user.email exists, let's check for dotfiles.managed config. If it is
-		# not true, we'll backup the gitconfig file and set previous user.email and
-		# user.name in the new one
 		user_name="$(git config --global --get user.name)"
 		user_email="$(git config --global --get user.email)"
 		mv ~/.gitconfig ~/.gitconfig.backup
@@ -53,13 +100,9 @@ setup_gitconfig() {
 		git config --global user.name "$user_name"
 		git config --global user.email "$user_email"
 	else
-		# otherwise this gitconfig was already made by the dotfiles
 		info "already managed by dotfiles"
 	fi
-	# include the gitconfig.local file
 	git config --global include.path ~/.gitconfig.local
-	# finally make git knows this is a managed config already, preventing later
-	# overrides by this script
 	git config --global dotfiles.managed true
 	success 'gitconfig'
 }
@@ -105,37 +148,65 @@ find_zsh() {
 	fi
 }
 
-usage() {
-	cat <<EOF
-Usage: $(basename "$0") [options]
+install_homebrew() {
+	info "installing essentials"
+	if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr/bin/gcc ]]; then
+		echo "Installing Xcode CLI tools"
+		xcode-select --install
+	fi
 
-Options:
-  --install-karabiner   Only symlink the Karabiner config directory (macOS only)
-  -h, --help            Show this help message
+	if [[ ! -x /opt/homebrew/bin/brew ]]; then
+		info "Installing Homebrew"
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+	fi
 
-Running without options performs a full setup: gitconfig, dotfiles, shell,
-Xcode tools, Homebrew, and on macOS also the Karabiner symlink.
-EOF
-	exit 0
+	# Build brew bundle args
+	BUNDLE_ARGS="--verbose --file=$HOME/.dotfiles/Brewfile"
+	if $FORMULAS_ONLY || $SKIP_MAS;   then BUNDLE_ARGS="$BUNDLE_ARGS --no-mas";    fi
+	if $FORMULAS_ONLY || $SKIP_CASKS; then BUNDLE_ARGS="$BUNDLE_ARGS --no-cask";   fi
+	if $FORMULAS_ONLY;                 then BUNDLE_ARGS="$BUNDLE_ARGS --no-vscode"; fi
+
+	info "Running brew update, brew bundle, brew upgrade"
+	if $FORMULAS_ONLY; then
+		info "formulas-only: skipping mas, casks, and vscode extensions"
+	elif $SKIP_MAS; then
+		info "skipping Mac App Store apps"
+	elif $SKIP_CASKS; then
+		info "skipping casks"
+	fi
+
+	brew update
+	brew tap Homebrew/bundle
+	# shellcheck disable=SC2086
+	brew bundle $BUNDLE_ARGS
+	brew upgrade
 }
 
-for arg in "$@"; do
-	case "$arg" in
-		--install-karabiner) INSTALL_KARABINER_ONLY=true ;;
-		-h|--help) usage ;;
-		*) echo "Unknown option: $arg"; usage ;;
-	esac
-done
+install_tmux_plugins() {
+	info "Installing tmux plugins"
+	if command -v tmux >/dev/null 2>&1; then
+		TPM_INSTALL="$HOME/.tmux/plugins/tpm/bin/install_plugins"
+		if [ -x "$TPM_INSTALL" ]; then
+			"$TPM_INSTALL" && success "tmux plugins installed"
+		else
+			fail "TPM not found at $HOME/.tmux/plugins/tpm — did you clone with --recurse-submodules?"
+		fi
+	else
+		info "tmux not found, skipping plugin install"
+	fi
+}
 
-if $INSTALL_KARABINER_ONLY; then
+# --- karabiner-only shortcut ---
+if $KARABINER_ONLY; then
 	install_karabiner
 	success "Finished Karabiner setup"
 	exit 0
 fi
 
-setup_gitconfig
-install_dotfiles
+# --- Main setup ---
+$SKIP_GITCONFIG || setup_gitconfig
 
+install_dotfiles
 
 info 'Try setting zsh as default shell'
 zsh="$(find_zsh)"
@@ -144,50 +215,16 @@ test "$(expr "$SHELL" : '.*/\(.*\)')" != "zsh" &&
 	chsh -s "$zsh" &&
 	success "set $("$zsh" --version) at $zsh as default shell"
 
-#info "Link bitbar config directory"
-#mkdir -p $HOME/.config/bitbar
-#ln -s $HOME/.dotfiles/bitbar $HOME/.config/bitbar
+$SKIP_BREW || install_homebrew
 
-# Install essentials when necessary
-info "installing essentials"
-if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr/bin/gcc ]]; then
-  echo "Installing Xcode"
-  xcode-select --install
+if ! $SKIP_OSX && [[ "$(uname)" == "Darwin" ]]; then
+	info "Setting up macOS defaults"
+	chmod +x "$HOME/.dotfiles/osx_set_defaults.sh"
+	"$HOME/.dotfiles/osx_set_defaults.sh"
 fi
-
-#sudo xcodebuild -license accept
-
-# Download and install Homebrew
-if [[ ! -x /opt/homebrew/bin/brew ]]; then
-  info "Installing Homebrew"
- /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-fi
-
-# Install homebrew bundle
-info "Updating brew, running 'brew bundle', and upgrading packages"
-
-brew update
-brew tap Homebrew/bundle
-brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
-brew upgrade
-
-info "Setting up defaults for macOS"
-chmod +x $HOME/.dotfiles/osx_set_defaults.sh
-$HOME/.dotfiles/osx_set_defaults.sh
 
 install_karabiner
 
-# Install tmux plugins via TPM
-info "Installing tmux plugins"
-if command -v tmux >/dev/null 2>&1; then
-	TPM_INSTALL="$HOME/.tmux/plugins/tpm/bin/install_plugins"
-	if [ -x "$TPM_INSTALL" ]; then
-		"$TPM_INSTALL" && success "tmux plugins installed"
-	else
-		fail "TPM not found at $HOME/.tmux/plugins/tpm — did you clone with --recurse-submodules?"
-	fi
-else
-	info "tmux not found, skipping plugin install"
-fi
+$SKIP_TMUX || install_tmux_plugins
 
 success "Finished set up"
