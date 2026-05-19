@@ -21,6 +21,12 @@ Passing one or more --*-only flags runs only those steps. No flags = full setup.
   --karabiner-only     Symlink Karabiner config only
   --tmux-only          Install tmux plugins only
 
+Skip flags (full run only):
+  --skip-brew          Skip all Homebrew steps
+  --skip-osx           Skip macOS defaults setup
+  --skip-tmux          Skip tmux plugin installation
+  --skip-gitconfig     Skip git config setup
+
 Brew modifiers (apply to full run or --brew-only):
   --name <name>        Set computer name non-interactively (prompts if omitted)
   --skip-mas           Skip Mac App Store apps
