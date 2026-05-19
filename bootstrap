@@ -5,6 +5,8 @@ DOTFILES_ROOT=$HOME/.dotfiles/dots
 
 set -e
 
+INSTALL_KARABINER_ONLY=false
+
 echo ''
 
 info() {
@@ -76,6 +78,16 @@ link_file() {
 	success "linked $1 to $2"
 }
 
+install_karabiner() {
+	if [[ "$(uname)" != "Darwin" ]]; then
+		info "skipping Karabiner symlink (not macOS)"
+		return 0
+	fi
+	info "linking Karabiner config"
+	mkdir -p "$HOME/.config"
+	link_file "$HOME/.dotfiles/karabiner" "$HOME/.config/karabiner"
+}
+
 install_dotfiles() {
 	info 'installing dotfiles'
 	find -H "$DOTFILES_ROOT" -maxdepth 1 -name '*' -not -path '*.git*' |
@@ -92,6 +104,34 @@ find_zsh() {
 		echo "/bin/zsh"
 	fi
 }
+
+usage() {
+	cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+  --install-karabiner   Only symlink the Karabiner config directory (macOS only)
+  -h, --help            Show this help message
+
+Running without options performs a full setup: gitconfig, dotfiles, shell,
+Xcode tools, Homebrew, and on macOS also the Karabiner symlink.
+EOF
+	exit 0
+}
+
+for arg in "$@"; do
+	case "$arg" in
+		--install-karabiner) INSTALL_KARABINER_ONLY=true ;;
+		-h|--help) usage ;;
+		*) echo "Unknown option: $arg"; usage ;;
+	esac
+done
+
+if $INSTALL_KARABINER_ONLY; then
+	install_karabiner
+	success "Finished Karabiner setup"
+	exit 0
+fi
 
 setup_gitconfig
 install_dotfiles
@@ -132,8 +172,10 @@ brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
 brew upgrade
 
 info "Setting up defaults for macOS"
-chmox +x $HOME/.dotfiles/osx_set_defaults.sh
+chmod +x $HOME/.dotfiles/osx_set_defaults.sh
 $HOME/.dotfiles/osx_set_defaults.sh
+
+install_karabiner
 
 # Install tmux plugins via TPM
 info "Installing tmux plugins"
