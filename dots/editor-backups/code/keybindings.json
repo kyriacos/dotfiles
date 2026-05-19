@@ -1,0 +1,31 @@
+// Place your key bindings in this file to overwrite the defaults
+// if you want something like maximize or even only in vim mode
+// {
+//   "key": "shift+z shift+w",
+//   "command": "workbench.action.maximizeEditor",
+//   "when": "editorTextFocus && amVim.mode != 'INSERT'"
+// },
+[
+  {
+    "key": "shift+cmd+e",
+    "command": "-workbench.view.explorer",
+    "when": "viewContainer.workbench.view.explorer.enabled"
+  },
+  {
+    "key": "shift+cmd+e",
+    "command": "workbench.files.action.showActiveFileInExplorer"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "-workbench.action.terminal.openNativeConsole",
+    "when": "!terminalFocus"
+  },
+  {
+    "key": "shift+cmd+c",
+    "command": "workbench.files.action.collapseExplorerFolders"
+  },
+  {
+    "key": "alt+shift+w",
+    "command": "workbench.action.reopenClosedEditor"
+  }
+]
