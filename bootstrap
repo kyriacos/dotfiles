@@ -167,7 +167,6 @@ fi
 info "Updating brew, running 'brew bundle', and upgrading packages"
 
 brew update
-brew tap Homebrew/bundle
 brew bundle --verbose --file=$HOME/.dotfiles/Brewfile
 brew upgrade
 
