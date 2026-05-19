@@ -7,14 +7,6 @@
 # Ask for the administrator password upfront
 sudo -v
 
-disable_agent() {
-	mv "$1" "$1_DISABLED" >/dev/null 2>&1 ||
-		sudo mv "$1" "$1_DISABLED" >/dev/null 2>&1
-}
-
-unload_agent() {
-	launchctl unload -w "$1" >/dev/null 2>&1
-}
 
 echo "This script will make your Mac awesome"
 
@@ -105,10 +97,6 @@ echo "Showing status bar in Finder by default"
 defaults write com.apple.finder ShowStatusBar -bool true
 
 echo ""
-echo "Allowing text selection in Quick Look/Preview in Finder by default"
-defaults write com.apple.finder QLEnableTextSelection -bool true
-
-echo ""
 echo "Displaying full POSIX path as Finder window title"
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
@@ -160,17 +148,8 @@ echo "Don’t automatically rearrange Spaces based on most recent use"
 defaults write com.apple.dock mru-spaces -bool false
 
 echo ""
-echo "Add iOS Simulator to Launchpad"
-sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/iOS Simulator.app" "/Applications/iOS Simulator.app"
-
-echo ""
-echo "Menu bar icons"
-defaults write com.apple.systemuiserver menuExtras -array \
-	"/System/Library/CoreServices/Menu Extras/Bluetooth.menu" \
-	"/System/Library/CoreServices/Menu Extras/Volume.menu" \
-	"/System/Library/CoreServices/Menu Extras/AirPort.menu" \
-	"/System/Library/CoreServices/Menu Extras/Battery.menu" \
-	"/System/Library/CoreServices/Menu Extras/Clock.menu"
+echo "Add Simulator to Launchpad"
+sudo ln -sf "/Applications/Xcode.app/Contents/Developer/Applications/Simulator.app" "/Applications/Simulator.app"
 
 ###############################################################################
 # Hot Corners
@@ -312,7 +291,7 @@ defaults write com.apple.spotlight orderedItems -array \
 	'{"enabled" = 0;"name" = "MENU_OTHER";}' \
 	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
 	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}' \
 	'{"enabled" = 0;"name" = "MESSAGES";}' \
 	'{"enabled" = 0;"name" = "CONTACT";}' \
 	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
@@ -360,25 +339,6 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 ################################
 
-
-##########################
-# Agents								 #
-##########################
-
-echo ""
-echo "## Media"
-if [ -z "$KEEP_ITUNES" ]; then
-	echo "  › Disable iTunes helper"
-	disable_agent /Applications/iTunes.app/Contents/MacOS/iTunesHelper.app
-	echo "  › Prevent play button from launching iTunes"
-	unload_agent /System/Library/LaunchAgents/com.apple.rcd.plist
-fi
-
-echo "  › Disable Spotify web helper"
-disable_agent ~/Applications/Spotify.app/Contents/MacOS/SpotifyWebHelper
-
-
-#############################################################################
 
 
 ###############################################################################

@@ -107,9 +107,10 @@ brew "wget"
 brew "wireguard-tools"
 brew "xcbeautify"
 brew "xcode-build-server"
-brew "yarn"
+# brew "yarn"
 # brew "youtube-dl"
 brew "zig"
+brew "zoxide"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 brew "anomalyco/tap/opencode"
@@ -154,6 +155,7 @@ cask "shifty", args: { appdir: "/Applications" }
 cask "suspicious-package", args: { appdir: "/Applications" }
 cask "vlc", args: { appdir: "/Applications" }
 cask "webpquicklook", args: { appdir: "/Applications" }
+cask "moves", args: {appdir: "/Applications"}
 mas "1Password for Safari", id: 1569813296
 mas "Affinity Designer 2", id: 1616831348
 mas "Affinity Photo 2", id: 1616822987

@@ -6,16 +6,8 @@ git clone --recurse-submodules git@github.com:kyriacos/dotfiles.git ~/.dotfiles
 Then run the bootstrap script:
 sh ~/.dotfiles/bootstrap
 
-NOTES:
-- brew install zsh-syntax-highlighting
-- brew install zsh-completion
-- brew install bash-completion
-- brew install fd
-- brew install ripgrep
-- brew install findutils
-- brew install coreutils
-- brew install fasd
-- brew install fzf
+All CLI tools are managed via the Brewfile. The bootstrap script runs `brew bundle`
+to install everything, including zsh-syntax-highlighting, fzf, ripgrep, fd, and zoxide.
 
 ## tmux setup
 
