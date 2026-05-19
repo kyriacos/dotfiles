@@ -342,6 +342,24 @@ defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
 
 ###############################################################################
+# Keyboard shortcuts
+# ###############################################################################
+
+MACOS_PREFS="$HOME/.dotfiles/dots/macos"
+
+if [ -f "$MACOS_PREFS/com.apple.symbolichotkeys.plist" ]; then
+	echo ""
+	echo "Restoring keyboard shortcuts"
+	defaults import com.apple.symbolichotkeys "$MACOS_PREFS/com.apple.symbolichotkeys.plist"
+	echo "  ✓ System keyboard shortcuts"
+fi
+
+if [ -f "$MACOS_PREFS/com.apple.ServicesMenu.Services.plist" ]; then
+	defaults import com.apple.ServicesMenu.Services "$MACOS_PREFS/com.apple.ServicesMenu.Services.plist"
+	echo "  ✓ Services shortcuts"
+fi
+
+###############################################################################
 # Kill affected applications
 # ###############################################################################
 echo ""

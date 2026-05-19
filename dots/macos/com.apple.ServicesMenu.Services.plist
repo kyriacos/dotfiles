@@ -1,0 +1,2363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSServices</key>
+	<dict>
+		<key>CFPrincipalLocalizations</key>
+		<array>
+			<string>en_GB</string>
+		</array>
+		<key>CFVendedServices</key>
+		<array>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.AppleSpell</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/AppleSpell.service</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSLanguages</key>
+				<array>
+					<string>ar</string>
+					<string>ars</string>
+					<string>bg</string>
+					<string>cs</string>
+					<string>da</string>
+					<string>de</string>
+					<string>el</string>
+					<string>en</string>
+					<string>en_AU</string>
+					<string>en_CA</string>
+					<string>en_GB</string>
+					<string>en_IN</string>
+					<string>en_JP</string>
+					<string>en_NZ</string>
+					<string>en_SG</string>
+					<string>en_ZA</string>
+					<string>es</string>
+					<string>fi</string>
+					<string>fr</string>
+					<string>ga</string>
+					<string>he</string>
+					<string>hi</string>
+					<string>hu</string>
+					<string>id</string>
+					<string>is</string>
+					<string>it</string>
+					<string>ko</string>
+					<string>lt</string>
+					<string>nb</string>
+					<string>nl</string>
+					<string>nn</string>
+					<string>pa</string>
+					<string>pl</string>
+					<string>pt_BR</string>
+					<string>pt_PT</string>
+					<string>ro</string>
+					<string>ru</string>
+					<string>sl</string>
+					<string>sv</string>
+					<string>te</string>
+					<string>tr</string>
+					<string>uk</string>
+					<string>vi</string>
+					<string>Multilingual</string>
+				</array>
+				<key>NSMenuItem</key>
+				<dict/>
+				<key>NSMessage</key>
+				<string>Apple</string>
+				<key>NSPortName</key>
+				<string>AppleSpell</string>
+				<key>NSSpellChecker</key>
+				<string>Apple</string>
+				<key>NSUUID</key>
+				<data>
+				+bfTJymRXCNX+UdYvBbK7wvmy7U=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Automator</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Automator.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Create Service</string>
+					<key>default</key>
+					<string>Create Service</string>
+					<key>en</key>
+					<string>Create Service</string>
+					<key>en-GB</key>
+					<string>Create Service</string>
+					<key>en_GB</key>
+					<string>Create Service</string>
+					<key>en_US</key>
+					<string>Create Service</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>makeNewServiceWithPasteboard</string>
+				<key>NSPortName</key>
+				<string>Automator</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				KbrzjCjHOCLgHMBLJy05dgwhcnY=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Automator</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Automator.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Create Workflow</string>
+					<key>default</key>
+					<string>Create Workflow</string>
+					<key>en</key>
+					<string>Create Workflow</string>
+					<key>en-GB</key>
+					<string>Create Workflow</string>
+					<key>en_GB</key>
+					<string>Create Workflow</string>
+					<key>en_US</key>
+					<string>Create Workflow</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>makeNewWorkflowServiceWithPasteboard</string>
+				<key>NSPortName</key>
+				<string>Automator</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				NVn2FBesViDXymrz8KZJOiujXeA=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.BluetoothFileExchange</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Bluetooth File Exchange.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>default</key>
+					<string>B</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Send File To Bluetooth Device</string>
+					<key>default</key>
+					<string>Send File To Bluetooth Device</string>
+					<key>en</key>
+					<string>Send File To Bluetooth Device</string>
+					<key>en-GB</key>
+					<string>Send File To Bluetooth Device</string>
+					<key>en_GB</key>
+					<string>Send File To Bluetooth Device</string>
+					<key>en_US</key>
+					<string>Send File To Bluetooth Device</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>sendFileUsingBluetoothOBEXService</string>
+				<key>NSPortName</key>
+				<string>BluetoothFileExchange</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				Gnc6p1Fe0vt3JnOGLlXdsGOy6oo=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ChineseTextConverterService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/ChineseTextConverterService.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>English</key>
+					<string>$^@C</string>
+					<key>default</key>
+					<string>$^@C</string>
+					<key>en</key>
+					<string>$^@C</string>
+					<key>en-GB</key>
+					<string>$^@C</string>
+					<key>en_GB</key>
+					<string>$^@C</string>
+					<key>en_US</key>
+					<string>$^@C</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Convert Text to Traditional Chinese</string>
+					<key>default</key>
+					<string>Convert Text from Simplified to Traditional Chinese</string>
+					<key>en</key>
+					<string>Convert Text to Traditional Chinese</string>
+					<key>en-GB</key>
+					<string>Convert Text to Traditional Chinese</string>
+					<key>en_GB</key>
+					<string>Convert Text to Traditional Chinese</string>
+					<key>en_US</key>
+					<string>Convert Text to Traditional Chinese</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>convertTextToTraditionalChinese</string>
+				<key>NSPortName</key>
+				<string>ChineseTextConverterService</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextTransformation</key>
+					<string>Simplified-Traditional</string>
+				</dict>
+				<key>NSReturnTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSTimeout</key>
+				<string>600000</string>
+				<key>NSUUID</key>
+				<data>
+				sJ0YWd1lx5MeYsC2tTPABoGZlgk=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ChineseTextConverterService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/ChineseTextConverterService.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>English</key>
+					<string>$^~@C</string>
+					<key>default</key>
+					<string>$^~@C</string>
+					<key>en</key>
+					<string>$^~@C</string>
+					<key>en-GB</key>
+					<string>$^~@C</string>
+					<key>en_GB</key>
+					<string>$^~@C</string>
+					<key>en_US</key>
+					<string>$^~@C</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Convert Text to Simplified Chinese</string>
+					<key>default</key>
+					<string>Convert Text from Traditional to Simplified Chinese</string>
+					<key>en</key>
+					<string>Convert Text to Simplified Chinese</string>
+					<key>en-GB</key>
+					<string>Convert Text to Simplified Chinese</string>
+					<key>en_GB</key>
+					<string>Convert Text to Simplified Chinese</string>
+					<key>en_US</key>
+					<string>Convert Text to Simplified Chinese</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>convertTextToSimplifiedChinese</string>
+				<key>NSPortName</key>
+				<string>ChineseTextConverterService</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextTransformation</key>
+					<string>Traditional-Simplified</string>
+				</dict>
+				<key>NSReturnTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSTimeout</key>
+				<string>600000</string>
+				<key>NSUUID</key>
+				<data>
+				l3/zC+0T9otBiDsEQaFf7v9r3d0=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ChineseTextConverterService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/ChineseTextConverterService.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Convert Text to Full Width</string>
+					<key>default</key>
+					<string>Convert Text to Full Width</string>
+					<key>en</key>
+					<string>Convert Text to Full Width</string>
+					<key>en-GB</key>
+					<string>Convert Text to Full Width</string>
+					<key>en_GB</key>
+					<string>Convert Text to Full Width</string>
+					<key>en_US</key>
+					<string>Convert Text to Full Width</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>convertTextToFullWidth</string>
+				<key>NSPortName</key>
+				<string>ChineseTextConverterService</string>
+				<key>NSReturnTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSTimeout</key>
+				<string>600000</string>
+				<key>NSUUID</key>
+				<data>
+				Nl1wZkOUJNSh5szU110LiMgfotU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ChineseTextConverterService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/ChineseTextConverterService.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Convert Text to Half Width</string>
+					<key>default</key>
+					<string>Convert Text to Half Width</string>
+					<key>en</key>
+					<string>Convert Text to Half Width</string>
+					<key>en-GB</key>
+					<string>Convert Text to Half Width</string>
+					<key>en_GB</key>
+					<string>Convert Text to Half Width</string>
+					<key>en_US</key>
+					<string>Convert Text to Half Width</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>convertTextToHalfWidth</string>
+				<key>NSPortName</key>
+				<string>ChineseTextConverterService</string>
+				<key>NSReturnTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSTimeout</key>
+				<string>600000</string>
+				<key>NSUUID</key>
+				<data>
+				wVGl/XpDJB3kjKPM16qy+sJhUIU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Dictionary</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Dictionary.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Look Up in Dictionary</string>
+					<key>default</key>
+					<string>Look Up in Dictionary</string>
+					<key>en</key>
+					<string>Look Up in Dictionary</string>
+					<key>en-GB</key>
+					<string>Look Up in Dictionary</string>
+					<key>en_GB</key>
+					<string>Look Up in Dictionary</string>
+					<key>en_US</key>
+					<string>Look Up in Dictionary</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>doLookupService</string>
+				<key>NSPortName</key>
+				<string>Dictionary</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				apSNO5Jjb4ebrjux7+4XFqh0GO8=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.FileMerge</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/FileMerge.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>FileMerge/Compare Files</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>diffFilesService</string>
+				<key>NSPortName</key>
+				<string>FileMerge</string>
+				<key>NSReturnTypes</key>
+				<array/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				siTGm3llvo0ht84jUCVSQi1076E=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.FileMerge</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/FileMerge.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>FileMerge/Compare To Main</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>diffVersusMasterService</string>
+				<key>NSPortName</key>
+				<string>FileMerge</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSReturnTypes</key>
+				<array/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				9oftOiaJWN0MZ4FKji8gGz55hgo=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.FolderActionsSetup</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/CoreServices/Applications/Folder Actions Setup.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Folder Actions Setup…</string>
+					<key>default</key>
+					<string>Folder Actions Setup</string>
+					<key>en</key>
+					<string>Folder Actions Setup…</string>
+					<key>en-GB</key>
+					<string>Folder Actions Setup…</string>
+					<key>en_GB</key>
+					<string>Folder Actions Setup…</string>
+					<key>en_US</key>
+					<string>Folder Actions Setup…</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openFilesFromPasteboard</string>
+				<key>NSPortName</key>
+				<string>Folder Actions Setup</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				P7SaP3gJjA+oMpbz89UKFBHJ7Jk=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.OpenSpell</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/OpenSpell.service</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSLanguages</key>
+				<array>
+					<string>*</string>
+				</array>
+				<key>NSMenuItem</key>
+				<dict/>
+				<key>NSMessage</key>
+				<string>Open</string>
+				<key>NSPortName</key>
+				<string>OpenSpell</string>
+				<key>NSSpellChecker</key>
+				<string>Open</string>
+				<key>NSUUID</key>
+				<data>
+				QKgg5o/KlVEW7gL50PojVC9Kx9g=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Preview</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Preview.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Preview/Open images</string>
+					<key>default</key>
+					<string>Preview/Open images</string>
+					<key>en</key>
+					<string>Preview/Open images</string>
+					<key>en-GB</key>
+					<string>Preview/Open images</string>
+					<key>en_GB</key>
+					<string>Preview/Open images</string>
+					<key>en_US</key>
+					<string>Preview/Open images</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>serviceOpenImage</string>
+				<key>NSPortName</key>
+				<string>Preview</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSPasteboardTypeTIFF</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				pp1irIA1KQSYfqFzlBLrAcwQ4ME=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.QuickTime.service.encodeSelectedAudioFiles</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Encode Selected Audio Files.workflow</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Encode Selected Audio Files</string>
+					<key>default</key>
+					<string>Encode Selected Audio Files</string>
+					<key>en</key>
+					<string>Encode Selected Audio Files</string>
+					<key>en-GB</key>
+					<string>Encode Selected Audio Files</string>
+					<key>en_GB</key>
+					<string>Encode Selected Audio Files</string>
+					<key>en_US</key>
+					<string>Encode Selected Audio Files</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runWorkflowAsService</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<string>com.apple.finder</string>
+				</dict>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.audio</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				0H5Z6nLOnrefshDb7T2gR816duA=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Safari</string>
+				<key>NSBundlePath</key>
+				<string>/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>default</key>
+					<string>L</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Search With %WebSearchProvider@</string>
+					<key>default</key>
+					<string>Search With %WebSearchProvider@</string>
+					<key>en</key>
+					<string>Search With %WebSearchProvider@</string>
+					<key>en-GB</key>
+					<string>Search With %WebSearchProvider@</string>
+					<key>en_GB</key>
+					<string>Search With %WebSearchProvider@</string>
+					<key>en_US</key>
+					<string>Search With %WebSearchProvider@</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>searchWithWebSearchProvider</string>
+				<key>NSPortName</key>
+				<string>Safari</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				aEjTHQtygEf3HDcni9oZ2Xm94kA=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Safari</string>
+				<key>NSBundlePath</key>
+				<string>/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Add to Reading List</string>
+					<key>default</key>
+					<string>Add to Reading List</string>
+					<key>en</key>
+					<string>Add to Reading List</string>
+					<key>en-GB</key>
+					<string>Add to Reading List</string>
+					<key>en_GB</key>
+					<string>Add to Reading List</string>
+					<key>en_US</key>
+					<string>Add to Reading List</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>addToReadingList</string>
+				<key>NSPortName</key>
+				<string>Safari</string>
+				<key>NSRequiredContext</key>
+				<array>
+					<dict>
+						<key>NSTextContent</key>
+						<string>URL</string>
+					</dict>
+					<dict>
+						<key>NSLinkSchemes</key>
+						<array>
+							<string>http</string>
+							<string>https</string>
+						</array>
+					</dict>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.rtf</string>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				uxgSlhe0xWbz+/sNjjCREHhfp6w=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ScriptEditor2</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Script Editor.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Script Editor/Make New AppleScript</string>
+					<key>default</key>
+					<string>Script Editor/Make New AppleScript</string>
+					<key>en</key>
+					<string>Script Editor/Make New AppleScript</string>
+					<key>en-GB</key>
+					<string>Script Editor/Make New AppleScript</string>
+					<key>en_GB</key>
+					<string>Script Editor/Make New AppleScript</string>
+					<key>en_US</key>
+					<string>Script Editor/Make New AppleScript</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>makeNewAppleScript</string>
+				<key>NSPortName</key>
+				<string>Script Editor</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				wFDy+052d7pkj8WJBOOkHO4SsZs=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ScriptEditor2</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Script Editor.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Script Editor/Run as AppleScript</string>
+					<key>default</key>
+					<string>Script Editor/Run as AppleScript</string>
+					<key>en</key>
+					<string>Script Editor/Run as AppleScript</string>
+					<key>en-GB</key>
+					<string>Script Editor/Run as AppleScript</string>
+					<key>en_GB</key>
+					<string>Script Editor/Run as AppleScript</string>
+					<key>en_US</key>
+					<string>Script Editor/Run as AppleScript</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runAsAppleScript</string>
+				<key>NSPortName</key>
+				<string>Script Editor</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				YZMQNv+8WzXeXNgyMuzPc+9kTJ4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.ScriptEditor2</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Script Editor.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>English</key>
+					<string>*</string>
+					<key>default</key>
+					<string>*</string>
+					<key>en</key>
+					<string>*</string>
+					<key>en-GB</key>
+					<string>*</string>
+					<key>en_GB</key>
+					<string>*</string>
+					<key>en_US</key>
+					<string>*</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+					<key>default</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+					<key>en</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+					<key>en-GB</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+					<key>en_GB</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+					<key>en_US</key>
+					<string>Script Editor/Get Result of AppleScript</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runAsAppleScript</string>
+				<key>NSPortName</key>
+				<string>Script Editor</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSReturnTypes</key>
+				<array>
+					<string>NSRTFDPboardType</string>
+					<string>NSRTFPboardType</string>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				xtmLUZR/2L44E6yeTQnnxzkNEK4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.SpotlightService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Spotlight.service</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>default</key>
+					<string>F</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Spotlight</string>
+					<key>default</key>
+					<string>SEARCH_WITH_SPOTLIGHT</string>
+					<key>en</key>
+					<string>Spotlight</string>
+					<key>en-GB</key>
+					<string>Spotlight</string>
+					<key>en_GB</key>
+					<string>Spotlight</string>
+					<key>en_US</key>
+					<string>Spotlight</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>doSearchWithSpotlight</string>
+				<key>NSPortName</key>
+				<string>SpotlightService</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				79F9RiXPOELGdzRR7hYnM/bvQTY=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Stickies</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Stickies.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>English</key>
+					<string>Y</string>
+					<key>default</key>
+					<string>Y</string>
+					<key>en</key>
+					<string>Y</string>
+					<key>en-GB</key>
+					<string>Y</string>
+					<key>en_GB</key>
+					<string>Y</string>
+					<key>en_US</key>
+					<string>Y</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Make New Sticky Note</string>
+					<key>default</key>
+					<string>Make Sticky</string>
+					<key>en</key>
+					<string>Make New Sticky Note</string>
+					<key>en-GB</key>
+					<string>Make New Sticky Note</string>
+					<key>en_GB</key>
+					<string>Make New Sticky Note</string>
+					<key>en_US</key>
+					<string>Make New Sticky Note</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>makeStickyFromTextService</string>
+				<key>NSPortName</key>
+				<string>Stickies</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+					<string>public.rtf</string>
+					<string>com.apple.flat-rtfd</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				USrLeFwyWQU0kQXmr42xojBjCfE=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.SummaryService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Summary Service.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Summarise</string>
+					<key>default</key>
+					<string>Summarize</string>
+					<key>en</key>
+					<string>Summarise</string>
+					<key>en-GB</key>
+					<string>Summarise</string>
+					<key>en_GB</key>
+					<string>Summarise</string>
+					<key>en_US</key>
+					<string>Summarise</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>doSummarization</string>
+				<key>NSPortName</key>
+				<string>SummaryService</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				THT639Cwz55/DW3h1KR8waxsQ/Q=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Terminal</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Terminal.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>New Terminal at Folder</string>
+					<key>default</key>
+					<string>New Terminal at Folder</string>
+					<key>en</key>
+					<string>New Terminal at Folder</string>
+					<key>en-GB</key>
+					<string>New Terminal at Folder</string>
+					<key>en_GB</key>
+					<string>New Terminal at Folder</string>
+					<key>en_US</key>
+					<string>New Terminal at Folder</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>newTerminalAtFolder</string>
+				<key>NSPortName</key>
+				<string>Terminal</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.directory</string>
+					<string>com.apple.resolvable</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				vUIh/zzlZhHI3NBdewMN4Zo8p9w=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Terminal</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Terminal.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>New Terminal Tab at Folder</string>
+					<key>default</key>
+					<string>New Terminal Tab at Folder</string>
+					<key>en</key>
+					<string>New Terminal Tab at Folder</string>
+					<key>en-GB</key>
+					<string>New Terminal Tab at Folder</string>
+					<key>en_GB</key>
+					<string>New Terminal Tab at Folder</string>
+					<key>en_US</key>
+					<string>New Terminal Tab at Folder</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>newTerminalAtFolder</string>
+				<key>NSPortName</key>
+				<string>Terminal</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.directory</string>
+					<string>com.apple.resolvable</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				HT7KCchFWrgZqLgXJEdKrpiB+f0=
+				</data>
+				<key>NSUserData</key>
+				<string>New Tab</string>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Terminal</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Terminal.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>default</key>
+					<string>M</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Open man Page in Terminal</string>
+					<key>default</key>
+					<string>Open man Page in Terminal</string>
+					<key>en</key>
+					<string>Open man Page in Terminal</string>
+					<key>en-GB</key>
+					<string>Open man Page in Terminal</string>
+					<key>en_GB</key>
+					<string>Open man Page in Terminal</string>
+					<key>en_US</key>
+					<string>Open man Page in Terminal</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openManPage</string>
+				<key>NSPortName</key>
+				<string>Terminal</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSWordLimit</key>
+					<integer>20</integer>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				Vd+q18pddkByw9sKCSRoZGMfRg4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.Terminal</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Utilities/Terminal.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict>
+					<key>default</key>
+					<string>A</string>
+				</dict>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Search man Page Index in Terminal</string>
+					<key>default</key>
+					<string>Search man Page Index in Terminal</string>
+					<key>en</key>
+					<string>Search man Page Index in Terminal</string>
+					<key>en-GB</key>
+					<string>Search man Page Index in Terminal</string>
+					<key>en_GB</key>
+					<string>Search man Page Index in Terminal</string>
+					<key>en_US</key>
+					<string>Search man Page Index in Terminal</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>searchManPages</string>
+				<key>NSPortName</key>
+				<string>Terminal</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSWordLimit</key>
+					<integer>20</integer>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				IZP7RWfO8kaygXxrR0z2v2LARSM=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.TextEdit</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/TextEdit.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>New TextEdit Window Containing Selection</string>
+					<key>default</key>
+					<string>New TextEdit Window Containing Selection</string>
+					<key>en</key>
+					<string>New TextEdit Window Containing Selection</string>
+					<key>en-GB</key>
+					<string>New TextEdit Window Containing Selection</string>
+					<key>en_GB</key>
+					<string>New TextEdit Window Containing Selection</string>
+					<key>en_US</key>
+					<string>New TextEdit Window Containing Selection</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openSelection</string>
+				<key>NSPortName</key>
+				<string>TextEdit</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>com.apple.flat-rtfd</string>
+					<string>public.rtf</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				figeLIYyEwYhwqIXKa+uIY2tF9M=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.TextEdit</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/TextEdit.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Open Selected File in TextEdit</string>
+					<key>default</key>
+					<string>Open Selected File in TextEdit</string>
+					<key>en</key>
+					<string>Open Selected File in TextEdit</string>
+					<key>en-GB</key>
+					<string>Open Selected File in TextEdit</string>
+					<key>en_GB</key>
+					<string>Open Selected File in TextEdit</string>
+					<key>en_US</key>
+					<string>Open Selected File in TextEdit</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openFile</string>
+				<key>NSPortName</key>
+				<string>TextEdit</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				oExumDYV2ihoLB0RT4IXrMefoKY=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Instruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>System Trace</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>targetFrontAppWithTemplate</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				EulnOzjAckRCJPsZvwLBZqWGIgo=
+				</data>
+				<key>NSUserData</key>
+				<string>System Trace.tracetemplate</string>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Instruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Activity Monitor</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>targetFrontAppWithTemplate</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				ldb2A6Yh5UfsdQUNq6vunpJCgo8=
+				</data>
+				<key>NSUserData</key>
+				<string>Activity Monitor.tracetemplate</string>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Instruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Allocations &amp; Leaks</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>targetFrontAppWithTemplate</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				QOsDi5X5uoavgvfDvdQjW+UKVgs=
+				</data>
+				<key>NSUserData</key>
+				<string>Leaks.tracetemplate</string>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Instruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>File Activity</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>targetFrontAppWithTemplate</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				pVmtysujOYfgEB3RyvAgInpdmUE=
+				</data>
+				<key>NSUserData</key>
+				<string>File Activity.tracetemplate</string>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Xcode</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Open Quickly in Xcode</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openQuickly</string>
+				<key>NSPortName</key>
+				<string>Xcode</string>
+				<key>NSRestricted</key>
+				<false/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				GC/djXJvslbZoc22Rp4SHbsGrtI=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.Xcode</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Find in Xcode</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>batchFind</string>
+				<key>NSPortName</key>
+				<string>Xcode</string>
+				<key>NSRestricted</key>
+				<false/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				Z6+LUjG0DN62qteDpxoAgAMIsVo=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.instruments.backgroundinstruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Helpers/backgroundinstruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Time Profile Active Application</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>timeProfileFrontMost</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				MGyqzP3tu0ebG/Lq1chd8RrVbbY=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.instruments.backgroundinstruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Helpers/backgroundinstruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Time Profile Entire System</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>timeProfileSystem</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				wqF13fvH6oTY1/aWazFm6mHwBiU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.instruments.backgroundinstruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Helpers/backgroundinstruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Time Profile App Under Mouse</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>timeProfileUnderMouse</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				qHjcNLzm4G/2CYKUelE99URvEk4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.dt.instruments.backgroundinstruments</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Xcode.app/Contents/Applications/Instruments.app/Contents/Helpers/backgroundinstruments.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Toggle Instruments Recording</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>toggleRecordingState</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSUUID</key>
+				<data>
+				iw2vc9IsgKEBEWl+QduAu8jBSFs=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.finder</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/CoreServices/Finder.app</string>
+				<key>NSForbiddenContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<string>com.apple.finder</string>
+				</dict>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Finder/Open</string>
+					<key>default</key>
+					<string>Finder/Open</string>
+					<key>en</key>
+					<string>Finder/Open</string>
+					<key>en-GB</key>
+					<string>Finder/Open</string>
+					<key>en_GB</key>
+					<string>Finder/Open</string>
+					<key>en_US</key>
+					<string>Finder/Open</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>open</string>
+				<key>NSPortName</key>
+				<string>Finder</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFilenamesPboardType</string>
+					<string>NSURLPboardType</string>
+					<string>NSMultipleTextSelectionPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				GXCmJYWTXoON6/RdGniohBPzi7M=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.finder</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/CoreServices/Finder.app</string>
+				<key>NSForbiddenContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<string>com.apple.finder</string>
+				</dict>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Finder/Show in Finder</string>
+					<key>default</key>
+					<string>Finder/Reveal</string>
+					<key>en</key>
+					<string>Finder/Show in Finder</string>
+					<key>en-GB</key>
+					<string>Finder/Show in Finder</string>
+					<key>en_GB</key>
+					<string>Finder/Show in Finder</string>
+					<key>en_US</key>
+					<string>Finder/Show in Finder</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>reveal</string>
+				<key>NSPortName</key>
+				<string>Finder</string>
+				<key>NSRestricted</key>
+				<false/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFilenamesPboardType</string>
+					<string>NSURLPboardType</string>
+					<string>NSMultipleTextSelectionPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				eq0l/QZdfCzMmK1UDNvNUCd1Xak=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.finder</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/CoreServices/Finder.app</string>
+				<key>NSForbiddenContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<string>com.apple.finder</string>
+				</dict>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Finder/Show Info in Finder</string>
+					<key>default</key>
+					<string>Finder/Show Info</string>
+					<key>en</key>
+					<string>Finder/Show Info in Finder</string>
+					<key>en-GB</key>
+					<string>Finder/Show Info in Finder</string>
+					<key>en_GB</key>
+					<string>Finder/Show Info in Finder</string>
+					<key>en_US</key>
+					<string>Finder/Show Info in Finder</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>showInfo</string>
+				<key>NSPortName</key>
+				<string>Finder</string>
+				<key>NSRestricted</key>
+				<false/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFilenamesPboardType</string>
+					<string>NSURLPboardType</string>
+					<string>NSMultipleTextSelectionPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				NMc0c+6w5oM7WBvl2PrMVFIstgw=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.mail</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Mail.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Mail/New Email With Selection</string>
+					<key>default</key>
+					<string>Mail/New Email With Selection</string>
+					<key>en</key>
+					<string>Mail/New Email With Selection</string>
+					<key>en-GB</key>
+					<string>Mail/New Email With Selection</string>
+					<key>en_GB</key>
+					<string>Mail/New Email With Selection</string>
+					<key>en_US</key>
+					<string>Mail/New Email With Selection</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>mailSelection</string>
+				<key>NSPortName</key>
+				<string>Mail</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSPasteboardTypeRTFD</string>
+					<string>NSPasteboardTypeRTF</string>
+					<string>NSPasteboardTypeString</string>
+					<string>Apple Web Archive pasteboard type</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				12L2Cn8XImJHckPoWxRawk/iKHU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.mail</string>
+				<key>NSBundlePath</key>
+				<string>/System/Applications/Mail.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Mail/New Email To Address</string>
+					<key>default</key>
+					<string>Mail/New Email To Address</string>
+					<key>en</key>
+					<string>Mail/New Email To Address</string>
+					<key>en-GB</key>
+					<string>Mail/New Email To Address</string>
+					<key>en_GB</key>
+					<string>Mail/New Email To Address</string>
+					<key>en_US</key>
+					<string>Mail/New Email To Address</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>mailTo</string>
+				<key>NSPortName</key>
+				<string>Mail</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSPasteboardTypeString</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				vMkmdyi+sC03egrjZv2k1X6Zv2Q=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.services.addToiTunesAsSpokenTrack</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Add to Music as a Spoken Track.workflow</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Add to Music as a Spoken Track</string>
+					<key>default</key>
+					<string>Add to Music as a Spoken Track</string>
+					<key>en</key>
+					<string>Add to Music as a Spoken Track</string>
+					<key>en-GB</key>
+					<string>Add to Music as a Spoken Track</string>
+					<key>en_GB</key>
+					<string>Add to Music as a Spoken Track</string>
+					<key>en_US</key>
+					<string>Add to Music as a Spoken Track</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runWorkflowAsService</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				I+0hhuBziZkTwMEs0A9qdoHE9D0=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.services.encodeSelectedVideoFiles</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Encode Selected Video Files.workflow</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Encode Selected Video Files</string>
+					<key>default</key>
+					<string>Encode Selected Video Files</string>
+					<key>en</key>
+					<string>Encode Selected Video Files</string>
+					<key>en-GB</key>
+					<string>Encode Selected Video Files</string>
+					<key>en_GB</key>
+					<string>Encode Selected Video Files</string>
+					<key>en_US</key>
+					<string>Encode Selected Video Files</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runWorkflowAsService</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<string>com.apple.finder</string>
+				</dict>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.movie</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				do619cVi6EalVg6eY/IOA+PiRRc=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.services.setDesktopPicture</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Set Desktop Picture.workflow</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Set Desktop Picture</string>
+					<key>default</key>
+					<string>Set Desktop Picture</string>
+					<key>en</key>
+					<string>Set Desktop Picture</string>
+					<key>en-GB</key>
+					<string>Set Desktop Picture</string>
+					<key>en_GB</key>
+					<string>Set Desktop Picture</string>
+					<key>en_US</key>
+					<string>Set Desktop Picture</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runWorkflowAsService</string>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.image</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				BmnBNtXUgHm9xsu6u56dJ7wMG1E=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.services.showMap</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/Show Map.workflow</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Show Map</string>
+					<key>default</key>
+					<string>Show Map</string>
+					<key>en</key>
+					<string>Show Map</string>
+					<key>en-GB</key>
+					<string>Show Map</string>
+					<key>en_GB</key>
+					<string>Show Map</string>
+					<key>en_US</key>
+					<string>Show Map</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>runWorkflowAsService</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>Address</string>
+				</dict>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.utf8-plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				MwnU+Il5xR7tFwt77vbAQ9UWkMU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.speech.SpeechService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/SpeechService.service</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Speech/Start Speaking Text</string>
+					<key>default</key>
+					<string>Speech/Start Speaking Text</string>
+					<key>en</key>
+					<string>Speech/Start Speaking Text</string>
+					<key>en-GB</key>
+					<string>Speech/Start Speaking Text</string>
+					<key>en_GB</key>
+					<string>Speech/Start Speaking Text</string>
+					<key>en_US</key>
+					<string>Speech/Start Speaking Text</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>doSpeakSelectedText</string>
+				<key>NSPortName</key>
+				<string>ComAppleSpeechSpeechService</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				b9bBW0q4EKwZWdThO3VDEObj1io=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.speech.SpeechService</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/Services/SpeechService.service</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Speech/Stop Speaking</string>
+					<key>default</key>
+					<string>Speech/Stop Speaking</string>
+					<key>en</key>
+					<string>Speech/Stop Speaking</string>
+					<key>en-GB</key>
+					<string>Speech/Stop Speaking</string>
+					<key>en_GB</key>
+					<string>Speech/Stop Speaking</string>
+					<key>en_US</key>
+					<string>Speech/Stop Speaking</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>doStopSpeaking</string>
+				<key>NSPortName</key>
+				<string>ComAppleSpeechSpeechService</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				FJgUDpXZyXIta3X3eSuHKVCAiL8=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.apple.systemuiserver</string>
+				<key>NSBundlePath</key>
+				<string>/System/Library/CoreServices/SystemUIServer.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Open URL</string>
+					<key>default</key>
+					<string>Open URL</string>
+					<key>en</key>
+					<string>Open URL</string>
+					<key>en-GB</key>
+					<string>Open URL</string>
+					<key>en_GB</key>
+					<string>Open URL</string>
+					<key>en_US</key>
+					<string>Open URL</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openURL</string>
+				<key>NSPortName</key>
+				<string>SystemUIServer</string>
+				<key>NSRestricted</key>
+				<true/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSURLPboardType</string>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				svB/QV+poAye8NW9fideogSH/PA=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.bloombuilt.dayone-mac</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Day One.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Add to Day One</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>addEntryFromServicesPasteboard</string>
+				<key>NSPortName</key>
+				<string>Day One</string>
+				<key>NSRequiredContext</key>
+				<dict/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.image</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				GPi9EUN8kro9KavSTgum9L2jXC4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.mitchellh.ghostty</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Ghostty.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>New Ghostty Tab Here</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openTab</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				AXmiTbiHQHn4g78UlEkRkKl+5EQ=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.mitchellh.ghostty</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Ghostty.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>New Ghostty Window Here</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openWindow</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				h8v3M/SCCd+3bSvNpdk51yIhOzU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.momenta.agenda.macos</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Agenda.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Send to Agenda</string>
+					<key>default</key>
+					<string>Send to Agenda</string>
+					<key>en</key>
+					<string>Send to Agenda</string>
+					<key>en-GB</key>
+					<string>Send to Agenda</string>
+					<key>en_GB</key>
+					<string>Send to Agenda</string>
+					<key>en_US</key>
+					<string>Send to Agenda</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>sendToAgendaService</string>
+				<key>NSPortName</key>
+				<string>Agenda</string>
+				<key>NSRequiredContext</key>
+				<dict/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+					<string>NSFileContentsPboardType</string>
+					<string>NSRTFPboardType</string>
+					<string>NSRTFDPboardType</string>
+					<string>NSURLPboardType</string>
+				</array>
+				<key>NSTimeout</key>
+				<string>60000</string>
+				<key>NSUUID</key>
+				<data>
+				c3jMBiTjtQMivu3XrCBXbPytgwo=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.mothersruin.SuspiciousPackageApp</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Suspicious Package.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>Open With Suspicious Package</string>
+					<key>default</key>
+					<string>Open With Suspicious Package</string>
+					<key>en</key>
+					<string>Open With Suspicious Package</string>
+					<key>en-GB</key>
+					<string>Open With Suspicious Package</string>
+					<key>en_GB</key>
+					<string>Open With Suspicious Package</string>
+					<key>en_US</key>
+					<string>Open With Suspicious Package</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openSelectedPackage</string>
+				<key>NSPortName</key>
+				<string>Suspicious Package</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSApplicationIdentifier</key>
+					<array>
+						<string>com.apple.finder</string>
+					</array>
+					<key>NSServiceCategory</key>
+					<string>public.source-code</string>
+				</dict>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>com.apple.installer-package-archive</string>
+					<string>com.apple.installer-package</string>
+					<string>com.apple.installer-meta-package</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				VMGgKmxTDdGLMOfnJgRZ8TdnEsA=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>com.pixelmatorteam.pixelmator</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Pixelmator.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Open with Pixelmator</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>loadDataFromExternalSource</string>
+				<key>NSPortName</key>
+				<string>Pixelmator</string>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.image</string>
+				</array>
+				<key>NSSendTypes</key>
+				<array>
+					<string>public.image</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				rK5AXe4vYPessLfw+Xg7JW7L7tk=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>cx.c3.theunarchiver</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/The Unarchiver.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>The Unarchiver/Unarchive to Current Folder</string>
+					<key>default</key>
+					<string>The Unarchiver/Unarchive To Current Folder</string>
+					<key>en</key>
+					<string>The Unarchiver/Unarchive to Current Folder</string>
+					<key>en-GB</key>
+					<string>The Unarchiver/Unarchive to Current Folder</string>
+					<key>en_GB</key>
+					<string>The Unarchiver/Unarchive to Current Folder</string>
+					<key>en_US</key>
+					<string>The Unarchiver/Unarchive to Current Folder</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>unarchiveToCurrentFolderWithPasteboard</string>
+				<key>NSPortName</key>
+				<string>The Unarchiver</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				pZQeY1czKPnCcT1kGFUIOcITY/c=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>cx.c3.theunarchiver</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/The Unarchiver.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>The Unarchiver/Unarchive to Desktop</string>
+					<key>default</key>
+					<string>The Unarchiver/Unarchive To Desktop</string>
+					<key>en</key>
+					<string>The Unarchiver/Unarchive to Desktop</string>
+					<key>en-GB</key>
+					<string>The Unarchiver/Unarchive to Desktop</string>
+					<key>en_GB</key>
+					<string>The Unarchiver/Unarchive to Desktop</string>
+					<key>en_US</key>
+					<string>The Unarchiver/Unarchive to Desktop</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>unarchiveToDesktopWithPasteboard</string>
+				<key>NSPortName</key>
+				<string>The Unarchiver</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				isX0QvpdOW0lEI5p/71ELr2r2Wg=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>cx.c3.theunarchiver</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/The Unarchiver.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>English</key>
+					<string>The Unarchiver/Unarchive to...</string>
+					<key>default</key>
+					<string>The Unarchiver/Unarchive To...</string>
+					<key>en</key>
+					<string>The Unarchiver/Unarchive to...</string>
+					<key>en-GB</key>
+					<string>The Unarchiver/Unarchive to...</string>
+					<key>en_GB</key>
+					<string>The Unarchiver/Unarchive to...</string>
+					<key>en_US</key>
+					<string>The Unarchiver/Unarchive to...</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>unarchiveToWithPasteboard</string>
+				<key>NSPortName</key>
+				<string>The Unarchiver</string>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				MDa/iM2MjH1Wo+jzw020ihUeVuo=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>dev.warp.Warp-Stable</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Warp.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>New Warp Tab Here</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openTab</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				Zz2LDmGalBVnzr0/6Xj1zACU6zU=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>dev.warp.Warp-Stable</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Warp.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>New Warp Window Here</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>openWindow</string>
+				<key>NSRequiredContext</key>
+				<dict>
+					<key>NSTextContent</key>
+					<string>FilePath</string>
+				</dict>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSFilenamesPboardType</string>
+					<string>public.plain-text</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				i/VXG6bHL8nXmxBpZLyc7QVzlO4=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>org.hammerspoon.Hammerspoon</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Hammerspoon.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Send to Hammerspoon</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>processDockIconDraggedText</string>
+				<key>NSRequiredContext</key>
+				<dict/>
+				<key>NSSendTypes</key>
+				<array>
+					<string>NSStringPboardType</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				Iyrffr+f+M7Xry8n7Cp2GL3+DgE=
+				</data>
+			</dict>
+			<dict>
+				<key>NSBundleIdentifier</key>
+				<string>org.hammerspoon.Hammerspoon</string>
+				<key>NSBundlePath</key>
+				<string>/Applications/Hammerspoon.app</string>
+				<key>NSKeyEquivalent</key>
+				<dict/>
+				<key>NSMenuItem</key>
+				<dict>
+					<key>default</key>
+					<string>Send to Hammerspoon</string>
+				</dict>
+				<key>NSMessage</key>
+				<string>processDockIconDraggedFile</string>
+				<key>NSRequiredContext</key>
+				<dict/>
+				<key>NSSendFileTypes</key>
+				<array>
+					<string>public.item</string>
+				</array>
+				<key>NSUUID</key>
+				<data>
+				BOYLSaBS4tKZmXp+C/H7KIL0YYI=
+				</data>
+			</dict>
+		</array>
+		<key>CFVersion</key>
+		<integer>2</integer>
+	</dict>
+</dict>
+</plist>
