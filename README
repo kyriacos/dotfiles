@@ -4,7 +4,29 @@ git clone --recurse-submodules git@github.com:kyriacos/dotfiles.git ~/.dotfiles
 (The --recurse-submodules flag pulls in TPM and any other submodules.)
 
 Then run the bootstrap script:
-sh ~/.dotfiles/bootstrap
+  sh ~/.dotfiles/bootstrap
+
+Running without options does a full setup:
+  computer name → gitconfig → dotfiles → shell → Xcode tools → Homebrew → osx defaults → karabiner → tmux plugins
+
+## Bootstrap options
+
+  --name <name>        Set the computer name upfront (prompts if omitted)
+  --skip-brew          Skip all Homebrew steps (update, bundle, upgrade)
+  --skip-mas           Skip Mac App Store apps — useful before signing into the App Store
+  --skip-casks         Skip cask (GUI app) installations
+  --formulas-only      Only install brew formulas; skips mas, casks, and vscode extensions
+  --skip-osx           Skip macOS defaults setup (osx_set_defaults.sh)
+  --skip-tmux          Skip tmux plugin installation
+  --skip-gitconfig     Skip git config setup
+  --karabiner-only     Only symlink the Karabiner config
+
+Examples:
+  bootstrap --name "Kyriacos MBP"        Full setup, set computer name upfront
+  bootstrap --skip-mas                   Full setup but skip App Store installs
+  bootstrap --formulas-only              Brew formulas only, nothing slow
+  bootstrap --skip-brew --skip-osx       Just symlink dotfiles and set up shell
+  bootstrap --karabiner-only             Only symlink Karabiner config
 
 All CLI tools are managed via the Brewfile. The bootstrap script runs `brew bundle`
 to install everything, including zsh-syntax-highlighting, fzf, ripgrep, fd, and zoxide.
