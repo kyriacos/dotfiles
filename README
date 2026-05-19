@@ -11,22 +11,29 @@ Running without options does a full setup:
 
 ## Bootstrap options
 
-  --name <name>        Set the computer name upfront (prompts if omitted)
-  --skip-brew          Skip all Homebrew steps (update, bundle, upgrade)
-  --skip-mas           Skip Mac App Store apps — useful before signing into the App Store
-  --skip-casks         Skip cask (GUI app) installations
-  --formulas-only      Only install brew formulas; skips mas, casks, and vscode extensions
-  --skip-osx           Skip macOS defaults setup (osx_set_defaults.sh)
-  --skip-tmux          Skip tmux plugin installation
-  --skip-gitconfig     Skip git config setup
-  --karabiner-only     Only symlink the Karabiner config
+Passing one or more --*-only flags runs only those steps. No flags = full setup.
+
+  --name-only          Set the computer name only
+  --gitconfig-only     Set up git config only
+  --dotfiles-only      Symlink dotfiles only
+  --brew-only          Run Homebrew update/bundle/upgrade only
+  --osx-only           Run osx_set_defaults.sh only
+  --karabiner-only     Symlink Karabiner config only
+  --tmux-only          Install tmux plugins only
+
+Brew modifiers (apply to full run or --brew-only):
+  --name <name>        Set computer name non-interactively (prompts if omitted)
+  --skip-mas           Skip Mac App Store apps
+  --skip-casks         Skip cask installations
+  --formulas-only      Brew formulas only; skip mas, casks, and vscode extensions
 
 Examples:
+  bootstrap                              Full setup (prompts for computer name)
   bootstrap --name "Kyriacos MBP"        Full setup, set computer name upfront
-  bootstrap --skip-mas                   Full setup but skip App Store installs
-  bootstrap --formulas-only              Brew formulas only, nothing slow
-  bootstrap --skip-brew --skip-osx       Just symlink dotfiles and set up shell
-  bootstrap --karabiner-only             Only symlink Karabiner config
+  bootstrap --brew-only                  Only run Homebrew
+  bootstrap --brew-only --skip-mas       Only run Homebrew, skip App Store
+  bootstrap --dotfiles-only              Only symlink dotfiles
+  bootstrap --osx-only --tmux-only       Only run osx defaults and tmux setup
 
 All CLI tools are managed via the Brewfile. The bootstrap script runs `brew bundle`
 to install everything, including zsh-syntax-highlighting, fzf, ripgrep, fd, and zoxide.

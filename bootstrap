@@ -7,15 +7,20 @@ set -e
 
 echo ''
 
-# Flags
-KARABINER_ONLY=false
-SKIP_BREW=false
+# Only-step flags (if any are set, only those steps run)
+ONLY_NAME=false
+ONLY_GITCONFIG=false
+ONLY_DOTFILES=false
+ONLY_BREW=false
+ONLY_OSX=false
+ONLY_KARABINER=false
+ONLY_TMUX=false
+
+# Brew modifiers (apply when running brew, full or --brew-only)
 SKIP_MAS=false
 SKIP_CASKS=false
 FORMULAS_ONLY=false
-SKIP_OSX=false
-SKIP_TMUX=false
-SKIP_GITCONFIG=false
+
 COMPUTER_NAME=""
 
 info() {
@@ -44,28 +49,34 @@ usage() {
 	cat <<EOF
 Usage: $(basename "$0") [options]
 
-Options:
-  --name <name>        Set the computer name (ComputerName, HostName, LocalHostName)
-  --karabiner-only     Only symlink the Karabiner config (macOS only)
-  --skip-brew          Skip all Homebrew steps (update, bundle, upgrade)
-  --skip-mas           Skip Mac App Store apps — useful before signing into the App Store
-  --skip-casks         Skip cask (GUI app) installations
-  --formulas-only      Only install brew formulas; skips mas, casks, and vscode extensions
-  --skip-osx           Skip macOS defaults setup (osx_set_defaults.sh)
-  --skip-tmux          Skip tmux plugin installation
-  --skip-gitconfig     Skip git config setup
-  -h, --help           Show this help message
-
-Running without options performs a full setup:
+Without any --*-only flag, runs the full setup in order:
   computer name → gitconfig → dotfiles → shell → Xcode tools → Homebrew → osx defaults → karabiner → tmux plugins
+
+Passing one or more --*-only flags runs only those steps (in the order listed):
+  --name-only              Set the computer name only
+  --gitconfig-only         Set up git config only
+  --dotfiles-only          Symlink dotfiles only
+  --brew-only              Run Homebrew update/bundle/upgrade only
+  --osx-only               Run osx_set_defaults.sh only
+  --karabiner-only         Symlink Karabiner config only
+  --tmux-only              Install tmux plugins only
+
+Brew modifiers (apply to full run or --brew-only):
+  --name <name>            Set computer name non-interactively
+  --skip-mas               Skip Mac App Store apps
+  --skip-casks             Skip cask installations
+  --formulas-only          Brew formulas only; skip mas, casks, and vscode extensions
+
+  -h, --help               Show this help message
 
 Examples:
   bootstrap                              Full setup (prompts for computer name)
-  bootstrap --name "Kyriacos MBP"        Full setup with computer name set upfront
-  bootstrap --skip-mas                   Full setup but skip App Store installs
-  bootstrap --formulas-only              Brew formulas only, no casks/mas/vscode
-  bootstrap --skip-brew --skip-osx       Just symlink dotfiles and set up shell
+  bootstrap --name "Kyriacos MBP"        Full setup, set computer name upfront
+  bootstrap --brew-only                  Only run Homebrew
+  bootstrap --brew-only --skip-mas       Only run Homebrew, skip App Store
+  bootstrap --dotfiles-only              Only symlink dotfiles
   bootstrap --karabiner-only             Only symlink Karabiner config
+  bootstrap --osx-only --tmux-only       Only run osx defaults and tmux setup
 EOF
 	exit 0
 }
@@ -75,18 +86,32 @@ while [[ $# -gt 0 ]]; do
 		--name)
 			[[ -z "${2-}" ]] && { echo "--name requires a value"; usage; }
 			COMPUTER_NAME="$2"; shift 2 ;;
-		--karabiner-only|--install-karabiner) KARABINER_ONLY=true; shift ;;
-		--skip-brew)      SKIP_BREW=true; shift ;;
-		--skip-mas)       SKIP_MAS=true; shift ;;
-		--skip-casks)     SKIP_CASKS=true; shift ;;
-		--formulas-only)  FORMULAS_ONLY=true; shift ;;
-		--skip-osx)       SKIP_OSX=true; shift ;;
-		--skip-tmux)      SKIP_TMUX=true; shift ;;
-		--skip-gitconfig) SKIP_GITCONFIG=true; shift ;;
-		-h|--help)        usage ;;
+		--name-only)       ONLY_NAME=true; shift ;;
+		--gitconfig-only)  ONLY_GITCONFIG=true; shift ;;
+		--dotfiles-only)   ONLY_DOTFILES=true; shift ;;
+		--brew-only)       ONLY_BREW=true; shift ;;
+		--osx-only)        ONLY_OSX=true; shift ;;
+		--karabiner-only|--install-karabiner) ONLY_KARABINER=true; shift ;;
+		--tmux-only)       ONLY_TMUX=true; shift ;;
+		--skip-mas)        SKIP_MAS=true; shift ;;
+		--skip-casks)      SKIP_CASKS=true; shift ;;
+		--formulas-only)   FORMULAS_ONLY=true; shift ;;
+		-h|--help)         usage ;;
 		*) echo "Unknown option: $1"; usage ;;
 	esac
 done
+
+# Determine if we're in "only" mode
+ONLY_MODE=false
+$ONLY_NAME      && ONLY_MODE=true
+$ONLY_GITCONFIG && ONLY_MODE=true
+$ONLY_DOTFILES  && ONLY_MODE=true
+$ONLY_BREW      && ONLY_MODE=true
+$ONLY_OSX       && ONLY_MODE=true
+$ONLY_KARABINER && ONLY_MODE=true
+$ONLY_TMUX      && ONLY_MODE=true
+
+# --- Functions ---
 
 setup_gitconfig() {
 	info 'setup gitconfig'
@@ -166,20 +191,15 @@ install_homebrew() {
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 	fi
 
-	# Build brew bundle args
 	BUNDLE_ARGS="--verbose --file=$HOME/.dotfiles/Brewfile"
 	if $FORMULAS_ONLY || $SKIP_MAS;   then BUNDLE_ARGS="$BUNDLE_ARGS --no-mas";    fi
 	if $FORMULAS_ONLY || $SKIP_CASKS; then BUNDLE_ARGS="$BUNDLE_ARGS --no-cask";   fi
 	if $FORMULAS_ONLY;                 then BUNDLE_ARGS="$BUNDLE_ARGS --no-vscode"; fi
 
 	info "Running brew update, brew bundle, brew upgrade"
-	if $FORMULAS_ONLY; then
-		info "formulas-only: skipping mas, casks, and vscode extensions"
-	elif $SKIP_MAS; then
-		info "skipping Mac App Store apps"
-	elif $SKIP_CASKS; then
-		info "skipping casks"
-	fi
+	$FORMULAS_ONLY && info "formulas-only: skipping mas, casks, and vscode extensions"
+	$SKIP_MAS      && ! $FORMULAS_ONLY && info "skipping Mac App Store apps"
+	$SKIP_CASKS    && ! $FORMULAS_ONLY && info "skipping casks"
 
 	brew update
 	brew tap Homebrew/bundle
@@ -203,7 +223,6 @@ set_computer_name() {
 		[[ -z "$name" ]] && { info "keeping current computer name: ${current}"; return 0; }
 	fi
 
-	# LocalHostName can't have spaces — replace with hyphens and strip non-alphanumeric
 	local host_name
 	host_name=$(echo "$name" | tr ' ' '-' | tr -cd '[:alnum:]-')
 
@@ -229,18 +248,26 @@ install_tmux_plugins() {
 	fi
 }
 
-# --- karabiner-only shortcut ---
-if $KARABINER_ONLY; then
-	install_karabiner
-	success "Finished Karabiner setup"
+# --- Run ---
+
+if $ONLY_MODE; then
+	$ONLY_NAME      && set_computer_name "$COMPUTER_NAME"
+	$ONLY_GITCONFIG && setup_gitconfig
+	$ONLY_DOTFILES  && install_dotfiles
+	$ONLY_BREW      && install_homebrew
+	$ONLY_OSX       && [[ "$(uname)" == "Darwin" ]] && {
+		chmod +x "$HOME/.dotfiles/osx_set_defaults.sh"
+		"$HOME/.dotfiles/osx_set_defaults.sh"
+	}
+	$ONLY_KARABINER && install_karabiner
+	$ONLY_TMUX      && install_tmux_plugins
+	success "Done"
 	exit 0
 fi
 
-# --- Main setup ---
+# Full setup
 set_computer_name "$COMPUTER_NAME"
-
-$SKIP_GITCONFIG || setup_gitconfig
-
+setup_gitconfig
 install_dotfiles
 
 info 'Try setting zsh as default shell'
@@ -250,16 +277,15 @@ test "$(expr "$SHELL" : '.*/\(.*\)')" != "zsh" &&
 	chsh -s "$zsh" &&
 	success "set $("$zsh" --version) at $zsh as default shell"
 
-$SKIP_BREW || install_homebrew
+install_homebrew
 
-if ! $SKIP_OSX && [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname)" == "Darwin" ]]; then
 	info "Setting up macOS defaults"
 	chmod +x "$HOME/.dotfiles/osx_set_defaults.sh"
 	"$HOME/.dotfiles/osx_set_defaults.sh"
 fi
 
 install_karabiner
-
-$SKIP_TMUX || install_tmux_plugins
+install_tmux_plugins
 
 success "Finished set up"
