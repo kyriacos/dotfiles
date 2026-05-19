@@ -34,5 +34,8 @@ export PATH=/usr/local/bin:/usr/local/sbin:./bin:/usr/sbin::~/bin:$ZSH/bin:$PATH
 export PATH=./bin:~/.local/bin:${PATH}
 
 # cache for 30 minutes
-[ -f $HOME/.cachedenv ] && source $HOME/.cachedenv
-. "$HOME/.cargo/env"
+#[ -f $HOME/.cachedenv ] && source $HOME/.cachedenv
+#. "$HOME/.cargo/env"
+
+# uv
+export PATH="/Users/kyriacos/.local/bin:$PATH"

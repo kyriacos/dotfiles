@@ -115,7 +115,7 @@ if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr
   xcode-select --install
 fi
 
-sudo xcodebuild -license accept
+#sudo xcodebuild -license accept
 
 # Download and install Homebrew
 if [[ ! -x /opt/homebrew/bin/brew ]]; then
