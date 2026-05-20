@@ -14,6 +14,7 @@ ONLY_DOTFILES=false
 ONLY_BREW=false
 ONLY_OSX=false
 ONLY_KARABINER=false
+ONLY_NVIM=false
 ONLY_TMUX=false
 
 # Skip flags (full run only — skips that step)
@@ -65,6 +66,7 @@ Passing one or more --*-only flags runs only those steps (in the order listed):
   --brew-only              Run Homebrew update/bundle/upgrade only
   --osx-only               Run osx_set_defaults.sh only
   --karabiner-only         Symlink Karabiner config only
+  --nvim-only              Symlink Neovim config only
   --tmux-only              Install tmux plugins only
 
 Skip flags (full run only):
@@ -88,6 +90,7 @@ Examples:
   bootstrap --brew-only --skip-mas       Only run Homebrew, skip App Store
   bootstrap --dotfiles-only              Only symlink dotfiles
   bootstrap --karabiner-only             Only symlink Karabiner config
+  bootstrap --nvim-only                  Only symlink Neovim config
   bootstrap --osx-only --tmux-only       Only run osx defaults and tmux setup
 EOF
 	exit 0
@@ -104,6 +107,7 @@ while [[ $# -gt 0 ]]; do
 		--brew-only)       ONLY_BREW=true; shift ;;
 		--osx-only)        ONLY_OSX=true; shift ;;
 		--karabiner-only|--install-karabiner) ONLY_KARABINER=true; shift ;;
+		--nvim-only)       ONLY_NVIM=true; shift ;;
 		--tmux-only)       ONLY_TMUX=true; shift ;;
 		--skip-brew)       SKIP_BREW=true; shift ;;
 		--skip-osx)        SKIP_OSX=true; shift ;;
@@ -125,6 +129,7 @@ $ONLY_DOTFILES  && ONLY_MODE=true
 $ONLY_BREW      && ONLY_MODE=true
 $ONLY_OSX       && ONLY_MODE=true
 $ONLY_KARABINER && ONLY_MODE=true
+$ONLY_NVIM      && ONLY_MODE=true
 $ONLY_TMUX      && ONLY_MODE=true
 
 # --- Functions ---
@@ -281,6 +286,7 @@ if $ONLY_MODE; then
 		"$HOME/.dotfiles/osx_set_defaults.sh"
 	}
 	$ONLY_KARABINER && install_karabiner
+	$ONLY_NVIM      && install_nvim
 	$ONLY_TMUX      && install_tmux_plugins
 	success "Done"
 	exit 0
