@@ -178,6 +178,12 @@ install_karabiner() {
 	link_file "$HOME/.dotfiles/karabiner" "$HOME/.config/karabiner"
 }
 
+install_nvim() {
+	info "linking Neovim config"
+	mkdir -p "$HOME/.config"
+	link_file "$HOME/.dotfiles/nvim" "$HOME/.config/nvim"
+}
+
 install_dotfiles() {
 	info 'installing dotfiles'
 	find -H "$DOTFILES_ROOT" -maxdepth 1 -name '*' -not -path '*.git*' |
@@ -301,6 +307,7 @@ if ! $SKIP_OSX && [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 install_karabiner
+install_nvim
 $SKIP_TMUX || install_tmux_plugins
 
 success "Finished set up"
