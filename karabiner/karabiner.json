@@ -205,6 +205,14 @@
                             "to": [{ "key_code": "right_command" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 131,
+                        "vendor_id": 5426
+                    },
+                    "ignore": true
                 }
             ],
             "name": "Default profile",
