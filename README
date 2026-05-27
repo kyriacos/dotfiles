@@ -73,4 +73,20 @@ Upgrade all installed plugins:
 Or from inside tmux:
   prefix + U   (capital U, as in Update)
 
+## Cursor chat sync (cursaves)
+
+Install cursaves to sync Cursor AI conversations across machines via a private git repo or S3:
+
+  uv tool install git+https://github.com/Callum-Ward/cursaves.git
+
+Initialize once per machine (point at a private repo):
+  cursaves init --remote git@github.com:you/cursaves-data.git
+
+Common commands:
+  cursaves sync    # pull behind + push ahead (recommended daily driver)
+  cursaves push    # checkpoint + push to remote
+  cursaves pull    # pull from remote + import into Cursor's DB
+
+After pull, restart Cursor fully (quit and reopen) to see imported conversations.
+
 ===> PROFIT
