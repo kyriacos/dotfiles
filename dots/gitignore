@@ -28,3 +28,10 @@ build/
 .kiro/
 WARP.md
 worktrees/
+
+teach-*.md
+.claude/settings.local.json
+.understand-anything/
+
+.worktrees/
+.cursor/plans
