@@ -12,18 +12,18 @@
 set -euo pipefail
 
 # ── Colours ────────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-BOLD='\033[1m'
-RESET='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+BLUE=$'\033[0;34m'
+BOLD=$'\033[1m'
+RESET=$'\033[0m'
 
-info()    { echo -e "${BLUE}→${RESET} $*"; }
-success() { echo -e "${GREEN}✔${RESET} $*"; }
-warn()    { echo -e "${YELLOW}⚠${RESET} $*"; }
-error()   { echo -e "${RED}✖${RESET} $*" >&2; exit 1; }
-header()  { echo -e "\n${BOLD}$*${RESET}"; }
+info()    { echo "${BLUE}→${RESET} $*"; }
+success() { echo "${GREEN}✔${RESET} $*"; }
+warn()    { echo "${YELLOW}⚠${RESET} $*"; }
+error()   { echo "${RED}✖${RESET} $*" >&2; exit 1; }
+header()  { echo ""; echo "${BOLD}$*${RESET}"; }
 
 # ── Platform detection ─────────────────────────────────────────────────────────
 detect_config_dir() {
@@ -139,9 +139,9 @@ restore_editor() {
       while IFS= read -r ext || [ -n "$ext" ]; do
         [ -z "$ext" ] && continue
         if "$cmd" --install-extension "$ext" --force &>/dev/null; then
-          echo -e "  ${GREEN}✔${RESET} $ext"
+          echo "  ${GREEN}✔${RESET} $ext"
         else
-          echo -e "  ${YELLOW}⚠${RESET} $ext (failed — may be unavailable in $name)"
+          echo "  ${YELLOW}⚠${RESET} $ext (failed — may be unavailable in $name)"
           ((failed++)) || true
         fi
       done < "$src/extensions.txt"

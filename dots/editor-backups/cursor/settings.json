@@ -5,8 +5,9 @@
   "workbench.editor.enablePreview": false,
   "editor.multiCursorModifier": "alt",
   "gitlens.advanced.messages": {
+    "suppressGitDisabledWarning": true,
     "suppressShowKeyBindingsNotice": true
-  },
+},
   "editor.minimap.enabled": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "files.exclude": {
@@ -43,16 +44,16 @@
     "tab.activeBorderTop": "#fff",
     "tab.activeForeground": "#fff",
     "statusBar.debuggingForeground": "#e0e0e0",
-    "activityBar.background": "#1cb12f",
+    "activityBar.background": "#e7abb8",
     "titleBar.activeBackground": "#6A2F12",
     "titleBar.activeForeground": "#FEFAF9",
     "titleBar.inactiveBackground": "#293023",
     "titleBar.inactiveForeground": "#F9FAF8",
-    "activityBar.activeBackground": "#1cb12f",
-    "activityBar.foreground": "#e7e7e7",
-    "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#e6e3fb",
-    "activityBarBadge.foreground": "#15202b"
+    "activityBar.activeBackground": "#e7abb8",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#377c23",
+    "activityBarBadge.foreground": "#e7e7e7"
   },
   // "eslint.validate": [
   //     "javascript",
@@ -261,9 +262,9 @@
     ".env": "ini"
   },
   "vscode-edge-devtools.mirrorEdits": true,
-  "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+  "vscode-neovim.neovimExecutablePaths.linux": "/opt/homebrew/bin/nvim",
   "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Paper Contrast",
+  "workbench.colorTheme": "Dobri Next -A07- Oxford",
   "workbench.iconTheme": "catppuccin noctis icons",
   "[python]": {
     "editor.formatOnType": true
@@ -297,7 +298,7 @@
   "update.releaseTrack": "dev",
   "cursor.composer.shouldAllowCustomModes": true,
   "git.autofetch": true,
-  "atomicviz.features.lastNotified": "2.5.0",
+  "atomicviz.features.lastNotified": "3.5.3",
   "atomicviz.installed": true,
   "atomicviz.toolbars.isToolbarGraph": false,
   "atomicviz.layout.showInSidebar": true,
@@ -306,8 +307,7 @@
   "oxc.enable": false,
   "editor.unicodeHighlight.ambiguousCharacters": false,
   "git.blame.editorDecoration.enabled": true,
-  "hideComments.color": "#0000000",
-  "hideComments.defaultEnabled": true,
+"hideComments.color": "#0000000",
   "zenMode.fullScreen": false,
 "editor.wordWrapColumn": 160,
   "catppuccin-noctis-icons.hidesExplorerArrows": false,
@@ -387,5 +387,10 @@
 },
 "editor.wordWrap": "wordWrapColumn",
 "window.autoDetectColorScheme": false,
-"window.zoomLevel": 0.4,
+"window.zoomLevel": 0.7,
+"extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+},
+"hideComments.cleanStart": false,
+"vscode_custom_css.imports": ["~/.config/cursor.css"]
 }

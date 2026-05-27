@@ -1,5 +1,4 @@
 1yib.rust-bundle
-actboy168.extension-path
 ajshortt.tokyo-hack
 akamud.vscode-theme-onelight
 arcticicestudio.nord-visual-studio-code
