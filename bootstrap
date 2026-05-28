@@ -16,6 +16,7 @@ ONLY_OSX=false
 ONLY_KARABINER=false
 ONLY_NVIM=false
 ONLY_TMUX=false
+ONLY_ASS=false
 
 # Skip flags (full run only — skips that step)
 SKIP_BREW=false
@@ -109,6 +110,7 @@ while [[ $# -gt 0 ]]; do
 		--karabiner-only|--install-karabiner) ONLY_KARABINER=true; shift ;;
 		--nvim-only)       ONLY_NVIM=true; shift ;;
 		--tmux-only)       ONLY_TMUX=true; shift ;;
+		--ass-only)        ONLY_ASS=true; shift ;;
 		--skip-brew)       SKIP_BREW=true; shift ;;
 		--skip-osx)        SKIP_OSX=true; shift ;;
 		--skip-tmux)       SKIP_TMUX=true; shift ;;
@@ -131,6 +133,7 @@ $ONLY_OSX       && ONLY_MODE=true
 $ONLY_KARABINER && ONLY_MODE=true
 $ONLY_NVIM      && ONLY_MODE=true
 $ONLY_TMUX      && ONLY_MODE=true
+$ONLY_ASS       && ONLY_MODE=true
 
 # --- Functions ---
 
@@ -260,6 +263,17 @@ set_computer_name() {
 	success "computer name set to: $name ($host_name)"
 }
 
+install_ass() {
+	info "Installing ass (AI Session Search)"
+	mkdir -p "$HOME/.local/bin"
+	if curl -fsSL https://github.com/kyriacos/ai-session-search/releases/latest/download/ass \
+		-o "$HOME/.local/bin/ass" && chmod +x "$HOME/.local/bin/ass"; then
+		success "ass installed to ~/.local/bin/ass"
+	else
+		fail "ass installation failed"
+	fi
+}
+
 install_tmux_plugins() {
 	info "Installing tmux plugins"
 	if command -v tmux >/dev/null 2>&1; then
@@ -288,6 +302,7 @@ if $ONLY_MODE; then
 	$ONLY_KARABINER && install_karabiner
 	$ONLY_NVIM      && install_nvim
 	$ONLY_TMUX      && install_tmux_plugins
+	$ONLY_ASS       && install_ass
 	success "Done"
 	exit 0
 fi
@@ -315,5 +330,6 @@ fi
 install_karabiner
 install_nvim
 $SKIP_TMUX || install_tmux_plugins
+install_ass
 
 success "Finished set up"

@@ -20,6 +20,7 @@ Passing one or more --*-only flags runs only those steps. No flags = full setup.
   --osx-only           Run osx_set_defaults.sh only
   --karabiner-only     Symlink Karabiner config only
   --tmux-only          Install tmux plugins only
+  --ass-only           Install ass (AI Session Search) only
 
 Skip flags (full run only):
   --skip-brew          Skip all Homebrew steps
@@ -88,5 +89,17 @@ Common commands:
   cursaves pull    # pull from remote + import into Cursor's DB
 
 After pull, restart Cursor fully (quit and reopen) to see imported conversations.
+
+## ass (AI Session Search)
+
+Search and replay AI coding sessions (Claude, Cursor, etc.) from the terminal.
+Repo: https://github.com/kyriacos/ai-session-search
+
+The bootstrap script installs it automatically. To install manually:
+
+  curl -fsSL https://github.com/kyriacos/ai-session-search/releases/latest/download/ass \
+    -o ~/.local/bin/ass && chmod +x ~/.local/bin/ass
+
+Make sure ~/.local/bin is on your PATH (already included in dots/zshrc if using this repo).
 
 ===> PROFIT
