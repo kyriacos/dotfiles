@@ -10,10 +10,12 @@
 # Relative parents resolve against the current directory and are created if
 # missing. The worktree itself is named after the branch (slashes -> dashes).
 #
-# After creating a worktree, gwt runs the repo's own setup commands from
-# .cursor/worktrees.json ("setup-worktree": [...]) if that file exists,
-# substituting $ROOT_WORKTREE_PATH for the main worktree path. If there is no
-# such config, it falls back to copying a top-level .env when one exists.
+# After creating a worktree, gwt can run the repo's own setup commands from
+# .cursor/worktrees.json ("setup-worktree": [...]), substituting
+# $ROOT_WORKTREE_PATH for the main worktree path. Because those commands come
+# from the repository (untrusted in a clone you didn't write), gwt asks before
+# running them unless --run-setup / --no-setup or $GWT_RUN_SETUP=1|0 decides.
+# With no such config, it falls back to copying a top-level .env when present.
 #
 # Auto-cd: a script cannot change its parent shell's directory, so the
 # create/switch verbs print the worktree path to stdout instead. Either run
@@ -78,6 +80,11 @@ ${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
   ${c_ylw}./worktrees${c_reset}               Fallback, relative to the current directory.
 The worktree is created at <parent>/<name>; relative parents are made if absent.
 
+${c_bold}Repo setup${c_reset} (.cursor/worktrees.json "setup-worktree" commands):
+  These come from the repo, so gwt asks before running them. Override with:
+  ${c_ylw}--run-setup${c_reset} / ${c_ylw}--no-setup${c_reset}      Run (or skip) without prompting.
+  ${c_ylw}\$GWT_RUN_SETUP${c_reset}=1|0           Default decision when no flag is given.
+
 ${c_bold}Notes:${c_reset}
   ${c_dim}- A script cannot change your shell's directory. To jump into a new worktree:
         cd "\$($prog new my-feature)"
@@ -115,14 +122,43 @@ resolve_worktree() {
   ' | head -1
 }
 
-# Run the repo's setup-worktree commands in $1 (the new worktree), if any.
-# Honors .cursor/worktrees.json so per-repo tooling (deps, .env) stays in the
-# repo, not in this script. Falls back to copying a top-level .env.
-run_setup() {
-  local new_path=$1 root=$2 cfg="$2/.cursor/worktrees.json"
+# Map $GWT_RUN_SETUP to an explicit yes/no, or empty if unset/unrecognized.
+setup_env_decision() {
+  case ${GWT_RUN_SETUP:-} in
+    1|true|TRUE|yes|YES|on|ON)   printf yes ;;
+    0|false|FALSE|no|NO|off|OFF) printf no ;;
+    *)                           printf '' ;;
+  esac
+}
 
+# Ask interactively whether to run the repo's setup commands; echoes yes/no.
+# Prompt text goes to stderr (stdout is reserved for the worktree path) and the
+# answer is read from the terminal, so it works under `cd "$(gwt new ..)"` too.
+# With no terminal and no explicit decision, defaults to no.
+prompt_setup() {
+  local cmds=$1 ans c
+  if [[ ! -r /dev/tty ]]; then
+    err "${c_ylw}.cursor/worktrees.json defines setup commands, but there is no terminal to confirm; skipping.${c_reset}"
+    err "${c_dim}Re-run with --run-setup (or GWT_RUN_SETUP=1) to execute them.${c_reset}"
+    printf no; return
+  fi
+  err "${c_ylw}This repo's .cursor/worktrees.json wants to run these setup commands:${c_reset}"
+  while IFS= read -r c; do [[ -n $c ]] && err "  ${c_dim}\$ $c${c_reset}"; done <<<"$cmds"
+  printf '%sRun them? [y/N] %s' "$c_ylw" "$c_reset" >&2
+  read -r ans </dev/tty || ans=''
+  case $ans in y|Y|yes|YES) printf yes ;; *) printf no ;; esac
+}
+
+# Run the repo's setup-worktree commands in $1 (the new worktree), if any and
+# if permitted. Permission precedence: explicit decision arg ($3, from a flag)
+# > $GWT_RUN_SETUP > interactive confirmation. The commands come from a file in
+# the repository, so they are treated as untrusted and never run without
+# consent. With no setup config, falls back to copying a top-level .env.
+run_setup() {
+  local new_path=$1 root=$2 decision=${3:-} cfg="$2/.cursor/worktrees.json"
+
+  local cmds=""
   if [[ -f $cfg ]] && command -v python3 >/dev/null 2>&1; then
-    local cmds
     cmds=$(ROOT_WORKTREE_PATH="$root" python3 - "$cfg" <<'PY'
 import json, os, sys
 cfg = json.load(open(sys.argv[1]))
@@ -131,16 +167,23 @@ for c in cfg.get("setup-worktree", []):
     print(c.replace("$ROOT_WORKTREE_PATH", root))
 PY
 )
-    if [[ -n $cmds ]]; then
-      err "${c_dim}Running setup-worktree from .cursor/worktrees.json ...${c_reset}"
-      while IFS= read -r cmd; do
-        [[ -z $cmd ]] && continue
-        err "  ${c_dim}\$ $cmd${c_reset}"
-        ( cd "$new_path" && ROOT_WORKTREE_PATH="$root" bash -c "$cmd" >&2 ) \
-          || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
-      done <<<"$cmds"
+  fi
+
+  if [[ -n $cmds ]]; then
+    [[ -z $decision ]] && decision=$(setup_env_decision)
+    [[ -z $decision ]] && decision=$(prompt_setup "$cmds")
+    if [[ $decision != yes ]]; then
+      err "${c_dim}Skipped setup-worktree commands.${c_reset}"
       return
     fi
+    err "${c_dim}Running setup-worktree from .cursor/worktrees.json ...${c_reset}"
+    while IFS= read -r cmd; do
+      [[ -z $cmd ]] && continue
+      err "  ${c_dim}\$ $cmd${c_reset}"
+      ( cd "$new_path" && ROOT_WORKTREE_PATH="$root" bash -c "$cmd" >&2 ) \
+        || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
+    done <<<"$cmds"
+    return
   fi
 
   # Fallback: copy a top-level .env if the repo has one.
@@ -150,16 +193,18 @@ PY
   fi
 }
 
-# Parse positionals + optional -p/--path out of "$@". Sets globals
-# parsed_pos (array) and parsed_path. Used by new/co.
+# Parse positionals + optional flags out of "$@". Sets globals parsed_pos
+# (array), parsed_path, and parsed_setup (""/yes/no). Used by new/from/co.
 parse_args() {
-  parsed_pos=(); parsed_path=""
+  parsed_pos=(); parsed_path=""; parsed_setup=""
   while [[ $# -gt 0 ]]; do
     case $1 in
-      -p|--path) parsed_path=${2:-}; shift 2 ;;
-      --path=*)  parsed_path=${1#*=}; shift ;;
-      -*)        die "unknown flag: $1" ;;
-      *)         parsed_pos+=("$1"); shift ;;
+      -p|--path)            parsed_path=${2:-}; shift 2 ;;
+      --path=*)             parsed_path=${1#*=}; shift ;;
+      --run-setup|--yes|-y) parsed_setup=yes; shift ;;
+      --no-setup)           parsed_setup=no;  shift ;;
+      -*)                   die "unknown flag: $1" ;;
+      *)                    parsed_pos+=("$1"); shift ;;
     esac
   done
 }
@@ -175,7 +220,7 @@ cmd_new() {
   [[ -e $path ]] && die "path already exists: $path"
 
   git worktree add -b "$name" "$path" "$base" >&2
-  run_setup "$path" "$root"
+  run_setup "$path" "$root" "$parsed_setup"
   err "${c_grn}Created worktree:${c_reset} ${c_bold}$path${c_reset}"
   printf '%s\n' "$path"
 }
@@ -191,7 +236,7 @@ cmd_from() {
   [[ -e $path ]] && die "path already exists: $path"
 
   git worktree add "$path" "$branch" >&2
-  run_setup "$path" "$root"
+  run_setup "$path" "$root" "$parsed_setup"
   err "${c_grn}Created worktree:${c_reset} ${c_bold}$path${c_reset}"
   printf '%s\n' "$path"
 }
