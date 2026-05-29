@@ -39,3 +39,6 @@ export PATH=./bin:~/.local/bin:${PATH}
 
 # uv
 export PATH="/Users/kyriacos/.local/bin:$PATH"
+
+# personal scripts (gwt, etc.)
+export PATH="$HOME/.dotfiles/bin:$PATH"

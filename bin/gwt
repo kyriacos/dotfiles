@@ -1,0 +1,257 @@
+#!/usr/bin/env bash
+#
+# gwt - git worktree helper
+#
+# Portable across machines, repos, and editors. Operates on whatever git
+# repository the current directory belongs to; no root or repo is hardcoded.
+#
+# New worktrees are created under a parent directory resolved as:
+#     --path <dir>  >  $GWT_WORKTREE_DIR  >  ./worktrees
+# Relative parents resolve against the current directory and are created if
+# missing. The worktree itself is named after the branch (slashes -> dashes).
+#
+# After creating a worktree, gwt runs the repo's own setup commands from
+# .cursor/worktrees.json ("setup-worktree": [...]) if that file exists,
+# substituting $ROOT_WORKTREE_PATH for the main worktree path. If there is no
+# such config, it falls back to copying a top-level .env when one exists.
+#
+# Auto-cd: a script cannot change its parent shell's directory, so the
+# create/switch verbs print the worktree path to stdout instead. Either run
+# `cd "$(gwt new my-feature)"`, or drop this wrapper into your shell rc so
+# `gwt new|from|co` lands you in the worktree directly:
+#
+#   gwt() {
+#     case "$1" in
+#       new|from|co|checkout)
+#         local out; out=$(command gwt "$@") || return
+#         builtin cd "${out##*$'\n'}" && command gwt ls ;;
+#       *) command gwt "$@" ;;
+#     esac
+#   }
+
+set -euo pipefail
+
+prog=${0##*/}
+
+# Colors, only when stderr is a terminal and NO_COLOR is unset. They are
+# applied to diagnostics and help only -- never to the path on stdout, which
+# must stay plain so `cd "$(gwt new foo)"` works.
+if [[ -t 2 && -z ${NO_COLOR:-} ]]; then
+  c_reset=$'\033[0m'; c_bold=$'\033[1m'; c_dim=$'\033[2m'
+  c_red=$'\033[31m';  c_grn=$'\033[32m'; c_ylw=$'\033[33m'
+  c_blu=$'\033[34m';  c_cyn=$'\033[36m'
+else
+  c_reset=''; c_bold=''; c_dim=''
+  c_red='';   c_grn='';  c_ylw=''
+  c_blu='';   c_cyn=''
+fi
+
+# Diagnostics go to stderr so that stdout stays clean: `new`/`co` print only
+# the resulting worktree path, making `cd "$(gwt new foo)"` work.
+err() { printf '%s\n' "$*" >&2; }
+die() { err "${c_red}$prog:${c_reset} $*"; exit 1; }
+
+usage() {
+  cat >&2 <<EOF
+${c_bold}$prog${c_reset} - git worktree helper (operates on the current repo)
+
+${c_bold}Usage:${c_reset}
+  ${c_cyn}$prog new${c_reset} <name> [base] ${c_ylw}[-p <dir>]${c_reset}  Create a worktree on a NEW branch <name>,
+                            branched from [base] (default: current HEAD), then
+                            run repo setup. Prints the new worktree path.
+  ${c_cyn}$prog from${c_reset} <branch> ${c_ylw}[-p <dir>]${c_reset}      Create a worktree for an EXISTING branch,
+                            then run repo setup. Prints the new worktree path.
+  ${c_cyn}$prog co${c_reset} <name> ${c_ylw}[-p <dir>]${c_reset}          Switch to the worktree for <name> if it
+                            exists (prints its path); otherwise create it from
+                            branch <name>, like 'from'.
+  ${c_cyn}$prog rm${c_reset} [name] ${c_ylw}[-f]${c_reset}      Remove a worktree. With no name, removes the one you
+                            are standing in. -f/--force discards changes.
+  ${c_cyn}$prog ls${c_reset}                  List worktrees for this repo.
+  ${c_cyn}$prog prune${c_reset}               Prune stale worktree metadata.
+  ${c_cyn}$prog st${c_reset} [git-args...]    git status (short) for the current worktree.
+  ${c_cyn}$prog log${c_reset} [git-args...]   git log (oneline graph) for the current worktree.
+  ${c_cyn}$prog -h | --help${c_reset}         Show this help.
+
+${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
+  ${c_ylw}-p, --path <dir>${c_reset}          Parent dir for this invocation.
+  ${c_ylw}\$GWT_WORKTREE_DIR${c_reset}         Parent dir default (if set).
+  ${c_ylw}./worktrees${c_reset}               Fallback, relative to the current directory.
+The worktree is created at <parent>/<name>; relative parents are made if absent.
+
+${c_bold}Notes:${c_reset}
+  ${c_dim}- A script cannot change your shell's directory. To jump into a new worktree:
+        cd "\$($prog new my-feature)"
+    or add the wrapper function from the gwt header comments to your shell rc.
+  - Branch names with slashes become dashes in the directory name.${c_reset}
+EOF
+}
+
+# Resolve the repo's main worktree path (first entry of `worktree list`).
+main_worktree() {
+  git worktree list --porcelain | awk '/^worktree /{print $2; exit}'
+}
+
+# Resolve the destination worktree path from a name and optional parent.
+# Echoes the absolute-ish destination; creates the parent if needed.
+resolve_dest() {
+  local name=$1 parent=${2:-}
+  parent=${parent:-${GWT_WORKTREE_DIR:-./worktrees}}
+  [[ $parent != /* ]] && parent="$PWD/$parent"
+  mkdir -p "$parent" || die "cannot create parent dir: $parent"
+  parent=$(cd "$parent" && pwd)  # canonicalize away ./ and ../ for clean output
+  printf '%s/%s\n' "$parent" "${name//\//-}"
+}
+
+# Find the worktree path for a name, matching its branch or directory name.
+resolve_worktree() {
+  git worktree list --porcelain | awk -v t="$1" '
+    function flush() {
+      if (p != "") { b = p; sub(".*/", "", b); if (br == t || b == t) print p }
+      p = ""; br = ""
+    }
+    /^worktree /{ flush(); p = $2 }
+    /^branch /{ br = $2; sub("refs/heads/", "", br) }
+    END { flush() }
+  ' | head -1
+}
+
+# Run the repo's setup-worktree commands in $1 (the new worktree), if any.
+# Honors .cursor/worktrees.json so per-repo tooling (deps, .env) stays in the
+# repo, not in this script. Falls back to copying a top-level .env.
+run_setup() {
+  local new_path=$1 root=$2 cfg="$2/.cursor/worktrees.json"
+
+  if [[ -f $cfg ]] && command -v python3 >/dev/null 2>&1; then
+    local cmds
+    cmds=$(ROOT_WORKTREE_PATH="$root" python3 - "$cfg" <<'PY'
+import json, os, sys
+cfg = json.load(open(sys.argv[1]))
+root = os.environ["ROOT_WORKTREE_PATH"]
+for c in cfg.get("setup-worktree", []):
+    print(c.replace("$ROOT_WORKTREE_PATH", root))
+PY
+)
+    if [[ -n $cmds ]]; then
+      err "${c_dim}Running setup-worktree from .cursor/worktrees.json ...${c_reset}"
+      while IFS= read -r cmd; do
+        [[ -z $cmd ]] && continue
+        err "  ${c_dim}\$ $cmd${c_reset}"
+        ( cd "$new_path" && ROOT_WORKTREE_PATH="$root" bash -c "$cmd" >&2 ) \
+          || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
+      done <<<"$cmds"
+      return
+    fi
+  fi
+
+  # Fallback: copy a top-level .env if the repo has one.
+  if [[ -f "$root/.env" && ! -e "$new_path/.env" ]]; then
+    cp "$root/.env" "$new_path/.env"
+    err "${c_dim}Copied .env from main worktree.${c_reset}"
+  fi
+}
+
+# Parse positionals + optional -p/--path out of "$@". Sets globals
+# parsed_pos (array) and parsed_path. Used by new/co.
+parse_args() {
+  parsed_pos=(); parsed_path=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -p|--path) parsed_path=${2:-}; shift 2 ;;
+      --path=*)  parsed_path=${1#*=}; shift ;;
+      -*)        die "unknown flag: $1" ;;
+      *)         parsed_pos+=("$1"); shift ;;
+    esac
+  done
+}
+
+cmd_new() {
+  parse_args "$@"
+  local name=${parsed_pos[0]:-} base=${parsed_pos[1]:-HEAD}
+  [[ -n $name ]] || { usage; exit 1; }
+
+  local root path
+  root=$(main_worktree)
+  path=$(resolve_dest "$name" "$parsed_path")
+  [[ -e $path ]] && die "path already exists: $path"
+
+  git worktree add -b "$name" "$path" "$base" >&2
+  run_setup "$path" "$root"
+  err "${c_grn}Created worktree:${c_reset} ${c_bold}$path${c_reset}"
+  printf '%s\n' "$path"
+}
+
+cmd_from() {
+  parse_args "$@"
+  local branch=${parsed_pos[0]:-}
+  [[ -n $branch ]] || { usage; exit 1; }
+
+  local root path
+  root=$(main_worktree)
+  path=$(resolve_dest "$branch" "$parsed_path")
+  [[ -e $path ]] && die "path already exists: $path"
+
+  git worktree add "$path" "$branch" >&2
+  run_setup "$path" "$root"
+  err "${c_grn}Created worktree:${c_reset} ${c_bold}$path${c_reset}"
+  printf '%s\n' "$path"
+}
+
+# Switch to an existing worktree if one matches <name>; otherwise create one
+# from the existing branch (delegates to `from`). Prints the worktree path.
+cmd_co() {
+  parse_args "$@"
+  local name=${parsed_pos[0]:-}
+  [[ -n $name ]] || { usage; exit 1; }
+
+  local existing
+  existing=$(resolve_worktree "$name")
+  if [[ -n $existing ]]; then
+    err "${c_cyn}Switching to existing worktree:${c_reset} ${c_bold}$existing${c_reset}"
+    printf '%s\n' "$existing"
+    return
+  fi
+
+  err "${c_ylw}No worktree for '$name' yet;${c_reset} creating one from branch '$name'."
+  cmd_from "$@"
+}
+
+cmd_rm() {
+  local force=() target=""
+  for arg in "$@"; do
+    case $arg in
+      -f|--force) force=(--force) ;;
+      *) target=$arg ;;
+    esac
+  done
+
+  local root path
+  root=$(main_worktree)
+  if [[ -n $target ]]; then
+    path=$(resolve_worktree "$target")
+    [[ -n $path ]] || die "no worktree matching '$target' (see '$prog ls')"
+  else
+    path=$(git rev-parse --show-toplevel)
+  fi
+
+  [[ $path == "$root" ]] && die "refusing to remove the main worktree"
+
+  # If standing inside the target, step out first so the dir can be removed.
+  [[ $PWD == "$path"* ]] && cd "$root"
+  git worktree remove "${force[@]}" "$path"
+  err "${c_grn}Removed worktree:${c_reset} ${c_bold}$path${c_reset}"
+  err "${c_dim}Branch is kept; delete it with: git -C \"$root\" branch -d <branch>${c_reset}"
+}
+
+case ${1:-} in
+  new)            shift; cmd_new "$@" ;;
+  from)           shift; cmd_from "$@" ;;
+  co|checkout)    shift; cmd_co "$@" ;;
+  rm|remove)      shift; cmd_rm "$@" ;;
+  ls|list)        shift; git worktree list "$@" ;;
+  prune)          shift; git worktree prune "$@" ;;
+  st|status)      shift; git status -sb "$@" ;;
+  log)            shift; git log --oneline --graph --decorate -n 20 "$@" ;;
+  -h|--help|help) usage ;;
+  "")             usage; exit 1 ;;
+  *)              die "unknown command: $1 (try '$prog --help')" ;;
+esac

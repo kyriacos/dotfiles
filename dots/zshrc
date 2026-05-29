@@ -138,6 +138,17 @@ vv() {
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
 
+# gwt (git worktree helper, ~/.dotfiles/bin/gwt): a script can't cd its parent
+# shell, so for the create/switch verbs we cd into the path it prints on stdout.
+gwt() {
+  case "$1" in
+    new|from|co|checkout)
+      local out; out=$(command gwt "$@") || return
+      builtin cd "${out##*$'\n'}" && command gwt ls ;;
+    *) command gwt "$@" ;;
+  esac
+}
+
 # adding shitty NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
