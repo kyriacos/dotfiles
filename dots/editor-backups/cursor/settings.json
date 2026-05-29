@@ -31,9 +31,9 @@
   "gitlens.codeLens.recentChange.enabled": false,
   "gitlens.advanced.blame.delayAfterEdit": 5000,
   "workbench.colorCustomizations": {
-    "statusBar.background": "#334FFF",
-    "statusBar.noFolderBackground": "#334FFF",
-    "statusBar.debuggingBackground": "#334FFF",
+    "statusBar.background": "#5f0000",
+    "statusBar.noFolderBackground": "#5f0000",
+    "statusBar.debuggingBackground": "#5f0000",
     "statusBar.foreground": "#e0e0e0",
     "editor.foldBackground": "#4f4f4f",
     "editor.findMatchBackground": "#00cc44a8",
@@ -54,7 +54,7 @@
     "activityBar.inactiveForeground": "#15202b99",
     "activityBarBadge.background": "#377c23",
     "activityBarBadge.foreground": "#e7e7e7"
-  },
+},
   // "eslint.validate": [
   //     "javascript",
   //     "javascriptreact",
@@ -387,10 +387,15 @@
 },
 "editor.wordWrap": "wordWrapColumn",
 "window.autoDetectColorScheme": false,
-"window.zoomLevel": 0.7,
+"window.zoomLevel": 1.1,
 "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
 },
 "hideComments.cleanStart": false,
-"vscode_custom_css.imports": ["~/.config/cursor.css"]
+"vscode_custom_css.imports": [
+    "~/.config/cursor.css"
+],
+"[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+}
 }
