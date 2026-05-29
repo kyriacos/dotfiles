@@ -10,6 +10,7 @@
   "editor.minimap.enabled": false,
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
@@ -46,15 +47,22 @@
     "statusBar.debuggingForeground": "#e0e0e0",
     "activityBar.background": "#4C210D",
     "titleBar.activeBackground": "#6A2F12",
-    "titleBar.activeForeground": "#FEFAF9"
+    "titleBar.activeForeground": "#FEFAF9",
+    "titleBar.inactiveBackground": "#293023",
+    "titleBar.inactiveForeground": "#F9FAF8",
+    "activityBar.activeBackground": "#e7abb8",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#377c23",
+    "activityBarBadge.foreground": "#e7e7e7"
   },
   "eslint.validate": ["javascript", "javascriptreact", "typescript"],
   "[go]": {
     "editor.tabSize": 4
   },
   "terminal.integrated.shell.osx": "/bin/zsh",
-"go.formatTool": "goimports",
-"go.toolsGopath": "~/go",
+  "go.formatTool": "goimports",
+  "go.toolsGopath": "~/go",
   "vim.easymotion": true,
   "go.lintTool": "revive",
   "go.lintFlags": ["--config=~/.revive.toml"],
@@ -63,7 +71,6 @@
   "gitlens.hovers.enabled": false,
   "terminal.integrated.fontSize": 13,
   "prettier.singleQuote": true,
-  "jest.enableInlineErrorMessages": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -75,9 +82,8 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  "jest.enableCodeLens": false,
-  "jest.autoEnable": false,
   "zenMode.hideLineNumbers": false,
+  "zenMode.fullScreen": false,
   "Lua.completion.callSnippet": "Both",
   "Lua.diagnostics.disable": ["undefined-global"],
   "vim.useSystemClipboard": true,
@@ -85,6 +91,10 @@
     {
       "before": ["<C-n>"],
       "commands": [":nohl"]
+    },
+    {
+      "before": ["<C-w>", "_"],
+      "commands": ["workbench.action.toggleMaximizeEditorGroup"]
     },
     {
       "before": ["u"],
@@ -105,13 +115,21 @@
           "args": []
         }
       ]
+    },
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
+    },
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
     }
   ],
   "vim.incsearch": true,
   "vim.hlsearch": true,
   "vim.disableExtension": false,
-"vim.enableNeovim": true,
-"vim.neovimPath": "/opt/homebrew/bin/nvim",
+  "vim.enableNeovim": true,
+  "vim.neovimPath": "/opt/homebrew/bin/nvim",
   "vim.foldfix": true,
   "vim.statusBarColorControl": true,
   "vim.statusBarColors.normal": ["#334FFF", "#e0e0e0"],
@@ -128,6 +146,7 @@
   "editor.renderControlCharacters": true,
   "prettier.arrowParens": "avoid",
   "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferGoToSourceDefinition": true,
   "tailwindCSS.includeLanguages": {
     "javascript": "tsx"
   },
@@ -152,7 +171,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.editor.titleScrollbarSizing": "large",
-  "workbench.editor.limit.value": 8,
+  "workbench.editor.limit.value": 16,
   "workbench.editor.limit.enabled": true,
   "explorer.autoReveal": false,
   "editor.tabCompletion": "on",
@@ -160,22 +179,21 @@
   "editor.fontSize": 14.5,
   "editor.fontLigatures": true,
   "typescript.implementationsCodeLens.enabled": true,
-  // "editor.hover.enabled": false,
   "editor.hover.delay": 1000,
   "gitlens.mode.active": "review",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferGoToSourceDefinition": true,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.fontAliasing": "auto",
   "redhat.telemetry.enabled": false,
-  // "editor.quickSuggestionsDelay": 2000,
   "editor.bracketPairColorization.enabled": true,
   "files.associations": {
     ".env": "ini"
   },
   "vscode-edge-devtools.mirrorEdits": true,
-  "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+  "vscode-neovim.neovimExecutablePaths.linux": "/opt/homebrew/bin/nvim",
   "window.menuBarVisibility": "toggle",
   "workbench.colorTheme": "Tokyo Night",
   "workbench.iconTheme": "ayu",
@@ -189,25 +207,71 @@
   "[rust]": {},
   "vscode-neovim.neovimClean": true,
   "workbench.activityBar.location": "hidden",
-"go.toolsManagement.autoUpdate": true,
+  "go.toolsManagement.autoUpdate": true,
   "json.schemas": [],
   "cmake.configureOnOpen": false,
   "git.openRepositoryInParentFolders": "always",
-  "github.copilot.editor.enableAutoCompletions": true,
   "cmake.showOptionsMovedNotification": false,
   "prettier.requireConfig": true,
-  "yaml.schemas": {
-    "/Users/kyriacos/.vscode/extensions/continue.continue-1.0.19-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "file:///Users/kyriacos/.vscode/extensions/continue.continue-1.2.16-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "file:///Users/kyriacos/.vscode/extensions/continue.continue-1.2.17-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
-    ],
-    "file:///Users/kyriacos/.vscode/extensions/continue.continue-1.2.22-darwin-arm64/config-yaml-schema.json": [
-      ".continue/**/*.yaml"
+  "git.autofetch": true,
+  "git.blame.editorDecoration.enabled": true,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 160,
+  "window.zoomLevel": 1.1,
+  "window.autoDetectColorScheme": false,
+  "debug.onTaskErrors": "debugAnyway",
+  "djlint.indentCss": 4,
+  "djlint.ignore": ["H021", "H030", "H031", "D004", "D018", "H006", "H020"],
+  "djlint.profile": "jinja",
+  "djlint.enableLinting": true,
+  "djlint.showInstallError": false,
+  "editor.tokenColorCustomizations": {
+    "comments": "#0000000",
+    "textMateRules": [
+      {
+        "scope": [
+          "hidecomments",
+          "comment",
+          "comment.block",
+          "comment.line",
+          "comment.line.double-slash",
+          "variable.other.jsdoc",
+          "storage.type.class.jsdoc",
+          "punctuation.definition.block.tag.jsdoc",
+          "punctuation.definition.bracket.curly.begin.jsdoc",
+          "punctuation.definition.bracket.curly.end.jsdoc",
+          "entity.name.type.instance.jsdoc",
+          "comment.block.documentation.ts",
+          "comment.block.documentation.js",
+          "comment.block.documentation.cs",
+          "comment.block.documentation.cs entity.other.attribute-name.localname.cs",
+          "comment.block.documentation.cs entity.other.attribute-name.cs",
+          "comment.block.documentation.cs punctuation.definition.tag.cs",
+          "comment.block.documentation.cs punctuation.definition.string.begin.cs",
+          "comment.block.documentation.cs punctuation.definition.string.end.cs",
+          "comment.block.documentation.cs punctuation.definition.bracket.curly.begin.cs",
+          "comment.block.documentation.cs punctuation.definition.bracket.curly.end.cs",
+          "comment.block.documentation.cs punctuation.definition.block.tag.cs",
+          "comment.block.documentation.cs string.quoted.double.cs",
+          "comment.block.documentation.cs entity.name.tag.localname.cs"
+        ],
+        "settings": {
+          "foreground": "#0000000"
+        }
+      }
     ]
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   }
 }
