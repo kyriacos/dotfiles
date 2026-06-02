@@ -1,0 +1,69 @@
+#compdef gwt
+
+_gwt() {
+  local state
+
+  _arguments -C \
+    '1: :->cmd' \
+    '*:: :->args'
+
+  case $state in
+    cmd)
+      local -a commands
+      commands=(
+        'new:Create a worktree on a new branch'
+        'from:Create a worktree for an existing branch'
+        'co:Switch to or create a worktree (alias: checkout)'
+        'checkout:Switch to or create a worktree'
+        'rm:Remove a worktree (alias: remove)'
+        'remove:Remove a worktree'
+        'search:Fuzzy-search worktrees with fzf (alias: pick)'
+        'pick:Fuzzy-search worktrees with fzf'
+        'ls:List worktrees (alias: list)'
+        'list:List worktrees'
+        'prune:Prune stale worktree metadata'
+        'st:git status for the current worktree (alias: status)'
+        'status:git status for the current worktree'
+        'log:git log for the current worktree'
+      )
+      _describe 'command' commands
+      ;;
+    args)
+      case $words[1] in
+        co|checkout)
+          # Prefer existing worktrees; fall back to all local branches.
+          local -a worktrees branches
+          worktrees=( ${(f)"$(git worktree list --porcelain 2>/dev/null | awk '/^branch /{sub("refs/heads/",""); print $2}')"} )
+          branches=( ${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"} )
+          _describe 'worktree' worktrees
+          _describe 'branch' branches
+          ;;
+        rm|remove)
+          local -a worktrees
+          worktrees=( ${(f)"$(git worktree list --porcelain 2>/dev/null | awk '/^branch /{sub("refs/heads/",""); print $2}')"} )
+          _describe 'worktree' worktrees
+          _arguments '-f[discard uncommitted changes]' '--force[discard uncommitted changes]'
+          ;;
+        from)
+          local -a branches
+          branches=( ${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"} )
+          _describe 'branch' branches
+          _arguments \
+            '(-p --path)'{-p,--path}'[parent directory for the worktree]:dir:_files -/' \
+            '--run-setup[run repo setup commands without prompting]' \
+            '--no-setup[skip repo setup commands]'
+          ;;
+        new)
+          _arguments \
+            '1:branch name: ' \
+            '2:base branch or commit: ' \
+            '(-p --path)'{-p,--path}'[parent directory for the worktree]:dir:_files -/' \
+            '--run-setup[run repo setup commands without prompting]' \
+            '--no-setup[skip repo setup commands]'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_gwt
