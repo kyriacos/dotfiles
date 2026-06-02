@@ -190,6 +190,13 @@ install_nvim() {
 	info "linking Neovim config"
 	mkdir -p "$HOME/.config"
 	link_file "$HOME/.dotfiles/nvim" "$HOME/.config/nvim"
+
+	if ! command -v tree-sitter >/dev/null 2>&1; then
+		info "tree-sitter CLI not found — installing via brew (required by nvim-treesitter to compile parsers)"
+		brew install tree-sitter tree-sitter-cli && success "tree-sitter installed" || fail "tree-sitter install failed"
+	else
+		success "tree-sitter already installed"
+	fi
 }
 
 install_dotfiles() {

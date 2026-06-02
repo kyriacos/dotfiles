@@ -1,3 +1,7 @@
+-- Parser compilation requires the tree-sitter CLI (brew install tree-sitter).
+-- The new nvim-treesitter always calls `tree-sitter build` internally — there
+-- is no config option to use a C compiler instead or download pre-built
+-- binaries. Without the CLI, TSInstall/TSUpdate will fail with ENOENT.
 return {
   "nvim-treesitter/nvim-treesitter",
   lazy = false,
