@@ -3,6 +3,7 @@
 #FPATH=(/usr/local/share/zsh-completions $FPATH)
 #FPATH=(/usr/local/share/zsh/site-functions $FPATH)
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+FPATH="$ZSH/completions:${FPATH}"
 
 autoload -Uz $ZSH/functions/*(:t)
 

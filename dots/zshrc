@@ -140,11 +140,18 @@ vv() {
 
 # gwt (git worktree helper, ~/.dotfiles/bin/gwt): a script can't cd its parent
 # shell, so for the create/switch verbs we cd into the path it prints on stdout.
+# from/co with no args open an fzf picker inside the script and signal back with
+# a GWT_POPULATE: prefix; the wrapper writes that into the line buffer via
+# print -z so you can review/add flags before hitting Enter.
 gwt() {
   case "$1" in
-    new|from|co|checkout)
+    new|from|co|checkout|search|pick)
       local out; out=$(command gwt "$@") || return
-      builtin cd "${out##*$'\n'}" && command gwt ls ;;
+      if [[ $out == GWT_POPULATE:* ]]; then
+        print -z "${out#GWT_POPULATE:}"
+      else
+        builtin cd "${out##*$'\n'}" && command gwt ls
+      fi ;;
     *) command gwt "$@" ;;
   esac
 }
