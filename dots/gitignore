@@ -31,7 +31,7 @@ worktrees/
 
 teach-*.md
 .claude/settings.local.json
-.understand-anything/
+.understand-anything/**
 
 .worktrees/
 .cursor/plans
