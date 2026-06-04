@@ -396,13 +396,51 @@ cmd_search() {
   printf '%s\n' "${pick##*$'\t'}"
 }
 
+cmd_ls() {
+  local cur_path
+  cur_path=$(git rev-parse --show-toplevel 2>/dev/null || true)
+
+  git worktree list --porcelain | awk -v cur="$cur_path" \
+    -v reset="$c_reset" -v bold="$c_bold" -v dim="$c_dim" \
+    -v grn="$c_grn" -v cyn="$c_cyn" -v ylw="$c_ylw" '
+    /^worktree /{ p = $2 }
+    /^HEAD /{ h = substr($2,1,7) }
+    /^branch /{ br = $2; sub("refs/heads/", "", br) }
+    /^bare$/{ bare = 1 }
+    /^detached$/{ det = 1 }
+    /^$/ && p != "" {
+      n++
+      paths[n]=p; hashes[n]=h; branches[n]=br
+      is_curs[n]=(p==cur); bares[n]=bare; dets[n]=det
+      if (length(p)>maxp) maxp=length(p)
+      p=""; h=""; br=""; bare=0; det=0
+    }
+    END {
+      for (i = 1; i <= n; i++) {
+        q = paths[i]
+        marker     = is_curs[i] ? (cyn "* " reset) : "  "
+        path_col   = is_curs[i] ? (bold cyn q reset) : (bold q reset)
+        hash_col   = dim hashes[i] reset
+        if (bares[i])
+          branch_col = ylw "(bare)" reset
+        else if (dets[i])
+          branch_col = ylw "(detached)" reset
+        else
+          branch_col = grn "[" branches[i] "]" reset
+        pad = maxp - length(q) + 2
+        printf "%s%s%-*s  %s  %s\n", marker, path_col, pad, "", hash_col, branch_col
+      }
+    }
+  '
+}
+
 case ${1:-} in
   new)            shift; cmd_new "$@" ;;
   from)           shift; cmd_from "$@" ;;
   co|checkout)    shift; cmd_co "$@" ;;
   rm|remove)      shift; cmd_rm "$@" ;;
   search|pick)    shift; cmd_search "$@" ;;
-  ls|list)        shift; git worktree list "$@" ;;
+  ls|list)        shift; cmd_ls "$@" ;;
   prune)          shift; git worktree prune "$@" ;;
   st|status)      shift; git status -sb "$@" ;;
   log)            shift; git log --oneline --graph --decorate -n 20 "$@" ;;
