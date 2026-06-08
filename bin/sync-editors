@@ -43,9 +43,23 @@ if [[ $ext_count -gt 0 ]]; then
       --bind='ctrl-a:select-all') || true
 
   if [[ -n "$selected_exts" ]]; then
-    echo "$selected_exts" | while read -r ext; do
-      $DST_CMD --install-extension "$ext" 2>&1 | tail -1
-    done
+    local failed_exts=()
+    while read -r ext; do
+      out=$($DST_CMD --install-extension "$ext" 2>&1)
+      if echo "$out" | grep -qi "failed\|not found\|error"; then
+        failed_exts+=("$ext")
+      else
+        echo "$out" | tail -1
+      fi
+    done <<< "$selected_exts"
+
+    if [[ ${#failed_exts[@]} -gt 0 ]]; then
+      echo ""
+      for ext in "${failed_exts[@]}"; do
+        printf "\033[33m  [VS-Only]  %s\033[0m\n" "$ext"
+      done
+      printf "\033[2m  These extensions are not in Cursor's marketplace. Run install-vsix <id> to install manually.\033[0m\n"
+    fi
   else
     echo "No extensions selected."
   fi
@@ -112,7 +126,7 @@ if [[ $settings_count -gt 0 ]]; then
       --delimiter=$'\t' \
       --with-nth='1,2,3,4' \
       --height=80% --border \
-      --bind='ctrl-a:select-all') || true
+      --bind='ctrl-a:select-all,enter:accept-or-print-query') || true
 
   if [[ -n "$selected_settings" ]]; then
     keys=$(echo "$selected_settings" | cut -f2)

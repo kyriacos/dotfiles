@@ -1,0 +1,110 @@
+#!/usr/bin/env zsh
+# Install a VS Code extension into Cursor and/or VS Code.
+# Sources: marketplace ID, local .vsix path, or GitHub release URL.
+# Usage: install-vsix <publisher.extension|path|url> [--cursor] [--code]
+
+set -euo pipefail
+
+usage() {
+  echo "Usage: install-vsix <publisher.extension | /path/to/file.vsix | https://github.com/.../file.vsix> [--cursor] [--code]"
+  echo ""
+  echo "  --cursor   Install into Cursor"
+  echo "  --code     Install into VS Code"
+  echo ""
+  echo "At least one of --cursor or --code is required."
+  exit 1
+}
+
+[[ $# -lt 1 ]] && usage
+
+source_arg=""
+do_cursor=0
+do_code=0
+
+for arg in "$@"; do
+  case "$arg" in
+    --cursor) do_cursor=1 ;;
+    --code)   do_code=1 ;;
+    --*)      echo "Unknown option: $arg"; usage ;;
+    *)        source_arg="$arg" ;;
+  esac
+done
+
+[[ -z "$source_arg" ]] && usage
+[[ $do_cursor -eq 0 && $do_code -eq 0 ]] && usage
+
+cleanup() { rm -f "${tmp_file:-}" }
+trap cleanup EXIT
+
+# ── Resolve the .vsix ─────────────────────────────────────────────────────────
+
+if [[ -f "$source_arg" ]]; then
+  # Local file
+  tmp_file="$source_arg"
+  trap - EXIT  # don't delete a file the user gave us
+  echo "Using local file: $source_arg"
+
+elif [[ "$source_arg" == http* ]]; then
+  # Remote URL (GitHub release asset, direct link, etc.)
+  filename="${source_arg##*/}"
+  tmp_file="/tmp/${filename}"
+  echo "Downloading $source_arg..."
+  curl -fL --compressed --retry 2 --retry-delay 1 "$source_arg" -o "$tmp_file"
+
+else
+  # VS Code Marketplace ID (publisher.extension)
+  ext_id="$source_arg"
+  publisher="${ext_id%%.*}"
+  name="${ext_id#*.}"
+
+  if [[ -z "$publisher" || -z "$name" || "$publisher" == "$name" ]]; then
+    echo "Invalid extension id '$ext_id'. Expected: publisher.extension"
+    exit 1
+  fi
+
+  echo "Fetching latest version of $ext_id..."
+  version=$(curl -sf \
+    -X POST "https://marketplace.visualstudio.com/_apis/public/gallery/extensionquery?api-version=7.2-preview.1" \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json;api-version=7.2-preview.1" \
+    -d "{\"filters\":[{\"criteria\":[{\"filterType\":7,\"value\":\"${ext_id}\"}]}],\"flags\":914}" \
+    | python3 -c "
+import json,sys
+data=json.load(sys.stdin)
+exts=data.get('results',[{}])[0].get('extensions',[])
+if not exts: sys.exit(1)
+print(exts[0]['versions'][0]['version'])
+")
+
+  if [[ -z "$version" ]]; then
+    echo "Extension not found in VS Code Marketplace: $ext_id"
+    exit 1
+  fi
+
+  echo "  Version: $version"
+  tmp_file="/tmp/${ext_id}-${version}.vsix"
+  vsix_url="https://marketplace.visualstudio.com/_apis/public/gallery/publishers/${publisher}/vsextensions/${name}/${version}/vspackage"
+
+  echo "  Downloading..."
+  curl -fL --compressed --retry 2 --retry-delay 1 "$vsix_url" -o "$tmp_file"
+fi
+
+# ── Validate ──────────────────────────────────────────────────────────────────
+
+if ! python3 -c "
+import sys
+with open(sys.argv[1], 'rb') as f:
+    sig = f.read(4)
+if sig[:2] not in (b'PK', b'\x1f\x8b'):
+    sys.exit(1)
+" "$tmp_file" 2>/dev/null; then
+  echo "Downloaded file does not appear to be a valid .vsix or archive: $tmp_file"
+  exit 1
+fi
+
+# ── Install ───────────────────────────────────────────────────────────────────
+
+[[ $do_cursor -eq 1 ]] && { echo "  Installing into Cursor..."; cursor --install-extension "$tmp_file" }
+[[ $do_code   -eq 1 ]] && { echo "  Installing into VS Code..."; code   --install-extension "$tmp_file" }
+
+echo "Done."
