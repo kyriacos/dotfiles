@@ -29,6 +29,9 @@ SKIP_MAS=false
 SKIP_CASKS=false
 FORMULAS_ONLY=false
 
+# Update / check mode
+UPDATE=false
+
 COMPUTER_NAME=""
 
 info() {
@@ -82,11 +85,15 @@ Brew modifiers (apply to full run or --brew-only):
   --skip-casks             Skip cask installations
   --formulas-only          Brew formulas only; skip mas, casks, and vscode extensions
 
+Update mode:
+  --update                 Check what's out of date and interactively apply fixes
+
   -h, --help               Show this help message
 
 Examples:
   bootstrap                              Full setup (prompts for computer name)
   bootstrap --name "Kyriacos MBP"        Full setup, set computer name upfront
+  bootstrap --update                     Check state and pick what to apply
   bootstrap --brew-only                  Only run Homebrew
   bootstrap --brew-only --skip-mas       Only run Homebrew, skip App Store
   bootstrap --dotfiles-only              Only symlink dotfiles
@@ -118,6 +125,7 @@ while [[ $# -gt 0 ]]; do
 		--skip-mas)        SKIP_MAS=true; shift ;;
 		--skip-casks)      SKIP_CASKS=true; shift ;;
 		--formulas-only)   FORMULAS_ONLY=true; shift ;;
+		--update)          UPDATE=true; shift ;;
 		-h|--help)         usage ;;
 		*) echo "Unknown option: $1"; usage ;;
 	esac
@@ -295,7 +303,189 @@ install_tmux_plugins() {
 	fi
 }
 
+# ── Check / Update ────────────────────────────────────────────────────────────
+
+NEEDS_WORK_LABELS=()
+NEEDS_WORK_FUNCS=()
+NEEDS_WORK_DETAILS=()
+_need() { NEEDS_WORK_LABELS+=("$1"); NEEDS_WORK_FUNCS+=("$2"); NEEDS_WORK_DETAILS+=("$3"); }
+
+check_dotfiles() {
+	printf "\n\033[1mDotfiles\033[0m\n"
+	local n_ok=0 n_bad=0 src name dst link_target details=""
+	while IFS= read -r src; do
+		name=$(basename "$src")
+		dst="$HOME/.${name}"
+		if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+			n_ok=$((n_ok + 1))
+		elif [[ ! -e "$dst" && ! -L "$dst" ]]; then
+			printf "  \033[33m[MISS]\033[0m  ~/.%s\n" "$name"
+			details+="  [MISS]  ~/.${name}"$'\n'
+			n_bad=$((n_bad + 1))
+		else
+			link_target=$(readlink "$dst" 2>/dev/null || echo "file")
+			printf "  \033[33m[DIFF]\033[0m  ~/.%s  (→ %s)\n" "$name" "$link_target"
+			details+="  [DIFF]  ~/.${name}  (→ ${link_target})"$'\n'
+			n_bad=$((n_bad + 1))
+		fi
+	done < <(find -H "$DOTFILES_ROOT" -maxdepth 1 -not -path "$DOTFILES_ROOT" -not -name '.*' | sort)
+	if [[ $n_bad -eq 0 ]]; then
+		success "all $n_ok dotfile symlinks OK"
+	else
+		_need "dotfiles — $n_bad missing/differing symlink(s)" "install_dotfiles" "$details"
+	fi
+}
+
+check_symlinks() {
+	printf "\n\033[1mConfig symlinks\033[0m\n"
+	local dst_k="$HOME/.config/karabiner" exp_k="$HOME/.dotfiles/karabiner"
+	local dst_n="$HOME/.config/nvim"      exp_n="$HOME/.dotfiles/nvim"
+
+	if [[ -L "$dst_k" && "$(readlink "$dst_k")" == "$exp_k" ]]; then
+		success "karabiner symlink OK"
+	else
+		printf "  \033[33m[MISS]\033[0m  ~/.config/karabiner\n"
+		_need "karabiner — symlink missing or wrong" "install_karabiner" "  [MISS]  ~/.config/karabiner"
+	fi
+
+	if [[ -L "$dst_n" && "$(readlink "$dst_n")" == "$exp_n" ]]; then
+		success "nvim symlink OK"
+	else
+		printf "  \033[33m[MISS]\033[0m  ~/.config/nvim\n"
+		_need "nvim — symlink missing or wrong" "install_nvim" "  [MISS]  ~/.config/nvim"
+	fi
+}
+
+check_gitconfig() {
+	printf "\n\033[1mGit config\033[0m\n"
+	if [[ "$(git config --global --get dotfiles.managed 2>/dev/null)" == "true" ]]; then
+		success "gitconfig managed by dotfiles"
+	else
+		printf "  \033[33m[MISS]\033[0m  not yet managed by dotfiles\n"
+		_need "gitconfig — not managed by dotfiles" "setup_gitconfig" "  [MISS]  dotfiles.managed not set — will run setup_gitconfig"
+	fi
+}
+
+_brew_install_missing() { brew bundle install --no-upgrade --file="$HOME/.dotfiles/Brewfile"; }
+_brew_upgrade()         { brew upgrade; }
+
+check_brew() {
+	printf "\n\033[1mHomebrew\033[0m\n"
+	info "checking Brewfile (may take a moment)..."
+	local bundle_out details_miss="" line
+	if bundle_out=$(brew bundle check --no-lock --file="$HOME/.dotfiles/Brewfile" 2>&1); then
+		success "all Brewfile packages installed"
+	else
+		while IFS= read -r line; do
+			[[ -z "$line" ]] && continue
+			printf "  \033[33m[MISS]\033[0m  %s\n" "$line"
+			details_miss+="  ${line}"$'\n'
+		done <<< "$bundle_out"
+		_need "brew — Brewfile packages not fully installed" "_brew_install_missing" "$details_miss"
+	fi
+
+	local outdated details_old="" pkg
+	outdated=$(brew outdated --formula 2>/dev/null)
+	if [[ -z "$outdated" ]]; then
+		success "all formulae up to date"
+	else
+		local n; n=$(echo "$outdated" | wc -l | tr -d ' ')
+		while IFS= read -r pkg; do
+			[[ -z "$pkg" ]] && continue
+			printf "  \033[33m[OLD]\033[0m  %s\n" "$pkg"
+			details_old+="  [OLD]  ${pkg}"$'\n'
+		done <<< "$outdated"
+		_need "brew — $n formula(e) outdated" "_brew_upgrade" "$details_old"
+	fi
+}
+
+check_tmux() {
+	printf "\n\033[1mTmux\033[0m\n"
+	if [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
+		success "TPM installed"
+	else
+		printf "  \033[33m[MISS]\033[0m  TPM not found\n"
+		_need "tmux — TPM missing" "install_tmux_plugins" "  [MISS]  ~/.tmux/plugins/tpm — will run install_plugins"
+	fi
+}
+
+check_ass() {
+	printf "\n\033[1mass\033[0m\n"
+	if [[ -x "$HOME/.local/bin/ass" ]]; then
+		success "ass installed"
+	else
+		printf "  \033[33m[MISS]\033[0m  ass not installed\n"
+		_need "ass — not installed" "install_ass" "  [MISS]  ~/.local/bin/ass — will download latest release"
+	fi
+}
+
+_print_update_summary() {
+	local i
+	printf "\n\033[1m── What will be applied ───────────────────────────────────────\033[0m\n"
+	for i in "${!NEEDS_WORK_LABELS[@]}"; do
+		printf "\n  \033[1m[%d]\033[0m  %s\n" "$((i+1))" "${NEEDS_WORK_LABELS[$i]}"
+		if [[ -n "${NEEDS_WORK_DETAILS[$i]}" ]]; then
+			while IFS= read -r line; do
+				printf "       %s\n" "$line"
+			done <<< "${NEEDS_WORK_DETAILS[$i]}"
+		fi
+	done
+	printf "\n\033[1m───────────────────────────────────────────────────────────────\033[0m\n\n"
+}
+
+run_update() {
+	printf "\033[1mChecking dotfiles state...\033[0m\n"
+	check_gitconfig
+	check_dotfiles
+	check_symlinks
+	check_brew
+	check_tmux
+	check_ass
+
+	if [[ ${#NEEDS_WORK_LABELS[@]} -eq 0 ]]; then
+		echo ""
+		success "Everything is up to date."
+		return 0
+	fi
+
+	_print_update_summary
+
+	if ! command -v fzf >/dev/null 2>&1; then
+		echo "Install fzf to interactively apply items."
+		return 0
+	fi
+
+	local selected
+	selected=$(printf '%s\n' "${NEEDS_WORK_LABELS[@]}" | \
+		fzf --multi \
+		    --prompt="Apply > " \
+		    --header="${#NEEDS_WORK_LABELS[@]} item(s) need attention  |  TAB select  CTRL-A all  ENTER apply" \
+		    --height=50% --border \
+		    --bind='ctrl-a:select-all') || true
+
+	[[ -z "$selected" ]] && { echo "Nothing selected."; return 0; }
+
+	echo ""
+	info "Applying..."
+	local label i
+	while IFS= read -r label; do
+		for i in "${!NEEDS_WORK_LABELS[@]}"; do
+			if [[ "${NEEDS_WORK_LABELS[$i]}" == "$label" ]]; then
+				info "→ $label"
+				${NEEDS_WORK_FUNCS[$i]}
+				break
+			fi
+		done
+	done <<< "$selected"
+	success "Done"
+}
+
 # --- Run ---
+
+if $UPDATE; then
+	run_update
+	exit 0
+fi
 
 if $ONLY_MODE; then
 	$ONLY_NAME      && set_computer_name "$COMPUTER_NAME"
