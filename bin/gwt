@@ -63,6 +63,7 @@
 #           'remove:Remove a worktree'
 #           'search:Fuzzy-search worktrees with fzf'
 #           'pick:Fuzzy-search worktrees with fzf'
+#           'clean:Multi-select stale worktrees to remove'
 #           'ls:List worktrees'
 #           'list:List worktrees'
 #           'prune:Prune stale worktree metadata'
@@ -119,6 +120,52 @@ else
   c_blu='';   c_cyn=''
 fi
 
+# Shared awk program that turns the TSV emitted by gather_worktrees
+# (path<TAB>hash<TAB>branch<TAB>state<TAB>current) into a colored listing.
+# MODE=ls produces an aligned table; MODE=fzf produces "<display>\t<path>" so a
+# picker can show the colored display (--with-nth=1) and recover the raw path.
+# State colors: active=green, local-only=blue, gone/merged/missing=red (stale),
+# detached=yellow, bare=dim. Stale rows also tag the branch with its state.
+read -r -d '' WT_AWK <<'AWK' || true
+function color(s) {
+  if (s == "active")  return grn
+  if (s == "local")   return blu
+  if (s == "gone" || s == "missing") return red
+  if (s == "detached") return ylw
+  return dim
+}
+function label(s) { return (s == "local") ? "local-only" : s }
+function stale(s) { return (s == "gone" || s == "missing") }
+function rawbranch(br, s) {
+  if (br == "")       return "(" label(s) ")"
+  if (stale(s))       return "[" br "] (" label(s) ")"
+  return "[" br "]"
+}
+{
+  n++
+  wt_path[n] = $1; wt_hash[n] = $2; wt_br[n] = $3; wt_st[n] = $4; wt_cur[n] = ($5 == "1")
+  braw[n] = rawbranch($3, $4)
+  if (length(braw[n]) > maxb) maxb = length(braw[n])
+  if (length($1)     > maxp) maxp = length($1)
+}
+END {
+  for (i = 1; i <= n; i++) {
+    c    = color(wt_st[i])
+    mark = wt_cur[i] ? (cyn "* " reset) : "  "
+    bcol = c sprintf("%-*s", maxb, braw[i]) reset
+    hcol = dim wt_hash[i] reset
+    if (MODE == "fzf") {
+      pcol = wt_cur[i] ? (bold cyn wt_path[i] reset) : (bold wt_path[i] reset)
+      printf "%s%s  %s  %s\t%s\n", mark, bcol, pcol, hcol, wt_path[i]
+    } else {
+      pp   = sprintf("%-*s", maxp, wt_path[i])
+      pcol = wt_cur[i] ? (bold cyn pp reset) : (bold pp reset)
+      printf "%s%s  %s  %s\n", mark, bcol, pcol, hcol
+    }
+  }
+}
+AWK
+
 # Diagnostics go to stderr so that stdout stays clean: `new`/`co` print only
 # the resulting worktree path, making `cd "$(gwt new foo)"` work.
 err() { printf '%s\n' "$*" >&2; }
@@ -142,6 +189,8 @@ ${c_bold}Usage:${c_reset}
                             -d also deletes its local branch (-D force-deletes);
                             without -d the branch is kept.
   ${c_cyn}$prog search${c_reset}              Fuzzy-search worktrees with fzf and print the chosen path.
+  ${c_cyn}$prog clean${c_reset}               List worktrees (stale ones in red), multi-select with fzf,
+                            then remove the chosen worktrees and their stale branches.
   ${c_cyn}$prog ls${c_reset}                  List worktrees for this repo.
   ${c_cyn}$prog prune${c_reset}               Prune stale worktree metadata.
   ${c_cyn}$prog st${c_reset} [git-args...]    git status (short) for the current worktree.
@@ -158,6 +207,13 @@ ${c_bold}Repo setup${c_reset} (.cursor/worktrees.json "setup-worktree" commands)
   These come from the repo, so gwt asks before running them. Override with:
   ${c_ylw}--run-setup${c_reset} / ${c_ylw}--no-setup${c_reset}      Run (or skip) without prompting.
   ${c_ylw}\$GWT_RUN_SETUP${c_reset}=1|0           Default decision when no flag is given.
+
+${c_bold}Worktree states${c_reset} (shown by ls/search/clean):
+  ${c_grn}[branch]${c_reset}                  Active: live upstream with unmerged work.
+  ${c_blu}[branch] (local-only)${c_reset}     Never pushed (no upstream). Kept; not treated as stale.
+  ${c_red}[branch] (gone)${c_reset}           Upstream was deleted (e.g. merged PR). ${c_red}Stale.${c_reset}
+  ${c_red}(missing)${c_reset}                 Worktree directory is gone (prunable). ${c_red}Stale.${c_reset}
+  ${c_ylw}(detached)${c_reset}                Not on a branch. ${c_ylw}(bare)${c_reset} is the main repo.
 
 ${c_bold}Notes:${c_reset}
   ${c_dim}- A script cannot change your shell's directory. To jump into a new worktree:
@@ -195,6 +251,60 @@ worktree_branch() {
     /^worktree /{ p = $2 }
     /^branch /{ if (p == t) { b = $2; sub("refs/heads/", "", b); print b } }
   '
+}
+
+# Classify a local branch's state from its upstream. Echoes one of:
+#   gone   - had an upstream that is now deleted (typical of a merged PR).
+#   local  - never pushed; no upstream at all (work-in-progress, NOT stale).
+#   active - has a live upstream.
+# "gone" is deliberately distinct from "local": a branch you never pushed has no
+# upstream, so it is reported local (safe), never gone. We do NOT infer "merged"
+# from ancestry: a branch that is simply behind the default branch (idle or just
+# created) is indistinguishable from a merged one, so that test produced false
+# positives. A genuinely merged PR shows up as "gone" once its remote branch is
+# deleted, which is the signal we trust.
+branch_state() {
+  local br=$1 up track
+  track=$(git for-each-ref --format='%(upstream:track)' "refs/heads/$br" 2>/dev/null)
+  [[ $track == *gone* ]] && { printf gone; return 0; }
+  up=$(git for-each-ref --format='%(upstream)' "refs/heads/$br" 2>/dev/null)
+  [[ -z $up ]] && { printf local; return 0; }
+  printf active; return 0
+}
+
+# Emit one TSV record (path<TAB>hash<TAB>branch<TAB>state<TAB>current) for a
+# parsed worktree. state is bare|missing|detached or a branch_state value.
+_emit_wt() {
+  local path=$1 head=$2 branch=$3 detached=$4 bare=$5 prunable=$6 cur=$7
+  [[ -z $path ]] && return 0
+  local state cur_flag=0
+  [[ $path == "$cur" ]] && cur_flag=1
+  if   [[ $bare == 1 ]];                        then state=bare
+  elif [[ ! -e $path || $prunable == 1 ]];      then state=missing
+  elif [[ $detached == 1 || -z $branch ]];      then state=detached
+  else state=$(branch_state "$branch"); fi
+  printf '%s\t%s\t%s\t%s\t%s\n' "$path" "${head:0:7}" "$branch" "$state" "$cur_flag"
+}
+
+# Emit a TSV record for every worktree in this repo. Consumed by ls/search/clean
+# (formatted via WT_AWK) and by clean's removal logic (state lookup by path).
+gather_worktrees() {
+  local cur line
+  cur=$(git rev-parse --show-toplevel 2>/dev/null || true)
+  local path="" head="" branch="" detached=0 bare=0 prunable=0
+  while IFS= read -r line; do
+    case $line in
+      "worktree "*)
+        _emit_wt "$path" "$head" "$branch" "$detached" "$bare" "$prunable" "$cur"
+        path=${line#worktree }; head=""; branch=""; detached=0; bare=0; prunable=0 ;;
+      "HEAD "*)     head=${line#HEAD } ;;
+      "branch "*)   branch=${line#branch refs/heads/} ;;
+      detached)     detached=1 ;;
+      bare)         bare=1 ;;
+      "prunable "*) prunable=1 ;;
+    esac
+  done < <(git worktree list --porcelain)
+  _emit_wt "$path" "$head" "$branch" "$detached" "$bare" "$prunable" "$cur"
 }
 
 # Find the worktree path for a name, matching its branch or directory name.
@@ -408,21 +518,32 @@ cmd_rm() {
   fi
 }
 
+# One-line color legend explaining each worktree state.
+legend() {
+  printf '%sstates:%s %sactive%s  %slocal-only%s  %sgone%s  %smissing%s  %sdetached%s\n' \
+    "$c_dim" "$c_reset" \
+    "$c_grn" "$c_reset" "$c_blu" "$c_reset" "$c_red" "$c_reset" \
+    "$c_red" "$c_reset" "$c_ylw" "$c_reset"
+}
+
+# Render gather_worktrees output through WT_AWK in the given MODE (ls|fzf).
+format_worktrees() {
+  awk -F'\t' -v MODE="$1" \
+    -v reset="$c_reset" -v bold="$c_bold" -v dim="$c_dim" \
+    -v grn="$c_grn" -v cyn="$c_cyn" -v ylw="$c_ylw" -v blu="$c_blu" -v red="$c_red" \
+    "$WT_AWK"
+}
+
 cmd_search() {
   command -v fzf >/dev/null 2>&1 || die "fzf is required for 'search' (brew install fzf)"
 
   local pick
-  # Build display: "branch  path", fzf on it, extract path after the tab.
-  pick=$(git worktree list --porcelain | awk '
-    /^worktree /{ p = $2 }
-    /^branch /{ br = $2; sub("refs/heads/", "", br) }
-    /^HEAD /{ if (br == "") br = "(detached) " substr($2,1,7) }
-    /^$/ && p != "" { print br "\t" p; p = ""; br = "" }
-    END { if (p != "") print "(HEAD)\t" p }
-  ' | fzf --prompt="worktree> " \
+  # Colored "display\tpath"; fzf shows the display, we recover the path.
+  pick=$(gather_worktrees | format_worktrees fzf \
+    | fzf --prompt="worktree> " \
+          --ansi \
           --height=40% \
           --reverse \
-          --tabstop=30 \
           --delimiter=$'\t' \
           --with-nth=1 \
           --preview='git -C {2} log --oneline --graph --decorate --color=always -n 10 2>/dev/null' \
@@ -433,41 +554,83 @@ cmd_search() {
 }
 
 cmd_ls() {
-  local cur_path
-  cur_path=$(git rev-parse --show-toplevel 2>/dev/null || true)
+  local records
+  records=$(gather_worktrees)
+  printf '%s\n' "$records" | format_worktrees ls
+  # Only explain the colors when something stale is present, so the auto-ls
+  # after each cd stays quiet for the common all-active case.
+  printf '%s\n' "$records" | grep -qE $'\t(gone|missing)\t' && legend || true
+}
 
-  git worktree list --porcelain | awk -v cur="$cur_path" \
-    -v reset="$c_reset" -v bold="$c_bold" -v dim="$c_dim" \
-    -v grn="$c_grn" -v cyn="$c_cyn" -v ylw="$c_ylw" '
-    /^worktree /{ p = $2 }
-    /^HEAD /{ h = substr($2,1,7) }
-    /^branch /{ br = $2; sub("refs/heads/", "", br) }
-    /^bare$/{ bare = 1 }
-    /^detached$/{ det = 1 }
-    /^$/ && p != "" {
-      n++
-      paths[n]=p; hashes[n]=h; branches[n]=br
-      is_curs[n]=(p==cur); bares[n]=bare; dets[n]=det
-      if (length(p)>maxp) maxp=length(p)
-      p=""; h=""; br=""; bare=0; det=0
-    }
-    END {
-      for (i = 1; i <= n; i++) {
-        q = paths[i]
-        marker     = is_curs[i] ? (cyn "* " reset) : "  "
-        path_col   = is_curs[i] ? (bold cyn q reset) : (bold q reset)
-        hash_col   = dim hashes[i] reset
-        if (bares[i])
-          branch_col = ylw "(bare)" reset
-        else if (dets[i])
-          branch_col = ylw "(detached)" reset
-        else
-          branch_col = grn "[" branches[i] "]" reset
-        pad = maxp - length(q) + 2
-        printf "%s%s%-*s  %s  %s\n", marker, path_col, pad, "", hash_col, branch_col
-      }
-    }
-  '
+# Remove a single worktree at $1 (root $2, state $3). Refuses the main worktree
+# and never force-removes a dirty tree. The local branch is deleted only for
+# confirmed-stale states (gone/merged/missing); otherwise it is kept.
+remove_one() {
+  local path=$1 root=$2 state=$3 branch
+  [[ $path == "$root" ]] && { err "${c_ylw}Skipped main worktree:${c_reset} $path"; return; }
+  branch=$(worktree_branch "$path")
+  [[ $PWD == "$path"* ]] && cd "$root"
+
+  if [[ ! -e $path || $state == missing ]]; then
+    git worktree remove --force "$path" >/dev/null 2>&1 || git worktree prune >/dev/null 2>&1 || true
+    err "${c_grn}Pruned missing worktree:${c_reset} ${c_bold}$path${c_reset}"
+  elif git worktree remove "$path" 2>/dev/null; then
+    err "${c_grn}Removed worktree:${c_reset} ${c_bold}$path${c_reset}"
+  else
+    err "${c_ylw}Could not remove (uncommitted changes?):${c_reset} $path"
+    err "${c_dim}  Remove it explicitly with: $prog rm '$branch' -f${c_reset}"
+    return
+  fi
+
+  if [[ -n $branch ]]; then
+    case $state in
+      gone|missing)
+        if git -C "$root" branch -D "$branch" >/dev/null 2>&1; then
+          err "${c_grn}Deleted branch:${c_reset} ${c_bold}$branch${c_reset}"
+        fi ;;
+      *) err "${c_dim}Kept branch '$branch' (not stale).${c_reset}" ;;
+    esac
+  fi
+}
+
+# List all worktrees (stale ones in red), let the user multi-select with fzf,
+# then remove the chosen worktrees and clean up their stale branches.
+cmd_clean() {
+  local root records
+  root=$(main_worktree)
+  records=$(gather_worktrees)
+  [[ -z $records ]] && { err "${c_dim}No worktrees.${c_reset}"; return; }
+
+  if ! command -v fzf >/dev/null 2>&1; then
+    err "${c_ylw}fzf not found; showing report only (red = stale, removable).${c_reset}"
+    printf '%s\n' "$records" | format_worktrees ls
+    legend
+    err "${c_dim}Install fzf for interactive cleanup, or remove with '$prog rm <name> -d'.${c_reset}"
+    return
+  fi
+
+  local picks
+  picks=$(printf '%s\n' "$records" | format_worktrees fzf \
+    | fzf --multi \
+          --ansi \
+          --prompt="clean> " \
+          --header=$'TAB select / ENTER confirm  |  red=stale (gone/missing)  blue=local-only  green=active' \
+          --height=60% \
+          --reverse \
+          --delimiter=$'\t' \
+          --with-nth=1 \
+          --preview='git -C {2} log --oneline --graph --decorate --color=always -n 10 2>/dev/null' \
+          --preview-window=right:50%:wrap \
+          2>/dev/tty) || return 0
+  [[ -z $picks ]] && { err "${c_dim}Nothing selected.${c_reset}"; return; }
+
+  local line path state
+  while IFS= read -r line; do
+    [[ -z $line ]] && continue
+    path=${line##*$'\t'}
+    state=$(printf '%s\n' "$records" | awk -F'\t' -v p="$path" '$1==p{print $4; exit}')
+    remove_one "$path" "$root" "$state"
+  done <<<"$picks"
 }
 
 case ${1:-} in
@@ -476,6 +639,7 @@ case ${1:-} in
   co|checkout)    shift; cmd_co "$@" ;;
   rm|remove)      shift; cmd_rm "$@" ;;
   search|pick)    shift; cmd_search "$@" ;;
+  clean)          shift; cmd_clean "$@" ;;
   ls|list)        shift; cmd_ls "$@" ;;
   prune)          shift; git worktree prune "$@" ;;
   st|status)      shift; git status -sb "$@" ;;

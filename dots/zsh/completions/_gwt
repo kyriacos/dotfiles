@@ -19,6 +19,7 @@ _gwt() {
         'remove:Remove a worktree'
         'search:Fuzzy-search worktrees with fzf (alias: pick)'
         'pick:Fuzzy-search worktrees with fzf'
+        'clean:Multi-select stale worktrees to remove'
         'ls:List worktrees (alias: list)'
         'list:List worktrees'
         'prune:Prune stale worktree metadata'
