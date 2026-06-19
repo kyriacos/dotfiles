@@ -430,12 +430,15 @@ pick_branch() {
   local verb=$1
   command -v fzf >/dev/null 2>&1 || die "fzf is required for the interactive picker (brew install fzf)"
   local pick
-  pick=$(git branch --format='%(refname:short)' 2>/dev/null \
+  pick=$(format_branches \
     | fzf --prompt="${verb}> " \
           --height=50% --reverse --ansi \
-          --preview='git log --oneline --graph --decorate --color=always -n 10 {}' \
+          --delimiter=$'\t' --with-nth=1 \
+          --header=$'red=upstream gone  blue=local-only  green=active' \
+          --preview='git log --oneline --graph --decorate --color=always -n 10 {2}' \
           --preview-window=right:50%:wrap \
           2>/dev/tty) || exit 0
+  pick=${pick##*$'\t'}
   printf 'GWT_POPULATE:gwt %s %s\n' "$verb" "$pick"
   exit 0
 }
@@ -532,6 +535,22 @@ format_worktrees() {
     -v reset="$c_reset" -v bold="$c_bold" -v dim="$c_dim" \
     -v grn="$c_grn" -v cyn="$c_cyn" -v ylw="$c_ylw" -v blu="$c_blu" -v red="$c_red" \
     "$WT_AWK"
+}
+
+# Emit "<colored display>\t<branch>" for every local branch, colored by the same
+# state scheme as the worktree listings (this mirrors branch_state's rule, run
+# in a single for-each-ref so opening the picker stays fast):
+#   red (gone) = upstream deleted, blue = local-only (no upstream), green = active.
+format_branches() {
+  local name up track c tag
+  while IFS=$'\t' read -r name up track; do
+    [[ -z $name ]] && continue
+    if   [[ $track == *gone* ]]; then c=$c_red; tag=" (gone)"
+    elif [[ -z $up ]];           then c=$c_blu; tag=""
+    else                              c=$c_grn; tag=""
+    fi
+    printf '%s%s%s%s\t%s\n' "$c" "$name" "$tag" "$c_reset" "$name"
+  done < <(git for-each-ref --format='%(refname:short)%09%(upstream)%09%(upstream:track)' refs/heads 2>/dev/null)
 }
 
 cmd_search() {
