@@ -6,9 +6,11 @@
 # repository the current directory belongs to; no root or repo is hardcoded.
 #
 # New worktrees are created under a parent directory resolved as:
-#     --path <dir>  >  $GWT_WORKTREE_DIR  >  ./worktrees
-# Relative parents resolve against the current directory and are created if
-# missing. The worktree itself is named after the branch (slashes -> dashes).
+#     --path <dir>  >  $GWT_WORKTREE_DIR  >  parent of the main worktree
+# So by default a worktree lands as a sibling of the repo (one level up), named
+# <repo>-<branch>, e.g. /code/backend -> /code/backend-feature. Relative parents
+# resolve against the current directory and are created if missing. Slashes in
+# the branch become dashes in the directory name.
 #
 # After creating a worktree, gwt can run the repo's own setup commands from
 # .cursor/worktrees.json ("setup-worktree": [...]), substituting
@@ -82,7 +84,9 @@
 #             local -a worktrees
 #             worktrees=( ${(f)"$(git worktree list --porcelain 2>/dev/null | awk '/^branch /{sub("refs/heads/",""); print $2}')"} )
 #             _describe 'worktree' worktrees
-#             _arguments '-f[discard uncommitted changes]' '--force[discard uncommitted changes]' ;;
+#             _arguments '-f[discard uncommitted changes]' '--force[discard uncommitted changes]' \
+#               '(-d --delete-branch)'{-d,--delete-branch}'[also delete the local branch]' \
+#               '-D[also force-delete the local branch]' ;;
 #           from)
 #             local -a branches
 #             branches=( ${(f)"$(git branch --format='%(refname:short)' 2>/dev/null)"} )
@@ -133,8 +137,10 @@ ${c_bold}Usage:${c_reset}
   ${c_cyn}$prog co${c_reset} <name> ${c_ylw}[-p <dir>]${c_reset}          Switch to the worktree for <name> if it
                             exists (prints its path); otherwise create it from
                             branch <name>, like 'from'.
-  ${c_cyn}$prog rm${c_reset} [name] ${c_ylw}[-f]${c_reset}      Remove a worktree. With no name, removes the one you
-                            are standing in. -f/--force discards changes.
+  ${c_cyn}$prog rm${c_reset} [name] ${c_ylw}[-f] [-d|-D]${c_reset}  Remove a worktree. With no name, removes the one
+                            you are standing in. -f/--force discards changes.
+                            -d also deletes its local branch (-D force-deletes);
+                            without -d the branch is kept.
   ${c_cyn}$prog search${c_reset}              Fuzzy-search worktrees with fzf and print the chosen path.
   ${c_cyn}$prog ls${c_reset}                  List worktrees for this repo.
   ${c_cyn}$prog prune${c_reset}               Prune stale worktree metadata.
@@ -145,8 +151,8 @@ ${c_bold}Usage:${c_reset}
 ${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
   ${c_ylw}-p, --path <dir>${c_reset}          Parent dir for this invocation.
   ${c_ylw}\$GWT_WORKTREE_DIR${c_reset}         Parent dir default (if set).
-  ${c_ylw}./worktrees${c_reset}               Fallback, relative to the current directory.
-The worktree is created at <parent>/<name>; relative parents are made if absent.
+  ${c_ylw}<repo>/..${c_reset}                 Fallback: parent of the main worktree (sibling of the repo).
+The worktree is created at <parent>/<repo>-<name>; relative parents are made if absent.
 
 ${c_bold}Repo setup${c_reset} (.cursor/worktrees.json "setup-worktree" commands):
   These come from the repo, so gwt asks before running them. Override with:
@@ -169,12 +175,26 @@ main_worktree() {
 # Resolve the destination worktree path from a name and optional parent.
 # Echoes the absolute-ish destination; creates the parent if needed.
 resolve_dest() {
-  local name=$1 parent=${2:-}
-  parent=${parent:-${GWT_WORKTREE_DIR:-./worktrees}}
+  local name=$1 parent=${2:-} root repo
+  root=$(main_worktree)
+  repo=$(basename "$root")
+  # Default parent: one level up from the main worktree, so new worktrees land
+  # as siblings of the repo regardless of the current directory.
+  parent=${parent:-${GWT_WORKTREE_DIR:-$(dirname "$root")}}
   [[ $parent != /* ]] && parent="$PWD/$parent"
   mkdir -p "$parent" || die "cannot create parent dir: $parent"
   parent=$(cd "$parent" && pwd)  # canonicalize away ./ and ../ for clean output
-  printf '%s/%s\n' "$parent" "${name//\//-}"
+  # Prefix with the repo name so sibling worktrees stay identifiable, e.g.
+  # repo "backend" + branch "feature" -> backend-feature.
+  printf '%s/%s-%s\n' "$parent" "$repo" "${name//\//-}"
+}
+
+# Echo the branch checked out in the worktree at $1 (empty if detached).
+worktree_branch() {
+  git worktree list --porcelain | awk -v t="$1" '
+    /^worktree /{ p = $2 }
+    /^branch /{ if (p == t) { b = $2; sub("refs/heads/", "", b); print b } }
+  '
 }
 
 # Find the worktree path for a name, matching its branch or directory name.
@@ -346,15 +366,17 @@ cmd_co() {
 }
 
 cmd_rm() {
-  local force=() target=""
+  local force=() target="" del_branch=""
   for arg in "$@"; do
     case $arg in
-      -f|--force) force=(--force) ;;
-      *) target=$arg ;;
+      -f|--force)         force=(--force) ;;
+      -d|--delete-branch) del_branch=-d ;;
+      -D)                 del_branch=-D ;;
+      *)                  target=$arg ;;
     esac
   done
 
-  local root path
+  local root path branch
   root=$(main_worktree)
   if [[ -n $target ]]; then
     path=$(resolve_worktree "$target")
@@ -365,11 +387,25 @@ cmd_rm() {
 
   [[ $path == "$root" ]] && die "refusing to remove the main worktree"
 
+  # Capture the branch before removal; afterwards the worktree is gone.
+  branch=$(worktree_branch "$path")
+
   # If standing inside the target, step out first so the dir can be removed.
   [[ $PWD == "$path"* ]] && cd "$root"
   git worktree remove "${force[@]}" "$path"
   err "${c_grn}Removed worktree:${c_reset} ${c_bold}$path${c_reset}"
-  err "${c_dim}Branch is kept; delete it with: git -C \"$root\" branch -d <branch>${c_reset}"
+
+  if [[ -n $del_branch ]]; then
+    if [[ -z $branch ]]; then
+      err "${c_ylw}Worktree was detached; no branch to delete.${c_reset}"
+    elif git -C "$root" branch "$del_branch" "$branch" >&2; then
+      err "${c_grn}Deleted branch:${c_reset} ${c_bold}$branch${c_reset}"
+    else
+      err "${c_ylw}Could not delete branch '$branch'; rerun with -D to force.${c_reset}"
+    fi
+  elif [[ -n $branch ]]; then
+    err "${c_dim}Branch '$branch' kept. Add -d (or -D to force) to delete it too next time.${c_reset}"
+  fi
 }
 
 cmd_search() {
