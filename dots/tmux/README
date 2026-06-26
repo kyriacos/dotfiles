@@ -27,31 +27,27 @@ Window tabs and pane borders show where you are without manual renaming.
 
 ### Window tab vs pane border
 
-| Panes | Status bar (window tab) | Pane bottom border |
-|-------|-------------------------|--------------------|
-| 1     | Active pane label       | Hidden             |
-| 2+    | Active pane label       | Each pane shows its own label (bold = active) |
+The status bar window tab shows the **active** pane's label. Every pane also
+shows its own label on the **bottom border** (bold = active).
 
 ### How updates are triggered
 
 - **tmux hooks** — pane/window switch, split (`auto-label` in `tmux.conf`)
 - **zsh hooks** — `precmd`, `preexec`, `cd` (`zsh/window-name.plugin.zsh`)
 
-Both paths call `bin/auto-label`, which runs `window-rename`, `pane-rename`, and
-`pane-border-refresh`.
+Both paths call `bin/auto-label`, which runs `window-rename` and `pane-rename`.
 
 ### Scripts
 
 | Script | Role |
 |--------|------|
-| `auto-label` | Entry point: refresh window + pane + borders |
+| `auto-label` | Entry point: refresh window + pane labels |
 | `context-label` | Shared logic: git · branch, process, or dir from path + command |
 | `pane-git-label` | Print `dirname · branch` for current directory |
 | `window-label` | Window name (respects `@manual_window_name`) |
 | `window-rename` | Apply window label via `rename-window` |
 | `pane-label` | Pane title for a pane's path + command |
 | `pane-rename` | Apply pane label via `select-pane -T` |
-| `pane-border-refresh` | Turn on bottom borders only when `window_panes > 1` |
 
 ## Usage
 

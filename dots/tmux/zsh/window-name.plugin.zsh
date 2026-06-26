@@ -3,7 +3,7 @@
 
 tmux_auto_label() {
   [[ -z ${TMUX:-} ]] && return 0
-  command auto-label 2>/dev/null
+  "$HOME/.tmux/bin/auto-label" 2>/dev/null
 }
 
 tmux_window_rename() {

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Print a tmux window name: manual override, git repo · branch, or process/dir.
 set -euo pipefail
+# shellcheck source=_lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 
 [[ -n ${TMUX:-} ]] || exit 0
 
@@ -13,4 +15,4 @@ fi
 path=$(tmux display-message -p '#{pane_current_path}')
 cmd=$(tmux display-message -p '#{pane_current_command}')
 
-command context-label "$path" "$cmd"
+"$TMUX_BIN/context-label" "$path" "$cmd"

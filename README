@@ -74,9 +74,8 @@ Label priority:
   4. Directory — cwd basename when not in git
 
 Behaviour:
-  - Single pane: label appears in the status bar window tab only
-  - Multiple panes: each pane also gets its own label on the bottom border
-    (bold = active pane); window tab still reflects the active pane
+  - Status bar window tab shows the active pane's label
+  - Every pane shows its label on the bottom border (bold = active)
 
 Updates on pane/window switch (tmux hooks) and on cd / prompt / command
 (zsh hooks). See ~/.tmux/README for script details.

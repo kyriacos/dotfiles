@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Set the current (or -t) pane title from pane-label (no-op if unchanged).
 set -euo pipefail
+# shellcheck source=_lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 
 [[ -n ${TMUX:-} ]] || exit 0
 
 target=${1:-}
-label=$(command pane-label ${target:+"$target"} 2>/dev/null) || exit 0
+label=$("$TMUX_BIN/pane-label" ${target:+"$target"} 2>/dev/null) || exit 0
 [[ -z $label ]] && exit 0
 
 if [[ -n $target ]]; then

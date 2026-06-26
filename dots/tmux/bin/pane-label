@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Print a pane title from its cwd + command (see context-label).
 set -euo pipefail
+# shellcheck source=_lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 
 [[ -n ${TMUX:-} ]] || exit 0
 
@@ -13,4 +15,4 @@ else
   cmd=$(tmux display-message -p '#{pane_current_command}')
 fi
 
-command context-label "$path" "$cmd"
+"$TMUX_BIN/context-label" "$path" "$cmd"

@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 # Print a label from cwd + command: git repo · branch, process, or dir basename.
 set -euo pipefail
+# shellcheck source=_lib.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 
 path=${1:?}
 cmd=${2:?}
 
 case $cmd in
   zsh|bash|sh|fish|tmux|*-zsh|*-bash)
-    if label=$(cd "$path" && command pane-git-label 2>/dev/null); then
+    if label=$(cd "$path" && "$TMUX_BIN/pane-git-label" 2>/dev/null); then
       printf '%s\n' "$label"
       exit 0
     fi
