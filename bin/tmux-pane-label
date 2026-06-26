@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Print a pane title from its cwd + command (see tmux-context-label).
+set -euo pipefail
+
+[[ -n ${TMUX:-} ]] || exit 0
+
+target=${1:-}
+if [[ -n $target ]]; then
+  path=$(tmux display-message -t "$target" -p '#{pane_current_path}')
+  cmd=$(tmux display-message -t "$target" -p '#{pane_current_command}')
+else
+  path=$(tmux display-message -p '#{pane_current_path}')
+  cmd=$(tmux display-message -p '#{pane_current_command}')
+fi
+
+command tmux-context-label "$path" "$cmd"

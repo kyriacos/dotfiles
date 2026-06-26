@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Show bottom pane borders only when the window has multiple panes.
+set -euo pipefail
+
+[[ -n ${TMUX:-} ]] || exit 0
+
+panes=$(tmux display-message -p '#{window_panes}')
+if (( panes > 1 )); then
+  tmux set-window-option pane-border-status bottom 2>/dev/null
+else
+  tmux set-window-option pane-border-status off 2>/dev/null
+fi

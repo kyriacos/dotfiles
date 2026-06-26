@@ -1,1 +1,1 @@
-# Deprecated: pane titles moved to tmux-window-name.plugin.zsh (window names).
+# Deprecated: pane titles live in tmux-window-name.plugin.zsh (tmux-pane-rename).

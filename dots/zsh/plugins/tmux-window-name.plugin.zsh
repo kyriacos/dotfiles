@@ -1,9 +1,15 @@
-# Auto-rename the active tmux window (repo/worktree · branch, process, or cwd).
-# Custom names: prefix+, or `twname my-label`. Reset with `twname -r`.
+# Auto-rename tmux window + pane labels (repo/worktree · branch, process, or cwd).
+# Custom window names: prefix+, or `twname my-label`. Reset with `twname -r`.
 
-tmux_window_rename() {
+tmux_auto_label() {
   [[ -z ${TMUX:-} ]] && return 0
   command tmux-window-rename 2>/dev/null
+  command tmux-pane-rename 2>/dev/null
+  command tmux-pane-border-refresh 2>/dev/null
+}
+
+tmux_window_rename() {
+  tmux_auto_label
 }
 
 twname() {

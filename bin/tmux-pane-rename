@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Set the current (or -t) pane title from tmux-pane-label (no-op if unchanged).
+set -euo pipefail
+
+[[ -n ${TMUX:-} ]] || exit 0
+
+target=${1:-}
+label=$(command tmux-pane-label ${target:+"$target"} 2>/dev/null) || exit 0
+[[ -z $label ]] && exit 0
+
+if [[ -n $target ]]; then
+  current=$(tmux display-message -t "$target" -p '#{pane_title}')
+  [[ $current == "$label" ]] && exit 0
+  tmux select-pane -t "$target" -T "$label"
+else
+  current=$(tmux display-message -p '#{pane_title}')
+  [[ $current == "$label" ]] && exit 0
+  tmux select-pane -T "$label"
+fi
