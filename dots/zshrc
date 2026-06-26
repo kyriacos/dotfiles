@@ -11,6 +11,7 @@ set -o emacs # or vi if you prefer
 . $ZSH/correction
 . $ZSH/key_bindings
 for file in $ZSH/plugins/**/*(.); do source $file; done
+for file in $HOME/.tmux/zsh/**/*.plugin.zsh(.N); do source $file; done
 
 
 # use .localrc for settings specific to one system

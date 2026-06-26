@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Print a tmux window name: manual override, git repo/worktree · branch, or process/dir.
+# Print a tmux window name: manual override, git repo · branch, or process/dir.
 set -euo pipefail
 
 [[ -n ${TMUX:-} ]] || exit 0
@@ -13,4 +13,4 @@ fi
 path=$(tmux display-message -p '#{pane_current_path}')
 cmd=$(tmux display-message -p '#{pane_current_command}')
 
-command tmux-context-label "$path" "$cmd"
+command context-label "$path" "$cmd"

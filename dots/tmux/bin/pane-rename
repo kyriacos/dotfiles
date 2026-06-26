@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Set the current (or -t) pane title from tmux-pane-label (no-op if unchanged).
+# Set the current (or -t) pane title from pane-label (no-op if unchanged).
 set -euo pipefail
 
 [[ -n ${TMUX:-} ]] || exit 0
 
 target=${1:-}
-label=$(command tmux-pane-label ${target:+"$target"} 2>/dev/null) || exit 0
+label=$(command pane-label ${target:+"$target"} 2>/dev/null) || exit 0
 [[ -z $label ]] && exit 0
 
 if [[ -n $target ]]; then

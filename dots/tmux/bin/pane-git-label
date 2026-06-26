@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Print "worktree-dir · branch" for the current directory (tmux pane titles).
+# Print "repo-or-worktree · branch" for the current directory.
 set -euo pipefail
 
 top=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0

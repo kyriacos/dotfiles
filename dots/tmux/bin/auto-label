@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Refresh window name, pane title, and pane borders for the active pane.
+set -euo pipefail
+
+[[ -n ${TMUX:-} ]] || exit 0
+
+command window-rename 2>/dev/null
+command pane-rename 2>/dev/null
+command pane-border-refresh 2>/dev/null

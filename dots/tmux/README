@@ -1,0 +1,69 @@
+# Tmux
+
+Auto-labeling for window tabs and pane borders. Config lives in `tmux.conf`;
+scripts in `bin/`; zsh hooks in `zsh/`.
+
+## Layout
+
+```
+~/.tmux.conf              → dots/tmux.conf (sources ~/.tmux/tmux.conf)
+~/.tmux/
+  tmux.conf               main config
+  bin/                    labeling scripts (on PATH via zshenv)
+  zsh/                    zsh hooks loaded from zshrc
+  plugins/                TPM and plugins (submodules)
+```
+
+## Auto-labeling
+
+Window tabs and pane borders show where you are without manual renaming.
+
+### Label priority
+
+1. **Custom window name** — `prefix+,` or `twname my-label` (fixed until `twname -r`)
+2. **Git repo** — `repo-or-worktree · branch` (e.g. `.dotfiles · master`, `backend-feature · fix-auth`)
+3. **Process** — running command (e.g. `nvim`, `node`)
+4. **Directory** — basename of cwd when not in git (e.g. `tmp`)
+
+### Window tab vs pane border
+
+| Panes | Status bar (window tab) | Pane bottom border |
+|-------|-------------------------|--------------------|
+| 1     | Active pane label       | Hidden             |
+| 2+    | Active pane label       | Each pane shows its own label (bold = active) |
+
+### How updates are triggered
+
+- **tmux hooks** — pane/window switch, split (`auto-label` in `tmux.conf`)
+- **zsh hooks** — `precmd`, `preexec`, `cd` (`zsh/window-name.plugin.zsh`)
+
+Both paths call `bin/auto-label`, which runs `window-rename`, `pane-rename`, and
+`pane-border-refresh`.
+
+### Scripts
+
+| Script | Role |
+|--------|------|
+| `auto-label` | Entry point: refresh window + pane + borders |
+| `context-label` | Shared logic: git · branch, process, or dir from path + command |
+| `pane-git-label` | Print `dirname · branch` for current directory |
+| `window-label` | Window name (respects `@manual_window_name`) |
+| `window-rename` | Apply window label via `rename-window` |
+| `pane-label` | Pane title for a pane's path + command |
+| `pane-rename` | Apply pane label via `select-pane -T` |
+| `pane-border-refresh` | Turn on bottom borders only when `window_panes > 1` |
+
+## Usage
+
+```bash
+twname my-feature    # pin window name
+twname -r            # resume auto-labeling
+prefix+r             # reload tmux config
+```
+
+After changing scripts or config:
+
+```bash
+tmux source-file ~/.tmux.conf
+source ~/.zshrc
+```

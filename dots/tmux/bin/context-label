@@ -7,7 +7,7 @@ cmd=${2:?}
 
 case $cmd in
   zsh|bash|sh|fish|tmux|*-zsh|*-bash)
-    if label=$(cd "$path" && command tmux-pane-git-label 2>/dev/null); then
+    if label=$(cd "$path" && command pane-git-label 2>/dev/null); then
       printf '%s\n' "$label"
       exit 0
     fi
