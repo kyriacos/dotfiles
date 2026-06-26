@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Rename the current tmux window from tmux-window-label (no-op if unchanged).
+set -euo pipefail
+
+[[ -n ${TMUX:-} ]] || exit 0
+
+label=$(command tmux-window-label 2>/dev/null) || exit 0
+[[ -z $label ]] && exit 0
+
+current=$(tmux display-message -p '#{window_name}')
+[[ $current == "$label" ]] && exit 0
+
+tmux rename-window "$label"

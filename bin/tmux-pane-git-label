@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Print "worktree-dir · branch" for the current directory (tmux pane titles).
+set -euo pipefail
+
+top=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+
+branch=$(git branch --show-current 2>/dev/null || true)
+if [[ -z $branch ]]; then
+  branch="detached@$(git rev-parse --short HEAD 2>/dev/null || echo '?')"
+fi
+
+printf '%s · %s\n' "$(basename "$top")" "$branch"
