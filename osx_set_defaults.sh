@@ -11,9 +11,12 @@ sudo -v
 echo "This script will make your Mac awesome"
 
 echo ""
-echo "Disable Chrome's poor backswipe implementation"
-defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
+echo "Enable Chrome trackpad/mouse back-forward swipe navigation"
+# AppleEnableSwipeNavigateWithScrolls       — trackpad two-finger horizontal swipe
+# AppleEnableMouseSwipeNavigateWithScrolls  — mouse horizontal scroll / Magic Mouse swipe
+# Chrome-specific overrides inherit from NSGlobalDomain when unset; set true explicitly.
+defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool true
+defaults write com.google.Chrome AppleEnableMouseSwipeNavigateWithScrolls -bool true
 
 ###############################################################################
 # SSD-specific tweaks                                                         #
