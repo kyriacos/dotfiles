@@ -139,10 +139,10 @@ vv() {
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
 
-# gwt (git worktree helper, ~/.dotfiles/bin/gwt): a script can't cd its parent
-# shell, so for the create/switch verbs we cd into the path it prints on stdout.
-# from/co with no args open an fzf picker inside the script and signal back with
-# a GWT_POPULATE: prefix; the wrapper writes that into the line buffer via
+# gwt (~/.dotfiles/bin/gwt): bash git worktree helper. A script can't cd its
+# parent shell, so for create/switch verbs we cd into the path it prints on
+# stdout. from/co with no args open an fzf picker and signal back with a
+# GWT_POPULATE: prefix; the wrapper writes that into the line buffer via
 # print -z so you can review/add flags before hitting Enter.
 gwt() {
   case "$1" in
@@ -156,6 +156,10 @@ gwt() {
     *) command gwt "$@" ;;
   esac
 }
+
+# gogwt (go-gwt): separate Go-based worktree tool with its own shell wrapper.
+export GWT_AUTO_LS=1
+eval "$(gogwt shell-init zsh --name gogwt)"
 
 # adding shitty NVM
 export NVM_DIR="$HOME/.nvm"
