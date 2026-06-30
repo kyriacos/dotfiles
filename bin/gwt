@@ -13,10 +13,12 @@
 # the branch become dashes in the directory name.
 #
 # After creating a worktree, gwt can run the repo's own setup commands from
-# .cursor/worktrees.json ("setup-worktree": [...]), substituting
-# $ROOT_WORKTREE_PATH for the main worktree path. Because those commands come
-# from the repository (untrusted in a clone you didn't write), gwt asks before
-# running them unless --run-setup / --no-setup or $GWT_RUN_SETUP=1|0 decides.
+# .cursor/worktrees.json (setup-worktree[-unix|-windows]), substituting
+# $ROOT_WORKTREE_PATH for the main worktree path. Script paths (a string value)
+# run from <worktree>/.cursor; command arrays run from the worktree root.
+# Because those commands come from the repository (untrusted in a clone you
+# did not write), gwt asks before running them unless --run-setup / --no-setup
+# or $GWT_RUN_SETUP=1|0 decides.
 # With no such config, it falls back to copying a top-level .env when present.
 #
 # Auto-cd: a script cannot change its parent shell's directory, so the
@@ -359,10 +361,12 @@ prompt_setup() {
 }
 
 # Run the repo's setup-worktree commands in $1 (the new worktree), if any and
-# if permitted. Permission precedence: explicit decision arg ($3, from a flag)
-# > $GWT_RUN_SETUP > interactive confirmation. The commands come from a file in
-# the repository, so they are treated as untrusted and never run without
-# consent. With no setup config, falls back to copying a top-level .env.
+# if permitted. Script paths (string values) run from <worktree>/.cursor; command
+# arrays run from the worktree root. Permission precedence: explicit decision arg
+# ($3, from a flag) > $GWT_RUN_SETUP > interactive confirmation. The commands
+# come from a file in the repository, so they are treated as untrusted and never
+# run without consent. With no setup config, falls back to copying a top-level
+# .env.
 run_setup() {
   local new_path=$1 root=$2 decision=${3:-} cfg="$2/.cursor/worktrees.json"
 
@@ -384,34 +388,44 @@ def pick_setup(cfg):
             return v
     return None
 
-def normalize_commands(v):
-    if v is None:
-        return []
-    if isinstance(v, str):
-        return [v]
-    if isinstance(v, list):
-        return [c for c in v if isinstance(c, str)]
-    return [str(v)]
+def emit_steps(raw):
+    if raw is None:
+        return
+    if isinstance(raw, str):
+        script = raw.strip()
+        if script:
+            print(f"script\t{script}")
+        return
+    if isinstance(raw, list):
+        for c in raw:
+            if isinstance(c, str) and c.strip():
+                print(f"command\t{c.replace('$ROOT_WORKTREE_PATH', root)}")
+        return
+    print(f"command\t{str(raw).replace('$ROOT_WORKTREE_PATH', root)}")
 
-for c in normalize_commands(pick_setup(cfg)):
-    print(c.replace("$ROOT_WORKTREE_PATH", root))
+emit_steps(pick_setup(cfg))
 PY
 )
   fi
 
   if [[ -n $cmds ]]; then
     [[ -z $decision ]] && decision=$(setup_env_decision)
-    [[ -z $decision ]] && decision=$(prompt_setup "$cmds")
+    [[ -z $decision ]] && decision=$(prompt_setup "$(printf '%s\n' "$cmds" | cut -f2-)")
     if [[ $decision != yes ]]; then
       err "${c_dim}Skipped setup-worktree commands.${c_reset}"
       return
     fi
     err "${c_dim}Running setup-worktree from .cursor/worktrees.json ...${c_reset}"
-    while IFS= read -r cmd; do
+    while IFS=$'\t' read -r kind cmd; do
       [[ -z $cmd ]] && continue
       err "  ${c_dim}\$ $cmd${c_reset}"
-      ( cd "$new_path" && ROOT_WORKTREE_PATH="$root" bash -c "$cmd" >&2 ) \
-        || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
+      if [[ $kind == script ]]; then
+        ( cd "$new_path/.cursor" && ROOT_WORKTREE_PATH="$root" bash "$cmd" >&2 ) \
+          || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
+      else
+        ( cd "$new_path" && ROOT_WORKTREE_PATH="$root" bash -c "$cmd" >&2 ) \
+          || err "  ${c_ylw}(setup step failed, continuing):${c_reset} $cmd"
+      fi
     done <<<"$cmds"
     return
   fi
