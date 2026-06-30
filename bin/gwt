@@ -203,7 +203,7 @@ ${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
   ${c_ylw}<repo>/..${c_reset}                 Fallback: parent of the main worktree (sibling of the repo).
 The worktree is created at <parent>/<repo>-<name>; relative parents are made if absent.
 
-${c_bold}Repo setup${c_reset} (.cursor/worktrees.json "setup-worktree" commands):
+${c_bold}Repo setup${c_reset} (.cursor/worktrees.json setup-worktree[-unix|-windows] commands):
   These come from the repo, so gwt asks before running them. Override with:
   ${c_ylw}--run-setup${c_reset} / ${c_ylw}--no-setup${c_reset}      Run (or skip) without prompting.
   ${c_ylw}\$GWT_RUN_SETUP${c_reset}=1|0           Default decision when no flag is given.
@@ -361,7 +361,28 @@ run_setup() {
 import json, os, sys
 cfg = json.load(open(sys.argv[1]))
 root = os.environ["ROOT_WORKTREE_PATH"]
-for c in cfg.get("setup-worktree", []):
+
+def pick_setup(cfg):
+    if sys.platform == "win32":
+        keys = ("setup-worktree-windows", "setup-worktree")
+    else:
+        keys = ("setup-worktree-unix", "setup-worktree")
+    for k in keys:
+        v = cfg.get(k)
+        if v is not None:
+            return v
+    return None
+
+def normalize_commands(v):
+    if v is None:
+        return []
+    if isinstance(v, str):
+        return [v]
+    if isinstance(v, list):
+        return [c for c in v if isinstance(c, str)]
+    return [str(v)]
+
+for c in normalize_commands(pick_setup(cfg)):
     print(c.replace("$ROOT_WORKTREE_PATH", root))
 PY
 )
