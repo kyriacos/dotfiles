@@ -97,6 +97,8 @@
 #           new)
 #             _arguments '1:branch name: ' '2:base branch or commit: ' \
 #               '(-p --path)'{-p,--path}'[parent dir]:dir:_files -/' \
+#               '(-u --push --set-upstream)'{-u,--push,--set-upstream}'[push -u to set upstream]' \
+#               '--no-push[skip upstream push]' \
 #               '--run-setup[run setup without prompting]' '--no-setup[skip setup]' ;;
 #         esac ;;
 #     esac
@@ -177,7 +179,8 @@ ${c_bold}$prog${c_reset} - git worktree helper (operates on the current repo)
 
 ${c_bold}Usage:${c_reset}
   ${c_cyn}$prog new${c_reset} <name> [base] ${c_ylw}[-p <dir>]${c_reset}  Create a worktree on a NEW branch <name>,
-                            branched from [base] (default: current HEAD), then
+                            branched from [base] (default: current HEAD), push
+                            with -u to set upstream (skip with --no-push), then
                             run repo setup. Prints the new worktree path.
   ${c_cyn}$prog from${c_reset} <branch> ${c_ylw}[-p <dir>]${c_reset}      Create a worktree for an EXISTING branch,
                             then run repo setup. Prints the new worktree path.
@@ -202,6 +205,14 @@ ${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
   ${c_ylw}\$GWT_WORKTREE_DIR${c_reset}         Parent dir default (if set).
   ${c_ylw}<repo>/..${c_reset}                 Fallback: parent of the main worktree (sibling of the repo).
 The worktree is created at <parent>/<repo>-<name>; relative parents are made if absent.
+
+${c_bold}Upstream${c_reset} (new only):
+  After creating the branch, gwt runs ${c_ylw}git push -u <remote> <name>${c_reset} so a later
+  plain ${c_ylw}git push${c_reset} works. The remote is inherited from [base] or defaults to
+  origin. Override with:
+  ${c_ylw}--no-push${c_reset} / ${c_ylw}--push${c_reset} (-u)     Skip (or force) without using \$GWT_PUSH_UPSTREAM.
+  ${c_ylw}\$GWT_PUSH_UPSTREAM${c_reset}=1|0        Default is push (1); set 0 to skip by default.
+  A failed push is non-fatal; the worktree is still created.
 
 ${c_bold}Repo setup${c_reset} (.cursor/worktrees.json setup-worktree[-unix|-windows] commands):
   These come from the repo, so gwt asks before running them. Override with:
@@ -412,18 +423,76 @@ PY
   fi
 }
 
+# Echo the branch name for a symbolic ref like HEAD, or the ref unchanged.
+resolve_base_branch() {
+  local base=$1
+  if [[ $base == HEAD ]]; then
+    git symbolic-ref -q --short HEAD 2>/dev/null || printf HEAD
+  else
+    printf '%s' "$base"
+  fi
+}
+
+# Echo the remote to push a new branch to: inherit from [base] when it is a
+# local branch, else fall back to origin when that remote exists.
+resolve_push_remote() {
+  local base=$1 br remote
+  br=$(resolve_base_branch "$base")
+  if git show-ref --verify --quiet "refs/heads/$br" 2>/dev/null; then
+    remote=$(git config "branch.$br.remote" 2>/dev/null)
+  fi
+  remote=${remote:-origin}
+  git remote get-url "$remote" &>/dev/null && printf '%s' "$remote"
+}
+
+# Map $GWT_PUSH_UPSTREAM to an explicit yes/no, or empty if unset.
+push_upstream_env_decision() {
+  case ${GWT_PUSH_UPSTREAM:-} in
+    1|true|TRUE|yes|YES|on|ON)   printf yes ;;
+    0|false|FALSE|no|NO|off|OFF) printf no ;;
+    *)                           printf '' ;;
+  esac
+}
+
+# Push a new branch with -u so the first plain `git push` works later. Failure
+# is non-fatal: the worktree is already created. Skipped when decision is no.
+push_upstream() {
+  local path=$1 name=$2 base=$3 decision=${4:-}
+  [[ -z $decision ]] && decision=$(push_upstream_env_decision)
+  [[ -z $decision ]] && decision=yes
+  [[ $decision == no ]] && return 0
+
+  local remote
+  remote=$(resolve_push_remote "$base")
+  if [[ -z $remote ]]; then
+    err "${c_ylw}No remote configured; skipping upstream push.${c_reset}"
+    err "${c_dim}Push later with: git push -u origin $name${c_reset}"
+    return 0
+  fi
+
+  err "${c_dim}Setting upstream: git push -u $remote $name ...${c_reset}"
+  if git -C "$path" push -u "$remote" "$name" >&2; then
+    err "${c_grn}Upstream set:${c_reset} $remote/$name"
+  else
+    err "${c_ylw}Could not push upstream (offline or no permission?).${c_reset}"
+    err "${c_dim}Worktree is ready; push later with: git push -u $remote $name${c_reset}"
+  fi
+}
+
 # Parse positionals + optional flags out of "$@". Sets globals parsed_pos
-# (array), parsed_path, and parsed_setup (""/yes/no). Used by new/from/co.
+# (array), parsed_path, parsed_setup, and parsed_push (""/yes/no). Used by new/from/co.
 parse_args() {
-  parsed_pos=(); parsed_path=""; parsed_setup=""
+  parsed_pos=(); parsed_path=""; parsed_setup=""; parsed_push=""
   while [[ $# -gt 0 ]]; do
     case $1 in
-      -p|--path)            parsed_path=${2:-}; shift 2 ;;
-      --path=*)             parsed_path=${1#*=}; shift ;;
-      --run-setup|--yes|-y) parsed_setup=yes; shift ;;
-      --no-setup)           parsed_setup=no;  shift ;;
-      -*)                   die "unknown flag: $1" ;;
-      *)                    parsed_pos+=("$1"); shift ;;
+      -p|--path)                         parsed_path=${2:-}; shift 2 ;;
+      --path=*)                          parsed_path=${1#*=}; shift ;;
+      --run-setup|--yes|-y)              parsed_setup=yes; shift ;;
+      --no-setup)                        parsed_setup=no;  shift ;;
+      --push|-u|--set-upstream)          parsed_push=yes; shift ;;
+      --no-push)                         parsed_push=no;  shift ;;
+      -*)                                die "unknown flag: $1" ;;
+      *)                                 parsed_pos+=("$1"); shift ;;
     esac
   done
 }
@@ -439,6 +508,7 @@ cmd_new() {
   [[ -e $path ]] && die "path already exists: $path"
 
   git worktree add -b "$name" "$path" "$base" >&2
+  push_upstream "$path" "$name" "$base" "$parsed_push"
   run_setup "$path" "$root" "$parsed_setup"
   err "${c_grn}Created worktree:${c_reset} ${c_bold}$path${c_reset}"
   printf '%s\n' "$path"

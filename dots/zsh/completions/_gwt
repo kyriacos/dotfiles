@@ -59,6 +59,8 @@ _gwt() {
             '1:branch name: ' \
             '2:base branch or commit: ' \
             '(-p --path)'{-p,--path}'[parent directory for the worktree]:dir:_files -/' \
+            '(-u --push --set-upstream)'{-u,--push,--set-upstream}'[push -u to set upstream]' \
+            '--no-push[skip upstream push]' \
             '--run-setup[run repo setup commands without prompting]' \
             '--no-setup[skip repo setup commands]'
           ;;
