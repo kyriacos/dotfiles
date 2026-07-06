@@ -53,6 +53,6 @@
 [difftool]
   prompt = false
 
-[includeIf "gitdir:~/code/recentive-analytics/**"]
-path = ~/code/recentive-analytics/.gitconfig-recentive
-
+# if you want to load a custom gitconfig for a specific repo
+#[includeIf "gitdir:~/code/some-git-repo/**"]
+#path = ~/code/some-git-repo/.gitconfig-custom-config
