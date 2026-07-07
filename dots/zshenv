@@ -43,3 +43,6 @@ export PATH="/Users/kyriacos/.local/bin:$PATH"
 # personal scripts (gwt, etc.)
 export PATH="$HOME/.dotfiles/bin:$PATH"
 export PATH="$HOME/.tmux/bin:$PATH"
+
+# machine-specific env (API keys, PATH tweaks) — see README
+[[ -f ~/.zshenv.local ]] && . ~/.zshenv.local

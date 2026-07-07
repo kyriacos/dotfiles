@@ -214,6 +214,33 @@ install_dotfiles() {
 			dst="$HOME/.$(basename "${src}")"
 			link_file "$src" "$dst"
 		done
+	setup_local_shell_files
+}
+
+setup_local_shell_files() {
+	info 'local shell overrides'
+	local file path header
+	for file in .zshenv.local .localrc .zshrc.local; do
+		path="$HOME/$file"
+		if [[ -e "$path" ]]; then
+			success "skipped $path (already exists)"
+			continue
+		fi
+		case "$file" in
+			.zshenv.local)
+				header="# Machine-specific env vars (API keys, PATH). Not tracked — see ~/.dotfiles/README"
+				;;
+			.localrc)
+				header="# Per-machine zsh settings (aliases, paths). Not tracked — see ~/.dotfiles/README"
+				;;
+			.zshrc.local)
+				header="# Late zsh overrides and secrets. Not tracked — see ~/.dotfiles/README"
+				;;
+		esac
+		printf '%s\n\n# export MY_API_KEY="..."\n' "$header" >"$path"
+		chmod 600 "$path"
+		success "created $path"
+	done
 }
 
 find_zsh() {

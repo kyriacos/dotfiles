@@ -9,7 +9,11 @@ gems.tags
 .svn
 *~
 .*.swp
+# local shell overrides (create in $HOME; never commit)
 .localrc
+.zshrc.local
+.zshenv.local
+.cachedenv
 .netrwhist
 .idea
 default-gems
