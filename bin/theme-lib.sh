@@ -225,6 +225,7 @@ set -g @rose_pine_disable_active_window_menu 'on'
 set -g @rose_pine_show_current_program 'on'
 set -g @rose_pine_field_separator ' | '
 run '$HOME/.tmux/plugins/rose-pine-tmux/rose-pine.tmux'
+setw -ga window-status-current-format "#{?window_zoomed_flag, [Z],}"
 
 set -g message-command-style "fg=#232136,bg=#f6c177,fill=#f6c177,width=100%"
 set -g message-style "fg=#6e6a86,bg=#232136,fill=#232136,width=100%"
@@ -248,6 +249,7 @@ set -g @rose_pine_disable_active_window_menu 'on'
 set -g @rose_pine_show_current_program 'on'
 set -g @rose_pine_field_separator ' | '
 run '$HOME/.tmux/plugins/rose-pine-tmux/rose-pine.tmux'
+setw -ga window-status-current-format "#{?window_zoomed_flag, [Z],}"
 EOF
 
 		cat >"$GENERATED_DIR/tmux-panes.conf" <<EOF
