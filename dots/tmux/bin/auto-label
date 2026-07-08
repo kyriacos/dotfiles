@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-# Refresh window name and pane title for the active pane.
+# Refresh pane title for the active pane.
 set -euo pipefail
 # shellcheck source=_lib.sh
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/_lib.sh"
 
 [[ -n ${TMUX:-} ]] || exit 0
 
-"$TMUX_BIN/window-rename" 2>/dev/null || true
 "$TMUX_BIN/pane-rename" 2>/dev/null || true

@@ -80,23 +80,22 @@ dots/tmux/plugins/tpm, so it's available immediately after cloning.
 
   ~/.tmux.conf              entry point (sources ~/.tmux/tmux.conf)
   ~/.tmux/tmux.conf         main config (rose-pine, keybindings, plugins)
-  ~/.tmux/bin/              auto-labeling scripts (on PATH)
-  ~/.tmux/zsh/              zsh hooks for live label updates
+  ~/.tmux/bin/              pane labeling scripts (on PATH)
+  ~/.tmux/zsh/              zsh hooks for live pane label updates
   ~/.tmux/plugins/          TPM and plugins
-  ~/.tmux/README            full auto-labeling docs
+  ~/.tmux/README            pane labeling docs
 
-### Auto-labeling
+### Pane labeling
 
-Window tabs and pane borders show context without manual renaming.
+Pane borders show context without manual renaming. Window names are set manually
+with prefix+, or `twname my-label`.
 
 Label priority:
-  1. Custom name — prefix+, or `twname my-label` (reset with `twname -r`)
-  2. Git repo — `repo-or-worktree · branch` (e.g. backend-feature · fix-auth)
-  3. Process — running command (nvim, node, …)
-  4. Directory — cwd basename when not in git
+  1. Git repo — `repo-or-worktree · branch` (e.g. backend-feature · fix-auth)
+  2. Process — running command (nvim, node, …)
+  3. Directory — cwd basename when not in git
 
 Behaviour:
-  - Status bar window tab shows the active pane's label
   - Every pane shows its label on the bottom border (bold = active)
 
 Updates on pane/window switch (tmux hooks) and on cd / prompt / command

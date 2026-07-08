@@ -1,7 +1,7 @@
 # Tmux
 
-Auto-labeling for window tabs and pane borders. Config lives in `tmux.conf`;
-scripts in `bin/`; zsh hooks in `zsh/`.
+Pane border auto-labeling. Config lives in `tmux.conf`; scripts in `bin/`;
+zsh hooks in `zsh/`.
 
 ## Layout
 
@@ -14,46 +14,38 @@ scripts in `bin/`; zsh hooks in `zsh/`.
   plugins/                TPM and plugins (submodules)
 ```
 
-## Auto-labeling
+## Pane labeling
 
-Window tabs and pane borders show where you are without manual renaming.
+Each pane shows where you are on the **bottom border** (bold = active).
 
 ### Label priority
 
-1. **Custom window name** — `prefix+,` or `twname my-label` (fixed until `twname -r`)
-2. **Git repo** — `repo-or-worktree · branch` (e.g. `.dotfiles · master`, `backend-feature · fix-auth`)
-3. **Process** — running command (e.g. `nvim`, `node`)
-4. **Directory** — basename of cwd when not in git (e.g. `tmp`)
-
-### Window tab vs pane border
-
-The status bar window tab shows the **active** pane's label. Every pane also
-shows its own label on the **bottom border** (bold = active).
+1. **Git repo** — `repo-or-worktree · branch` (e.g. `.dotfiles · master`, `backend-feature · fix-auth`)
+2. **Process** — running command (e.g. `nvim`, `node`)
+3. **Directory** — basename of cwd when not in git (e.g. `tmp`)
 
 ### How updates are triggered
 
 - **tmux hooks** — pane/window switch, split (`auto-label` in `tmux.conf`)
-- **zsh hooks** — `precmd`, `preexec`, `cd` (`zsh/window-name.plugin.zsh`)
+- **zsh hooks** — `precmd`, `preexec`, `cd` (`zsh/pane-label.plugin.zsh`)
 
-Both paths call `bin/auto-label`, which runs `window-rename` and `pane-rename`.
+Both paths call `bin/auto-label`, which runs `pane-rename`.
 
 ### Scripts
 
 | Script | Role |
 |--------|------|
-| `auto-label` | Entry point: refresh window + pane labels |
+| `auto-label` | Entry point: refresh pane label |
 | `context-label` | Shared logic: git · branch, process, or dir from path + command |
 | `pane-git-label` | Print `dirname · branch` for current directory |
-| `window-label` | Window name (respects `@manual_window_name`) |
-| `window-rename` | Apply window label via `rename-window` |
 | `pane-label` | Pane title for a pane's path + command |
 | `pane-rename` | Apply pane label via `select-pane -T` |
 
 ## Usage
 
 ```bash
-twname my-feature    # pin window name
-twname -r            # resume auto-labeling
+twname my-feature    # rename window manually
+prefix+,             # rename window (prompt)
 prefix+r             # reload tmux config
 ```
 
