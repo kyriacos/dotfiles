@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+#
+# setup-nvim — install/update Neovim plugins via lazy.nvim (headless).
+#
+# Usage:
+#   setup-nvim install   # sync plugins from lazy-lock.json (default)
+#   setup-nvim update    # sync + update plugins to latest specs
+#   setup-nvim check     # report if lazy sync is needed (exit 1 if so)
+#
+set -euo pipefail
+
+NVIM_CONFIG="${NVIM_CONFIG:-$HOME/.config/nvim}"
+LAZY_LOCK="$NVIM_CONFIG/lazy-lock.json"
+
+usage() {
+	cat <<EOF
+Usage: $(basename "$0") [install|update|check]
+
+  install   Install missing plugins via lazy.nvim (default)
+  update    Install + update plugins, refresh lazy-lock.json
+  check     Report plugin sync issues (exit 1 if work is needed)
+EOF
+	exit "${1:-0}"
+}
+
+require_nvim() {
+	if ! command -v nvim >/dev/null 2>&1; then
+		echo "nvim is not installed" >&2
+		exit 1
+	fi
+}
+
+require_config() {
+	if [[ ! -f "$NVIM_CONFIG/init.lua" ]]; then
+		echo "MISS nvim config at $NVIM_CONFIG" >&2
+		exit 1
+	fi
+}
+
+lazy_sync() {
+	require_nvim
+	require_config
+	nvim --headless "+Lazy! sync" +qa
+}
+
+lazy_update() {
+	require_nvim
+	require_config
+	nvim --headless "+Lazy! update" +qa
+}
+
+cmd_check() {
+	local issues=0 lazy_dir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy"
+
+	if ! command -v nvim >/dev/null 2>&1; then
+		printf 'MISS nvim binary\n'
+		return 1
+	fi
+
+	if [[ ! -f "$NVIM_CONFIG/init.lua" ]]; then
+		printf 'MISS nvim config at %s\n' "$NVIM_CONFIG"
+		return 1
+	fi
+
+	if [[ ! -f "$LAZY_LOCK" ]]; then
+		printf 'MISS lazy-lock.json\n'
+		issues=1
+	fi
+
+	if [[ ! -d "$lazy_dir/lazy.nvim" ]]; then
+		printf 'MISS lazy.nvim bootstrap\n'
+		issues=1
+	fi
+
+	if [[ ! -d "$lazy_dir/rose-pine" ]]; then
+		printf 'MISS plugin rose-pine\n'
+		issues=1
+	fi
+
+	return "$issues"
+}
+
+cmd_install() {
+	lazy_sync
+}
+
+cmd_update() {
+	lazy_update
+}
+
+main() {
+	local cmd="${1:-install}"
+	case "$cmd" in
+		install) cmd_install ;;
+		update)  cmd_update ;;
+		check)
+			if cmd_check; then
+				exit 0
+			fi
+			exit 1
+			;;
+		-h|--help|help) usage 0 ;;
+		*) echo "Unknown command: $cmd" >&2; usage 1 ;;
+	esac
+}
+
+main "$@"

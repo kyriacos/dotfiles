@@ -1,3 +1,9 @@
 [submodule "dots/tmux/plugins/tpm"]
 	path = dots/tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule "dots/tmux/plugins/rose-pine-tmux"]
+	path = dots/tmux/plugins/rose-pine-tmux
+	url = https://github.com/rose-pine/tmux
+[submodule "dots/tmux/plugins/catppuccin-tmux"]
+	path = dots/tmux/plugins/catppuccin-tmux
+	url = https://github.com/catppuccin/tmux

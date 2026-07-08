@@ -19,6 +19,7 @@ Passing one or more --*-only flags runs only those steps. No flags = full setup.
   --brew-only          Run Homebrew update/bundle/upgrade only
   --osx-only           Run osx_set_defaults.sh only
   --karabiner-only     Symlink Karabiner config only
+  --ghostty-only       Symlink Ghostty config only
   --tmux-only          Install tmux plugins only
   --ass-only           Install ass (AI Session Search) only
 
@@ -40,6 +41,7 @@ Examples:
   bootstrap --brew-only                  Only run Homebrew
   bootstrap --brew-only --skip-mas       Only run Homebrew, skip App Store
   bootstrap --dotfiles-only              Only symlink dotfiles
+  bootstrap --ghostty-only                 Only symlink Ghostty config
   bootstrap --osx-only --tmux-only       Only run osx defaults and tmux setup
 
 All CLI tools are managed via the Brewfile. The bootstrap script runs `brew bundle`
@@ -73,8 +75,9 @@ Install tmux:
   brew install tmux
 
 The bootstrap script symlinks ~/.tmux.conf and ~/.tmux from this repo.
-TPM (Tmux Plugin Manager) is included as a git submodule at
-dots/tmux/plugins/tpm, so it's available immediately after cloning.
+TPM (Tmux Plugin Manager) and the Rose Pine theme are git submodules at
+dots/tmux/plugins/tpm and dots/tmux/plugins/rose-pine-tmux, so they're
+available immediately after cloning with --recurse-submodules.
 
 ### Layout
 
@@ -82,7 +85,7 @@ dots/tmux/plugins/tpm, so it's available immediately after cloning.
   ~/.tmux/tmux.conf         main config (rose-pine, keybindings, plugins)
   ~/.tmux/bin/              pane labeling scripts (on PATH)
   ~/.tmux/zsh/              zsh hooks for live pane label updates
-  ~/.tmux/plugins/          TPM and plugins
+  ~/.tmux/plugins/          TPM, rose-pine-tmux (submodules), and other plugins
   ~/.tmux/README            pane labeling docs
 
 ### Pane labeling
@@ -101,27 +104,31 @@ Behaviour:
 Updates on pane/window switch (tmux hooks) and on cd / prompt / command
 (zsh hooks). See ~/.tmux/README for script details.
 
-### Plugin install
+### Plugin install and updates
 
-The bootstrap script runs plugin installation automatically. To install
-or reinstall plugins manually:
-  ~/.tmux/plugins/tpm/bin/install_plugins
+The bootstrap script runs tmux setup automatically via `bin/setup-tmux`.
+To install or repair manually:
 
-Or from inside tmux:
+  ~/.dotfiles/bin/setup-tmux install
+
+To pull latest submodule commits and update TPM-managed plugins:
+
+  ~/.dotfiles/bin/setup-tmux update
+
+Or use interactive update for everything:
+
+  bootstrap --update
+
+Or from inside tmux (TPM-managed plugins only):
   prefix + I   (capital I, as in Install)
-
-### Upgrading TPM and plugins
-
-Upgrade TPM (the submodule) to its latest upstream commit:
-  cd ~/.dotfiles
-  git submodule update --remote dots/tmux/plugins/tpm
-  git add dots/tmux/plugins/tpm && git commit -m "Bump TPM to latest"
-
-Upgrade all installed plugins:
-  ~/.tmux/plugins/tpm/bin/update_plugins all
-
-Or from inside tmux:
   prefix + U   (capital U, as in Update)
+
+### Upgrading submodules
+
+Submodule bumps are handled by `setup-tmux update` (or `bootstrap --update`).
+To bump manually:
+
+  ~/.dotfiles/bin/setup-tmux update
 
 ## Cursor chat sync (cursaves)
 

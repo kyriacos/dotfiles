@@ -15,6 +15,7 @@ ONLY_BREW=false
 ONLY_OSX=false
 ONLY_KARABINER=false
 ONLY_NVIM=false
+ONLY_GHOSTTY=false
 ONLY_TMUX=false
 ONLY_ASS=false
 
@@ -71,7 +72,8 @@ Passing one or more --*-only flags runs only those steps (in the order listed):
   --osx-only               Run osx_set_defaults.sh only
   --karabiner-only         Symlink Karabiner config only
   --nvim-only              Symlink Neovim config only
-  --tmux-only              Install tmux plugins only
+  --ghostty-only           Symlink Ghostty config only
+  --tmux-only              Set up tmux plugins (install)
 
 Skip flags (full run only):
   --skip-brew              Skip all Homebrew steps
@@ -99,6 +101,7 @@ Examples:
   bootstrap --dotfiles-only              Only symlink dotfiles
   bootstrap --karabiner-only             Only symlink Karabiner config
   bootstrap --nvim-only                  Only symlink Neovim config
+  bootstrap --ghostty-only               Only symlink Ghostty config
   bootstrap --osx-only --tmux-only       Only run osx defaults and tmux setup
 EOF
 	exit 0
@@ -116,6 +119,7 @@ while [[ $# -gt 0 ]]; do
 		--osx-only)        ONLY_OSX=true; shift ;;
 		--karabiner-only|--install-karabiner) ONLY_KARABINER=true; shift ;;
 		--nvim-only)       ONLY_NVIM=true; shift ;;
+		--ghostty-only)    ONLY_GHOSTTY=true; shift ;;
 		--tmux-only)       ONLY_TMUX=true; shift ;;
 		--ass-only)        ONLY_ASS=true; shift ;;
 		--skip-brew)       SKIP_BREW=true; shift ;;
@@ -140,6 +144,7 @@ $ONLY_BREW      && ONLY_MODE=true
 $ONLY_OSX       && ONLY_MODE=true
 $ONLY_KARABINER && ONLY_MODE=true
 $ONLY_NVIM      && ONLY_MODE=true
+$ONLY_GHOSTTY   && ONLY_MODE=true
 $ONLY_TMUX      && ONLY_MODE=true
 $ONLY_ASS       && ONLY_MODE=true
 
@@ -205,6 +210,32 @@ install_nvim() {
 	else
 		success "tree-sitter already installed"
 	fi
+
+	if command -v nvim >/dev/null 2>&1; then
+		info "syncing Neovim plugins (lazy.nvim)"
+		"$HOME/.dotfiles/bin/setup-nvim" install && success "nvim plugins installed" ||
+			fail "nvim plugin setup failed"
+	fi
+}
+
+update_nvim_plugins() {
+	info "Updating Neovim plugins"
+	if ! command -v nvim >/dev/null 2>&1; then
+		info "nvim not found, skipping plugin update"
+		return 0
+	fi
+	"$HOME/.dotfiles/bin/setup-nvim" update && success "nvim plugins updated" ||
+		fail "nvim plugin update failed"
+}
+
+install_ghostty() {
+	if [[ "$(uname)" != "Darwin" ]]; then
+		info "skipping Ghostty symlink (not macOS)"
+		return 0
+	fi
+	info "linking Ghostty config"
+	mkdir -p "$HOME/.config"
+	link_file "$HOME/.dotfiles/ghostty" "$HOME/.config/ghostty"
 }
 
 install_dotfiles() {
@@ -215,6 +246,7 @@ install_dotfiles() {
 			link_file "$src" "$dst"
 		done
 	setup_local_shell_files
+	"$HOME/.dotfiles/bin/theme" generate >/dev/null 2>&1 || true
 }
 
 setup_local_shell_files() {
@@ -317,17 +349,23 @@ install_ass() {
 }
 
 install_tmux_plugins() {
-	info "Installing tmux plugins"
-	if command -v tmux >/dev/null 2>&1; then
-		TPM_INSTALL="$HOME/.tmux/plugins/tpm/bin/install_plugins"
-		if [ -x "$TPM_INSTALL" ]; then
-			"$TPM_INSTALL" && success "tmux plugins installed"
-		else
-			fail "TPM not found at $HOME/.tmux/plugins/tpm — did you clone with --recurse-submodules?"
-		fi
-	else
-		info "tmux not found, skipping plugin install"
+	info "Setting up tmux plugins"
+	if ! command -v tmux >/dev/null 2>&1; then
+		info "tmux not found, skipping plugin setup"
+		return 0
 	fi
+	"$HOME/.dotfiles/bin/setup-tmux" install && success "tmux plugins installed" ||
+		fail "tmux plugin setup failed — did you clone with --recurse-submodules?"
+}
+
+update_tmux_plugins() {
+	info "Updating tmux plugins"
+	if ! command -v tmux >/dev/null 2>&1; then
+		info "tmux not found, skipping plugin update"
+		return 0
+	fi
+	"$HOME/.dotfiles/bin/setup-tmux" update && success "tmux plugins updated" ||
+		fail "tmux plugin update failed"
 }
 
 # ── Check / Update ────────────────────────────────────────────────────────────
@@ -367,6 +405,7 @@ check_symlinks() {
 	printf "\n\033[1mConfig symlinks\033[0m\n"
 	local dst_k="$HOME/.config/karabiner" exp_k="$HOME/.dotfiles/karabiner"
 	local dst_n="$HOME/.config/nvim"      exp_n="$HOME/.dotfiles/nvim"
+	local dst_g="$HOME/.config/ghostty"   exp_g="$HOME/.dotfiles/ghostty"
 
 	if [[ -L "$dst_k" && "$(readlink "$dst_k")" == "$exp_k" ]]; then
 		success "karabiner symlink OK"
@@ -380,6 +419,15 @@ check_symlinks() {
 	else
 		printf "  \033[33m[MISS]\033[0m  ~/.config/nvim\n"
 		_need "nvim — symlink missing or wrong" "install_nvim" "  [MISS]  ~/.config/nvim"
+	fi
+
+	if [[ "$(uname)" == "Darwin" ]]; then
+		if [[ -L "$dst_g" && "$(readlink "$dst_g")" == "$exp_g" ]]; then
+			success "ghostty symlink OK"
+		else
+			printf "  \033[33m[MISS]\033[0m  ~/.config/ghostty\n"
+			_need "ghostty — symlink missing or wrong" "install_ghostty" "  [MISS]  ~/.config/ghostty"
+		fi
 	fi
 }
 
@@ -428,11 +476,58 @@ check_brew() {
 
 check_tmux() {
 	printf "\n\033[1mTmux\033[0m\n"
-	if [[ -d "$HOME/.tmux/plugins/tpm" ]]; then
-		success "TPM installed"
-	else
-		printf "  \033[33m[MISS]\033[0m  TPM not found\n"
-		_need "tmux — TPM missing" "install_tmux_plugins" "  [MISS]  ~/.tmux/plugins/tpm — will run install_plugins"
+	local out details="" line kind msg
+	out="$("$HOME/.dotfiles/bin/setup-tmux" check 2>&1 || true)"
+	if [[ -z "$out" ]]; then
+		success "tmux submodules and plugins OK"
+		return 0
+	fi
+
+	details=""
+	while IFS= read -r line; do
+		[[ -z "$line" ]] && continue
+		kind="${line%% *}"
+		msg="${line#* }"
+		case "$kind" in
+			MISS) printf "  \033[33m[MISS]\033[0m  %s\n" "$msg" ;;
+			OLD)  printf "  \033[33m[OLD]\033[0m  %s\n" "$msg" ;;
+			*)    printf "  \033[33m[WARN]\033[0m  %s\n" "$line" ;;
+		esac
+		details+="  ${line}"$'\n'
+	done <<< "$out"
+
+	if grep -q '^MISS' <<< "$out"; then
+		_need "tmux — submodules/plugins missing" "install_tmux_plugins" "$details"
+	fi
+	if grep -q '^OLD' <<< "$out"; then
+		_need "tmux — submodules/plugins outdated" "update_tmux_plugins" "$details"
+	fi
+}
+
+check_nvim() {
+	printf "\n\033[1mNeovim\033[0m\n"
+	local out details="" line kind msg
+	out="$("$HOME/.dotfiles/bin/setup-nvim" check 2>&1 || true)"
+	if [[ -z "$out" ]]; then
+		success "nvim plugins OK"
+		return 0
+	fi
+
+	details=""
+	while IFS= read -r line; do
+		[[ -z "$line" ]] && continue
+		kind="${line%% *}"
+		msg="${line#* }"
+		case "$kind" in
+			MISS) printf "  \033[33m[MISS]\033[0m  %s\n" "$msg" ;;
+			OLD)  printf "  \033[33m[OLD]\033[0m  %s\n" "$msg" ;;
+			*)    printf "  \033[33m[WARN]\033[0m  %s\n" "$line" ;;
+		esac
+		details+="  ${line}"$'\n'
+	done <<< "$out"
+
+	if grep -q '^MISS' <<< "$out"; then
+		_need "nvim — plugins missing" "install_nvim" "$details"
 	fi
 }
 
@@ -465,6 +560,7 @@ run_update() {
 	check_gitconfig
 	check_dotfiles
 	check_symlinks
+	check_nvim
 	check_brew
 	check_tmux
 	check_ass
@@ -525,6 +621,7 @@ if $ONLY_MODE; then
 	}
 	$ONLY_KARABINER && install_karabiner
 	$ONLY_NVIM      && install_nvim
+	$ONLY_GHOSTTY   && install_ghostty
 	$ONLY_TMUX      && install_tmux_plugins
 	$ONLY_ASS       && install_ass
 	success "Done"
@@ -553,6 +650,7 @@ fi
 
 install_karabiner
 install_nvim
+install_ghostty
 $SKIP_TMUX || install_tmux_plugins
 install_ass
 

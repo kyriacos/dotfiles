@@ -1,0 +1,179 @@
+#!/usr/bin/env bash
+#
+# setup-tmux — init/update tmux plugin submodules and TPM-managed plugins.
+#
+# Submodules (tracked in dotfiles):
+#   dots/tmux/plugins/tpm
+#   dots/tmux/plugins/rose-pine-tmux
+#
+# Usage:
+#   setup-tmux install   # first-time / repair (default)
+#   setup-tmux update    # pull latest submodules + TPM plugin updates
+#   setup-tmux check     # print issues (stdout); exit 0 if OK
+#
+set -euo pipefail
+
+DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/.dotfiles}"
+TMUX_DIR="${TMUX_DIR:-$HOME/.tmux}"
+SUBMODULES=(
+	dots/tmux/plugins/tpm
+	dots/tmux/plugins/rose-pine-tmux
+	dots/tmux/plugins/catppuccin-tmux
+)
+TPM_PLUGINS=(
+	tmux-sensible
+	tmux-open
+	tmux-resurrect
+	extrakto
+	tmux-yank
+)
+
+usage() {
+	cat <<EOF
+Usage: $(basename "$0") [install|update|check]
+
+  install   Init git submodules and install missing TPM plugins (default)
+  update    install + fetch latest submodule commits + update TPM plugins
+  check     Report missing/outdated components (exit 1 if work is needed)
+EOF
+	exit "${1:-0}"
+}
+
+submodule_path() {
+	echo "$DOTFILES_ROOT/$1"
+}
+
+submodule_initialized() {
+	[[ -d "$(submodule_path "$1")/.git" ]] ||
+		[[ -f "$(submodule_path "$1")/.git" ]]
+}
+
+submodule_behind_remote() {
+	local path commits branch
+	path="$(submodule_path "$1")"
+	submodule_initialized "$1" || return 1
+
+	git -C "$path" fetch -q origin 2>/dev/null || return 1
+	branch="$(git -C "$path" rev-parse --abbrev-ref HEAD 2>/dev/null || echo main)"
+	commits="$(git -C "$path" rev-list "HEAD..origin/$branch" --count 2>/dev/null || echo 0)"
+	[[ "${commits:-0}" -gt 0 ]]
+}
+
+plugin_installed() {
+	[[ -d "$TMUX_DIR/plugins/$1" ]]
+}
+
+tpm_install_script() {
+	echo "$TMUX_DIR/plugins/tpm/bin/install_plugins"
+}
+
+tpm_update_script() {
+	echo "$TMUX_DIR/plugins/tpm/bin/update_plugins"
+}
+
+reload_tmux_config() {
+	if command -v tmux >/dev/null 2>&1 && tmux list-sessions >/dev/null 2>&1; then
+		tmux source-file "$HOME/.tmux.conf" >/dev/null 2>&1 || true
+	fi
+}
+
+init_submodules() {
+	git -C "$DOTFILES_ROOT" submodule update --init --recursive "${SUBMODULES[@]}"
+}
+
+update_submodules() {
+	git -C "$DOTFILES_ROOT" submodule update --remote --merge "${SUBMODULES[@]}"
+}
+
+install_tpm_plugins() {
+	local script
+	script="$(tpm_install_script)"
+	if [[ ! -x "$script" ]]; then
+		echo "MISS tpm install script at $script" >&2
+		return 1
+	fi
+	"$script"
+}
+
+update_tpm_plugins() {
+	local script
+	script="$(tpm_update_script)"
+	if [[ ! -x "$script" ]]; then
+		echo "MISS tpm update script at $script" >&2
+		return 1
+	fi
+	"$script" all
+}
+
+cmd_check() {
+	local issues=0 sub plugin path behind
+
+	for sub in "${SUBMODULES[@]}"; do
+		path="$(submodule_path "$sub")"
+		if ! submodule_initialized "$sub"; then
+			printf 'MISS submodule %s\n' "${sub##*/}"
+			issues=1
+			continue
+		fi
+		if submodule_behind_remote "$sub"; then
+			behind="$(git -C "$path" rev-list "HEAD..origin/$(git -C "$path" rev-parse --abbrev-ref HEAD)" --count 2>/dev/null || echo "?")"
+			printf 'OLD submodule %s (%s commits behind origin)\n' "${sub##*/}" "$behind"
+			issues=1
+		fi
+	done
+
+	for plugin in "${TPM_PLUGINS[@]}"; do
+		if ! plugin_installed "$plugin"; then
+			printf 'MISS plugin %s\n' "$plugin"
+			issues=1
+		fi
+	done
+
+	return "$issues"
+}
+
+cmd_install() {
+	if ! command -v git >/dev/null 2>&1; then
+		echo "git is required" >&2
+		exit 1
+	fi
+
+	init_submodules
+
+	if command -v tmux >/dev/null 2>&1; then
+		install_tpm_plugins
+	else
+		echo "tmux not installed — submodules initialized, skipping TPM plugin install" >&2
+	fi
+}
+
+cmd_update() {
+	cmd_install
+	update_submodules
+
+	if command -v tmux >/dev/null 2>&1; then
+		install_tpm_plugins
+		update_tpm_plugins
+		reload_tmux_config
+	else
+		echo "tmux not installed — submodules updated, skipping TPM plugin update" >&2
+	fi
+}
+
+main() {
+	local cmd="${1:-install}"
+	case "$cmd" in
+		install) cmd_install ;;
+		update)  cmd_update ;;
+		check)
+			if cmd_check; then
+				exit 0
+			fi
+			exit 1
+			;;
+		-h|--help|help) usage 0 ;;
+		*) echo "Unknown command: $cmd" >&2; usage 1 ;;
+	esac
+}
+
+main "$@"

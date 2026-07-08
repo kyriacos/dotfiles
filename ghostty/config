@@ -1,0 +1,5 @@
+# UI theme — managed by bin/theme (see theme/active.env)
+config-file = ~/.dotfiles/theme/generated/ghostty.conf
+
+# Machine-local overrides (not tracked)
+config-file = ?config.local

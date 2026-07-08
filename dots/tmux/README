@@ -11,7 +11,7 @@ zsh hooks in `zsh/`.
   tmux.conf               main config
   bin/                    labeling scripts (on PATH via zshenv)
   zsh/                    zsh hooks loaded from zshrc
-  plugins/                TPM and plugins (submodules)
+  plugins/                TPM + rose-pine-tmux (submodules); other plugins via TPM
 ```
 
 ## Pane labeling
@@ -49,9 +49,10 @@ prefix+,             # rename window (prompt)
 prefix+r             # reload tmux config
 ```
 
-After changing scripts or config:
+After changing scripts, config, or plugins:
 
 ```bash
 tmux source-file ~/.tmux.conf
 source ~/.zshrc
+# or: ~/.dotfiles/bin/setup-tmux update
 ```

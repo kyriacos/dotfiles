@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+#
+# theme — switch UI themes across Ghostty, tmux, and Neovim.
+#
+# Usage:
+#   theme              Interactive picker (fzf + preview)
+#   theme list           List available themes
+#   theme apply <family> <variant>
+#   theme current        Show active theme
+#   theme reload         Re-apply reload hooks for running apps
+#
+set -euo pipefail
+
+DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/.dotfiles}"
+# shellcheck source=theme-lib.sh
+source "$DOTFILES_ROOT/bin/theme-lib.sh"
+
+usage() {
+	cat <<EOF
+Usage: $(basename "$0") [command]
+
+Commands:
+  (none)              Pick a theme with fzf (preview + apply)
+  list                List available themes
+  apply <family> <variant>
+                      Apply a theme (e.g. apply catppuccin macchiato)
+  current             Show the active theme
+  reload              Reload Ghostty, tmux, and Neovim
+  generate            Regenerate configs from theme/active.env
+
+Families: catppuccin, rose-pine
+EOF
+	exit "${1:-0}"
+}
+
+cmd_current() {
+	theme_read_active
+	printf '%s / %s (%s)\n' "$THEME_FAMILY" "$THEME_VARIANT" "$THEME_MODE"
+}
+
+cmd_list() {
+	theme_list_lines | while IFS='|' read -r family variant mode label; do
+		printf '  %-12s %-12s %-5s  %s\n' "$family" "$variant" "$mode" "$label"
+	done
+}
+
+cmd_apply() {
+	local family=${1:-} variant=${2:-}
+	[[ -n $family && -n $variant ]] || {
+		echo "usage: theme apply <family> <variant>" >&2
+		exit 1
+	}
+	theme_apply "$family" "$variant"
+	theme_reload_all
+}
+
+cmd_pick() {
+	if ! command -v fzf >/dev/null 2>&1; then
+		echo "fzf is required for interactive theme selection" >&2
+		cmd_list
+		exit 1
+	fi
+
+	local selected entry preview_cmd
+	preview_cmd="$DOTFILES_ROOT/bin/theme _preview {}"
+
+	selected=$(
+		theme_list_lines | fzf --delimiter='|' --with-nth=4 \
+			--header="Theme picker  |  Enter apply  |  preview shows palette" \
+			--preview "$preview_cmd" \
+			--preview-window=right:40%:wrap \
+			--height=50% --border
+	) || exit 0
+
+	IFS='|' read -r family variant _mode _label <<< "$selected"
+	theme_apply "$family" "$variant"
+	theme_reload_all
+}
+
+cmd_preview() {
+	local line=$1
+	for entry in "${THEME_CATALOG[@]}"; do
+		IFS='|' read -r family variant _ <<< "$entry"
+		if [[ "$family|$variant" == "$line" ]]; then
+			theme_preview_ansi "$entry"
+			return 0
+		fi
+	done
+	# fzf passes family|variant|mode|label — match by prefix
+	IFS='|' read -r family variant _ <<< "$line"
+	for entry in "${THEME_CATALOG[@]}"; do
+		if [[ "$entry" == "$family|$variant|"* ]]; then
+			theme_preview_ansi "$entry"
+			return 0
+		fi
+	done
+}
+
+main() {
+	local cmd=${1:-pick}
+	case "$cmd" in
+		-h|--help|help) usage 0 ;;
+		list)     cmd_list ;;
+		apply)    shift; cmd_apply "$@" ;;
+		current)  cmd_current ;;
+		reload)   theme_reload_all ;;
+		generate) theme_generate_all_from_active; echo "Regenerated theme configs" ;;
+		_preview) shift; cmd_preview "$*" ;;
+		pick|'')  cmd_pick ;;
+		*)        echo "Unknown command: $cmd" >&2; usage 1 ;;
+	esac
+}
+
+main "$@"
