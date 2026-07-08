@@ -2,16 +2,10 @@
 #
 # theme — switch UI themes across Ghostty, tmux, and Neovim.
 #
-# Usage:
-#   theme              Interactive picker (fzf + preview)
-#   theme list           List available themes
-#   theme apply <family> <variant>
-#   theme current        Show active theme
-#   theme reload         Re-apply reload hooks for running apps
-#
 set -euo pipefail
 
 DOTFILES_ROOT="${DOTFILES_ROOT:-$HOME/.dotfiles}"
+THEME_BIN=$DOTFILES_ROOT/bin/theme
 # shellcheck source=theme-lib.sh
 source "$DOTFILES_ROOT/bin/theme-lib.sh"
 
@@ -20,22 +14,87 @@ usage() {
 Usage: $(basename "$0") [command]
 
 Commands:
-  (none)              Pick a theme with fzf (preview + apply)
+  (none)              Pick a color theme with fzf (F2: status line, catppuccin only)
   list                List available themes
   apply <family> <variant>
-                      Apply a theme (e.g. apply catppuccin macchiato)
   current             Show the active theme
+  status              Pick tmux status style (catppuccin color themes only)
   reload              Reload Ghostty, tmux, and Neovim
   generate            Regenerate configs from theme/active.env
 
-Families: catppuccin, rose-pine
+Families: catppuccin, rose-pine, legacy
 EOF
 	exit "${1:-0}"
 }
 
 cmd_current() {
 	theme_read_active
-	printf '%s / %s (%s)\n' "$THEME_FAMILY" "$THEME_VARIANT" "$THEME_MODE"
+	printf 'colors:  %s / %s (%s)\n' "$THEME_FAMILY" "$THEME_VARIANT" "$THEME_MODE"
+	if [[ $THEME_FAMILY == catppuccin ]]; then
+		printf 'tmux:    %s (%s)\n' "$(theme_status_style_label "$TMUX_STATUS_STYLE")" "$TMUX_STATUS_STYLE"
+	fi
+}
+
+cmd_status_list() {
+	theme_list_status_lines | while IFS='|' read -r id label desc; do
+		printf '  %-10s  %s\n    %s\n' "$id" "$label" "$desc"
+	done
+}
+
+cmd_status_apply() {
+	local style=${1:-}
+	[[ -n $style ]] || {
+		echo "usage: theme status apply <style>" >&2
+		cmd_status_list
+		exit 1
+	}
+	theme_apply_status "$style"
+	theme_reload_tmux
+}
+
+cmd_status_pick() {
+	theme_read_active
+	if [[ $THEME_FAMILY != catppuccin ]]; then
+		echo "tmux status styles are only available with catppuccin (current: $THEME_FAMILY)" >&2
+		return 1
+	fi
+	if ! command -v fzf >/dev/null 2>&1; then
+		echo "fzf is required for interactive status selection" >&2
+		cmd_status_list
+		exit 1
+	fi
+
+	local selected
+	selected=$(
+		theme_list_status_lines | fzf --delimiter='|' --with-nth=2 \
+			--header="Tmux status (catppuccin)  |  Enter apply  |  F1 colors  |  Esc back" \
+			--preview 'cut -d"|" -f3 <<< {}' --preview-window=down:3:wrap \
+			--bind "f1:become($THEME_BIN pick)" \
+			--height=40% --border
+	) || return 0
+
+	IFS='|' read -r style _label _desc <<< "$selected"
+	theme_apply_status "$style"
+	theme_reload_tmux
+}
+
+cmd_status() {
+	local sub=${1:-pick}
+	case "$sub" in
+		list)              cmd_status_list ;;
+		apply)             shift; cmd_status_apply "$@" ;;
+		current)
+			theme_read_active
+			if [[ $THEME_FAMILY != catppuccin ]]; then
+				echo "tmux status styles are only available with catppuccin" >&2
+				exit 1
+			fi
+			printf '%s (%s)\n' "$(theme_status_style_label "$TMUX_STATUS_STYLE")" "$TMUX_STATUS_STYLE"
+			;;
+		pick|'')           cmd_status_pick ;;
+		-h|--help|help)    usage 0 ;;
+		*)                 echo "Unknown status command: $sub" >&2; usage 1 ;;
+	esac
 }
 
 cmd_list() {
@@ -54,6 +113,11 @@ cmd_apply() {
 	theme_reload_all
 }
 
+cmd_pick_status_return() {
+	cmd_status_pick || true
+	exec "$THEME_BIN" pick
+}
+
 cmd_pick() {
 	if ! command -v fzf >/dev/null 2>&1; then
 		echo "fzf is required for interactive theme selection" >&2
@@ -61,14 +125,24 @@ cmd_pick() {
 		exit 1
 	fi
 
-	local selected entry preview_cmd
-	preview_cmd="$DOTFILES_ROOT/bin/theme _preview {}"
+	local selected preview_cmd fzf_bind=()
+	preview_cmd="$THEME_BIN _preview {}"
+	theme_read_active
+
+	local header="Color theme  |  Enter apply  |  Esc quit"
+	if [[ $THEME_FAMILY == catppuccin ]]; then
+		local status_label
+		status_label=$(theme_status_style_label "$TMUX_STATUS_STYLE")
+		header="Color theme (status: $status_label)  |  Enter apply  |  F2 status line  |  Esc quit"
+		fzf_bind=(--bind "f2:become($THEME_BIN _pick-status-return)")
+	fi
 
 	selected=$(
 		theme_list_lines | fzf --delimiter='|' --with-nth=4 \
-			--header="Theme picker  |  Enter apply  |  preview shows palette" \
+			--header="$header" \
 			--preview "$preview_cmd" \
 			--preview-window=right:40%:wrap \
+			"${fzf_bind[@]}" \
 			--height=50% --border
 	) || exit 0
 
@@ -86,7 +160,6 @@ cmd_preview() {
 			return 0
 		fi
 	done
-	# fzf passes family|variant|mode|label — match by prefix
 	IFS='|' read -r family variant _ <<< "$line"
 	for entry in "${THEME_CATALOG[@]}"; do
 		if [[ "$entry" == "$family|$variant|"* ]]; then
@@ -103,9 +176,11 @@ main() {
 		list)     cmd_list ;;
 		apply)    shift; cmd_apply "$@" ;;
 		current)  cmd_current ;;
+		status)   shift; cmd_status "$@" ;;
 		reload)   theme_reload_all ;;
 		generate) theme_generate_all_from_active; echo "Regenerated theme configs" ;;
 		_preview) shift; cmd_preview "$*" ;;
+		_pick-status-return) cmd_pick_status_return ;;
 		pick|'')  cmd_pick ;;
 		*)        echo "Unknown command: $cmd" >&2; usage 1 ;;
 	esac
