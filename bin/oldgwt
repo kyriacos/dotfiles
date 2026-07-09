@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# gwt - git worktree helper
+# oldgwt - legacy bash git worktree helper
 #
 # Portable across machines, repos, and editors. Operates on whatever git
 # repository the current directory belongs to; no root or repo is hardcoded.
@@ -12,19 +12,19 @@
 # resolve against the current directory and are created if missing. Slashes in
 # the branch become dashes in the directory name.
 #
-# After creating a worktree, gwt can run the repo's own setup commands from
+# After creating a worktree, oldgwt can run the repo's own setup commands from
 # .cursor/worktrees.json (setup-worktree[-unix|-windows]), substituting
 # $ROOT_WORKTREE_PATH for the main worktree path. Script paths (a string value)
 # run from <worktree>/.cursor; command arrays run from the worktree root.
 # Because those commands come from the repository (untrusted in a clone you
-# did not write), gwt asks before running them unless --run-setup / --no-setup
+# did not write), oldgwt asks before running them unless --run-setup / --no-setup
 # or $GWT_RUN_SETUP=1|0 decides.
 # With no such config, it falls back to copying a top-level .env when present.
 #
 # Auto-cd: a script cannot change its parent shell's directory, so the
 # create/switch verbs print the worktree path to stdout instead. Either run
-# `cd "$(gwt new my-feature)"`, or drop this wrapper into your shell rc so
-# `gwt new|from|co|search` lands you in the worktree directly.
+# `cd "$(oldgwt new my-feature)"`, or drop this wrapper into your shell rc so
+# `oldgwt new|from|co|search` lands you in the worktree directly.
 #
 # `from` and `co` with no arguments open an fzf branch picker inside the script.
 # The script signals the result with a GWT_POPULATE: prefix on stdout; the
@@ -32,25 +32,25 @@
 # command, add flags like --no-setup or -p <dir>, then hit Enter when ready.
 # Only print -z is shell-specific; the picker logic lives in the script itself.
 #
-#   gwt() {
+#   oldgwt() {
 #     case "$1" in
 #       new|from|co|checkout|search|pick)
-#         local out; out=$(command gwt "$@") || return
+#         local out; out=$(command oldgwt "$@") || return
 #         if [[ $out == GWT_POPULATE:* ]]; then
 #           print -z "${out#GWT_POPULATE:}"
 #         else
-#           builtin cd "${out##*$'\n'}" && command gwt ls
+#           builtin cd "${out##*$'\n'}" && command oldgwt ls
 #         fi ;;
-#       *) command gwt "$@" ;;
+#       *) command oldgwt "$@" ;;
 #     esac
 #   }
 #
-# Zsh completions: copy the block below into a file called _gwt on your fpath
-# (e.g. ~/.zsh/completions/_gwt), then run `compinit` or open a new shell.
+# Zsh completions: copy the block below into a file called _oldgwt on your fpath
+# (e.g. ~/.zsh/completions/_oldgwt), then run `compinit` or open a new shell.
 # Completes subcommands, existing worktree names, and local branch names.
 #
-#   #compdef gwt
-#   _gwt() {
+#   #compdef oldgwt
+#   _oldgwt() {
 #     local state
 #     _arguments -C '1: :->cmd' '*:: :->args'
 #     case $state in
@@ -105,7 +105,7 @@
 #         esac ;;
 #     esac
 #   }
-#   _gwt
+#   _oldgwt
 
 set -euo pipefail
 
@@ -113,7 +113,7 @@ prog=${0##*/}
 
 # Colors, only when stderr is a terminal and NO_COLOR is unset. They are
 # applied to diagnostics and help only -- never to the path on stdout, which
-# must stay plain so `cd "$(gwt new foo)"` works.
+# must stay plain so `cd "$(oldgwt new foo)"` works.
 if [[ -t 2 && -z ${NO_COLOR:-} ]]; then
   c_reset=$'\033[0m'; c_bold=$'\033[1m'; c_dim=$'\033[2m'
   c_red=$'\033[31m';  c_grn=$'\033[32m'; c_ylw=$'\033[33m'
@@ -171,7 +171,7 @@ END {
 AWK
 
 # Diagnostics go to stderr so that stdout stays clean: `new`/`co` print only
-# the resulting worktree path, making `cd "$(gwt new foo)"` work.
+# the resulting worktree path, making `cd "$(oldgwt new foo)"` work.
 err() { printf '%s\n' "$*" >&2; }
 die() { err "${c_red}$prog:${c_reset} $*"; exit 1; }
 
@@ -209,7 +209,7 @@ ${c_bold}Worktree location${c_reset} (new/co), highest precedence first:
 The worktree is created at <parent>/<repo>-<name>; relative parents are made if absent.
 
 ${c_bold}Upstream${c_reset} (new only):
-  After creating the branch, gwt runs ${c_ylw}git push -u <remote> <name>${c_reset} so a later
+  After creating the branch, $prog runs ${c_ylw}git push -u <remote> <name>${c_reset} so a later
   plain ${c_ylw}git push${c_reset} works. The remote is inherited from [base] or defaults to
   origin. Override with:
   ${c_ylw}--no-push${c_reset} / ${c_ylw}--push${c_reset} (-u)     Skip (or force) without using \$GWT_PUSH_UPSTREAM.
@@ -217,7 +217,7 @@ ${c_bold}Upstream${c_reset} (new only):
   A failed push is non-fatal; the worktree is still created.
 
 ${c_bold}Repo setup${c_reset} (.cursor/worktrees.json setup-worktree[-unix|-windows] commands):
-  These come from the repo, so gwt asks before running them. Override with:
+  These come from the repo, so $prog asks before running them. Override with:
   ${c_ylw}--run-setup${c_reset} / ${c_ylw}--no-setup${c_reset}      Run (or skip) without prompting.
   ${c_ylw}\$GWT_RUN_SETUP${c_reset}=1|0           Default decision when no flag is given.
 
@@ -231,7 +231,7 @@ ${c_bold}Worktree states${c_reset} (shown by ls/search/clean):
 ${c_bold}Notes:${c_reset}
   ${c_dim}- A script cannot change your shell's directory. To jump into a new worktree:
         cd "\$($prog new my-feature)"
-    or add the wrapper function from the gwt header comments to your shell rc.
+    or add the wrapper function from the oldgwt header comments to your shell rc.
   - Branch names with slashes become dashes in the directory name.${c_reset}
 EOF
 }
@@ -375,7 +375,7 @@ setup_env_decision() {
 
 # Ask interactively whether to run the repo's setup commands; echoes yes/no.
 # Prompt text goes to stderr (stdout is reserved for the worktree path) and the
-# answer is read from the terminal, so it works under `cd "$(gwt new ..)"` too.
+# answer is read from the terminal, so it works under `cd "$(oldgwt new ..)"` too.
 # With no terminal and no explicit decision, defaults to no.
 prompt_setup() {
   local cmds=$1 ans c
@@ -560,7 +560,7 @@ cmd_new() {
 }
 
 # Open an fzf picker over local branches. On success, prints
-# "GWT_POPULATE:gwt <verb> <branch>" to stdout and exits 0 so the shell wrapper
+# "GWT_POPULATE:oldgwt <verb> <branch>" to stdout and exits 0 so the shell wrapper
 # can write that string into the line buffer instead of cd-ing.
 pick_branch() {
   local verb=$1
@@ -575,7 +575,7 @@ pick_branch() {
           --preview-window=right:50%:wrap \
           2>/dev/tty) || exit 0
   pick=${pick##*$'\t'}
-  printf 'GWT_POPULATE:gwt %s %s\n' "$verb" "$pick"
+  printf 'GWT_POPULATE:oldgwt %s %s\n' "$verb" "$pick"
   exit 0
 }
 

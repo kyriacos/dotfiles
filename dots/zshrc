@@ -139,27 +139,27 @@ vv() {
   do NVIM_APPNAME=nvim-$config nvim $@; break; done
 }
 
-# gwt (~/.dotfiles/bin/gwt): bash git worktree helper. A script can't cd its
-# parent shell, so for create/switch verbs we cd into the path it prints on
-# stdout. from/co with no args open an fzf picker and signal back with a
+# oldgwt (~/.dotfiles/bin/oldgwt): legacy bash git worktree helper. A script can't
+# cd its parent shell, so for create/switch verbs we cd into the path it prints
+# on stdout. from/co with no args open an fzf picker and signal back with a
 # GWT_POPULATE: prefix; the wrapper writes that into the line buffer via
 # print -z so you can review/add flags before hitting Enter.
-gwt() {
+oldgwt() {
   case "$1" in
     new|from|co|checkout|search|pick)
-      local out; out=$(command gwt "$@") || return
+      local out; out=$(command oldgwt "$@") || return
       if [[ $out == GWT_POPULATE:* ]]; then
         print -z "${out#GWT_POPULATE:}"
       else
-        builtin cd "${out##*$'\n'}" && command gwt ls
+        builtin cd "${out##*$'\n'}" && command oldgwt ls
       fi ;;
-    *) command gwt "$@" ;;
+    *) command oldgwt "$@" ;;
   esac
 }
 
-# gogwt (go-gwt): separate Go-based worktree tool with its own shell wrapper.
+# gwt (go-gwt): Go-based worktree helper. shell-init installs the cd wrapper.
 export GWT_AUTO_LS=1
-eval "$(gogwt shell-init zsh --name gogwt)"
+eval "$(gwt shell-init zsh)"
 
 # adding shitty NVM
 export NVM_DIR="$HOME/.nvm"

@@ -1,6 +1,6 @@
-#compdef gwt
+#compdef oldgwt
 
-_gwt() {
+_oldgwt() {
   local state
 
   _arguments -C \
@@ -69,4 +69,4 @@ _gwt() {
   esac
 }
 
-_gwt
+_oldgwt
