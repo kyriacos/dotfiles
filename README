@@ -47,6 +47,12 @@ Examples:
 All CLI tools are managed via the Brewfile. The bootstrap script runs `brew bundle`
 to install everything, including zsh-syntax-highlighting, fzf, ripgrep, fd, and zoxide.
 
+## UI themes
+
+`~/.dotfiles/bin/theme` switches color themes across Ghostty, tmux, and Neovim in
+one step (Catppuccin, Rosé Pine, or legacy One Dark). Run `theme` with no args to
+pick interactively; `theme current` shows the active palette. Default: Rosé Pine / main.
+
 ## Local overrides (not tracked)
 
 Put machine-specific settings in files under `$HOME`. They are listed in the global
