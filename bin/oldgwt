@@ -266,35 +266,6 @@ worktree_branch() {
   '
 }
 
-# Parse refs/remotes/<remote>/<branch>. On success sets remote_branch_remote and
-# remote_branch_name and returns 0.
-parse_upstream_ref() {
-  local up=$1
-  remote_branch_remote=""; remote_branch_name=""
-  [[ $up == refs/remotes/*/* ]] || return 1
-  local rest=${up#refs/remotes/}
-  remote_branch_remote=${rest%%/*}
-  remote_branch_name=${rest#*/}
-  [[ -n $remote_branch_remote && -n $remote_branch_name ]]
-}
-
-# True when refs/remotes/<remote>/<branch> exists locally.
-remote_branch_exists() {
-  git show-ref --verify --quiet "refs/remotes/$1/$2" 2>/dev/null
-}
-
-# Classify git's [gone] upstream track. When the remote tracking ref is missing,
-# git cannot tell "never pushed" from "remote deleted after merge"; treat as
-# local-only so active work is not marked stale.
-classify_gone_upstream() {
-  local up=$1
-  if parse_upstream_ref "$up" && remote_branch_exists "$remote_branch_remote" "$remote_branch_name"; then
-    printf gone
-  else
-    printf local
-  fi
-}
-
 # Classify a local branch's state from its upstream. Echoes one of:
 #   gone   - had an upstream that is now deleted (typical of a merged PR).
 #   local  - never pushed; no upstream at all (work-in-progress, NOT stale).
@@ -306,12 +277,9 @@ classify_gone_upstream() {
 # positives. A genuinely merged PR shows up as "gone" once its remote branch is
 # deleted, which is the signal we trust.
 branch_state() {
-  local br=$1 up track state
+  local br=$1 up track
   read -r track up < <(git for-each-ref --format='%(upstream:track)%09%(upstream)' "refs/heads/$br" 2>/dev/null)
-  if [[ $track == *gone* ]]; then
-    classify_gone_upstream "$up"
-    return 0
-  fi
+  [[ $track == *gone* ]] && { printf gone; return 0; }
   [[ -z $up ]] && { printf local; return 0; }
   printf active; return 0
 }
@@ -678,16 +646,12 @@ format_worktrees() {
 # in a single for-each-ref so opening the picker stays fast):
 #   red (gone) = upstream deleted, blue = local-only (no upstream), green = active.
 format_branches() {
-  local name up track c tag state
+  local name up track c tag
   while IFS=$'\t' read -r name up track; do
     [[ -z $name ]] && continue
-    if [[ $track == *gone* ]]; then
-      state=$(classify_gone_upstream "$up")
-      if [[ $state == gone ]]; then c=$c_red; tag=" (gone)"
-      else c=$c_blu; tag=""
-      fi
-    elif [[ -z $up ]]; then c=$c_blu; tag=""
-    else c=$c_grn; tag=""
+    if   [[ $track == *gone* ]]; then c=$c_red; tag=" (gone)"
+    elif [[ -z $up ]];           then c=$c_blu; tag=""
+    else                              c=$c_grn; tag=""
     fi
     printf '%s%s%s%s\t%s\n' "$c" "$name" "$tag" "$c_reset" "$name"
   done < <(git for-each-ref --format='%(refname:short)%09%(upstream)%09%(upstream:track)' refs/heads 2>/dev/null)
