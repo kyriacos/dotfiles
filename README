@@ -73,7 +73,9 @@ Create only the files you need. On first `bootstrap` run (or `--dotfiles-only`),
 empty stubs are created for any of the three that do not already exist.
 
 `~/.gitconfig.local` is different: it is symlinked from
-this repo (`dots/gitconfig.local`) for shared git settings, not for secrets.
+this repo (`dots/gitconfig.local`) for shared git settings (aliases, defaults),
+not for secrets. Personal identity (`user.name`, `user.email`, signing keys)
+is written only to `~/.gitconfig` by bootstrap and is not tracked.
 
 ## tmux setup
 

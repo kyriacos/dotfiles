@@ -1,13 +1,9 @@
-# Copy this file or single lines to ~/.gitconfig
+# Shared git settings (symlinked to ~/.gitconfig.local, included from ~/.gitconfig).
+# Personal identity (user.name, user.email, signingkey) lives only in ~/.gitconfig
+# via bootstrap — do not put those here.
 
-[user]
-  name = Kyriacos Souroullas
-[github]
-  username = kyriacos
 [core]
   excludesfile = ~/.gitignore
-[heroku]
-  account = personal
 [alias]
   # Other useful aliases:
   co = checkout
@@ -25,7 +21,7 @@
   info = remote show
 
   # remove branches no longer on remote that have been merged - using https://stackoverflow.com/a/38404202
-  clean-branches = !git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d
+  clean-branches = !git fetch -p && git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 ~ /gone/ {print $1}' | xargs -n 1 git branch -d
 
 [apply]
   whitespace = warn

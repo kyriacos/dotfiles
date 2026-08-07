@@ -159,7 +159,7 @@ oldgwt() {
 
 # gwt (go-gwt): Go-based worktree helper. shell-init installs the cd wrapper.
 export GWT_AUTO_LS=1
-eval "$(gwt shell-init zsh)"
+eval "$(${GOPATH:-$HOME/go}/bin/gwt shell-init zsh)"
 
 # adding shitty NVM
 export NVM_DIR="$HOME/.nvm"
