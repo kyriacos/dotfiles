@@ -194,3 +194,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/kyriacos/.antigravity/antigravity/bin:$PATH"
+
+# Ahead of Homebrew's `code`, so `brew bundle` can install VS Code extensions
+# using the macOS certificate store. See bin/code-shim/code.
+export PATH="$HOME/.dotfiles/bin/code-shim:$PATH"

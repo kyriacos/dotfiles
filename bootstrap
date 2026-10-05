@@ -342,6 +342,10 @@ install_homebrew() {
 		trap "rm -f '$bundle_file'" RETURN
 	fi
 
+	# brew bundle scrubs the environment before it runs `code`. The shim launches
+	# the CLI with the macOS certificate store, without copying a CA to disk.
+	export PATH="$HOME/.dotfiles/bin/code-shim:$PATH"
+
 	info "Running brew update, brew bundle, brew upgrade"
 	$FORMULAS_ONLY && info "formulas-only: skipping mas, casks, and vscode extensions"
 	$SKIP_MAS      && ! $FORMULAS_ONLY && info "skipping Mac App Store apps"

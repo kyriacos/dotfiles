@@ -199,7 +199,6 @@ mas "Windows App", id: 1295203466
 mas "WireGuard", id: 1451685025
 mas "Xcode", id: 497799835
 vscode "1yib.rust-bundle"
-vscode "actboy168.extension-path"
 vscode "ajshortt.tokyo-hack"
 vscode "akamud.vscode-theme-onelight"
 vscode "arcticicestudio.nord-visual-studio-code"
@@ -224,7 +223,6 @@ vscode "esbenp.prettier-vscode"
 vscode "fdidron.theme-panictheme"
 vscode "firefox-devtools.vscode-firefox-debug"
 vscode "gio00.convertplist"
-vscode "github.copilot-chat"
 vscode "github.github-vscode-theme"
 vscode "golang.go"
 vscode "gottfired.css2react"

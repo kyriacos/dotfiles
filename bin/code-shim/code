@@ -1,0 +1,51 @@
+#!/bin/bash
+# The VS Code CLI uses Electron's Node, which does not read the macOS keychain.
+# Homebrew also scrubs NODE_OPTIONS, and the official `code` script unsets it.
+# Pass --use-system-ca straight to Electron so installs trust the system store
+# without copying a CA certificate to disk.
+# Keep this directory ahead of the real `code` on PATH.
+
+real_code=""
+for candidate in \
+	"/opt/homebrew/bin/code" \
+	"/usr/local/bin/code" \
+	"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"; do
+	[ -x "$candidate" ] || continue
+	candidate_dir=$(cd "$(dirname "$candidate")" && pwd -P)
+	self_dir=$(cd "$(dirname "$0")" && pwd -P)
+	[ "$candidate_dir" = "$self_dir" ] && continue
+	real_code=$candidate
+	break
+done
+
+if [ -z "$real_code" ]; then
+	echo "code: VS Code CLI not found" >&2
+	exit 1
+fi
+
+# Remote sessions should use VS Code's own CLI.
+if [ -n "${VSCODE_IPC_HOOK_CLI:-}" ]; then
+	exec "$real_code" "$@"
+fi
+
+source=$real_code
+while [ -h "$source" ]; do
+	dir=$(dirname "$source")
+	source=$(readlink "$source")
+	[ "${source#/}" = "$source" ] && source=$dir/$source
+done
+source_dir=$(cd -P "$(dirname "$source")" >/dev/null 2>&1 && pwd)
+app_path=${source_dir%%"${source_dir#*.app}"}
+electron=$app_path/Contents/MacOS/Code
+cli=$app_path/Contents/Resources/app/out/cli.js
+
+if [ ! -x "$electron" ] || [ ! -f "$cli" ]; then
+	exec "$real_code" "$@"
+fi
+
+export VSCODE_NODE_OPTIONS=${NODE_OPTIONS-}
+export VSCODE_NODE_REPL_EXTERNAL_MODULE=${NODE_REPL_EXTERNAL_MODULE-}
+unset NODE_OPTIONS
+unset NODE_REPL_EXTERNAL_MODULE
+export ELECTRON_RUN_AS_NODE=1
+exec "$electron" --use-system-ca "$cli" "$@"
