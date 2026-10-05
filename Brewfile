@@ -1,5 +1,6 @@
 tap "anomalyco/tap"
 tap "arthur-ficial/tap"
+tap "darrylmorley/whatcable"
 #tap "bellicose100xp/tap"
 #tap "dart-lang/dart"
 #tap "dopplerhq/cli"
@@ -38,7 +39,6 @@ brew "fzf"
 brew "jpeg-xl"
 brew "libavif"
 brew "gdk-pixbuf"
-brew "whatcable"
 brew "tree-sitter"
 brew "tree-sitter-cli"
 brew "node"
@@ -122,6 +122,7 @@ brew "bellicose100xp/tap/jiq"
 #brew "felixkratz/formulae/borders"
 #brew "felixkratz/formulae/sketchybar"
 cask "nikitabobko/tap/aerospace", args: { appdir: "/Applications" }
+cask "darrylmorley/whatcable/whatcable", args: { appdir: "/Applications" }
 cask "alacritty", args: { appdir: "/Applications" }
 cask "appcleaner", args: { appdir: "/Applications" }
 cask "betterzip", args: { appdir: "/Applications" }
