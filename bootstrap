@@ -283,6 +283,34 @@ find_zsh() {
 	fi
 }
 
+# Homebrew 7 dropped `brew bundle --no-mas` / `--no-cask`. Skip lists are
+# space-separated names or ids in HOMEBREW_BUNDLE_{MAS,CASK}_SKIP.
+# Mas names contain spaces, so match the numeric id. Cask matching uses the
+# token (last path segment), lowercased — not `user/tap/token`.
+brewfile_skip_values() {
+	local kind="$1" file="$2"
+	case "$kind" in
+		mas)
+			sed -n 's/^mas .*, id: \([0-9][0-9]*\).*/\1/p' "$file"
+			;;
+		cask)
+			sed -n 's/^cask "\([^"]*\)".*/\1/p' "$file" | awk -F/ '{print tolower($NF)}'
+			;;
+	esac
+}
+
+append_bundle_skip() {
+	local var="$1" values="$2"
+	[[ -z "$values" ]] && return 0
+	local current="${!var-}"
+	if [[ -n "$current" ]]; then
+		printf -v "$var" '%s %s' "$current" "$values"
+	else
+		printf -v "$var" '%s' "$values"
+	fi
+	export "$var"
+}
+
 install_homebrew() {
 	info "installing essentials"
 	if [[ $(/usr/bin/gcc 2>&1) =~ "no developer tools were found" ]] || [[ ! -x /usr/bin/gcc ]]; then
@@ -295,10 +323,24 @@ install_homebrew() {
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 	fi
 
-	BUNDLE_ARGS="--verbose --file=$HOME/.dotfiles/Brewfile"
-	if $FORMULAS_ONLY || $SKIP_MAS;   then BUNDLE_ARGS="$BUNDLE_ARGS --no-mas";    fi
-	if $FORMULAS_ONLY || $SKIP_CASKS; then BUNDLE_ARGS="$BUNDLE_ARGS --no-cask";   fi
-	if $FORMULAS_ONLY;                 then BUNDLE_ARGS="$BUNDLE_ARGS --no-vscode"; fi
+	local brewfile="$HOME/.dotfiles/Brewfile"
+	local bundle_file="$brewfile"
+
+	if $FORMULAS_ONLY || $SKIP_MAS; then
+		append_bundle_skip HOMEBREW_BUNDLE_MAS_SKIP \
+			"$(brewfile_skip_values mas "$brewfile" | paste -sd' ' -)"
+	fi
+	if $FORMULAS_ONLY || $SKIP_CASKS; then
+		append_bundle_skip HOMEBREW_BUNDLE_CASK_SKIP \
+			"$(brewfile_skip_values cask "$brewfile" | paste -sd' ' -)"
+	fi
+	# No HOMEBREW_BUNDLE_VSCODE_SKIP. Drop those lines instead.
+	if $FORMULAS_ONLY; then
+		bundle_file=$(mktemp)
+		grep -v '^vscode ' "$brewfile" >"$bundle_file"
+		# shellcheck disable=SC2064
+		trap "rm -f '$bundle_file'" RETURN
+	fi
 
 	info "Running brew update, brew bundle, brew upgrade"
 	$FORMULAS_ONLY && info "formulas-only: skipping mas, casks, and vscode extensions"
@@ -306,8 +348,7 @@ install_homebrew() {
 	$SKIP_CASKS    && ! $FORMULAS_ONLY && info "skipping casks"
 
 	brew update
-	# shellcheck disable=SC2086
-	brew bundle $BUNDLE_ARGS
+	brew bundle --verbose --file="$bundle_file"
 	brew upgrade
 }
 
